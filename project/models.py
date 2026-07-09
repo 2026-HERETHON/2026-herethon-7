@@ -61,6 +61,7 @@ class Task(models.Model):
     title = models.CharField(max_length=100, verbose_name='제목')
     deadline = models.DateField(blank=True, null=True, verbose_name='마감일')
     status = models.CharField(max_length=10, choices=Status.choices, default='TODO', verbose_name='상태')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일시')
 
     class Meta:
         db_table = 'task'
