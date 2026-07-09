@@ -1,5 +1,5 @@
 from django import forms
-from .models import Task, ProjectFile, Review
+from .models import Task, ProjectFile
 
 class TaskForm(forms.ModelForm):
 
@@ -31,27 +31,6 @@ class ProjectFileForm(forms.ModelForm):
         model = ProjectFile
 
         fields = [
-            "file",
+            "file_path",
             "folder_name",
         ]
-
-class ReviewForm(forms.ModelForm):
-
-    class Meta:
-
-        model = Review
-
-        fields = [
-            "rating",
-            "content",
-        ]
-
-        widgets = {
-
-            "content": forms.Textarea(
-                attrs={
-                    "rows": 4
-                }
-            )
-
-        }

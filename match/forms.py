@@ -7,7 +7,8 @@ class ProposalForm(forms.ModelForm):
         model = Proposal
 
         fields = [
-            "talent",
+            "give_talent",
+            "need_talent",
             "title",
             "goal",
             "message",
@@ -27,9 +28,3 @@ class ProposalForm(forms.ModelForm):
                 "rows": 5
             }),
     }
-
-        labels = {
-            "title": "프로젝트 제목",
-            "goal": "목표",
-            "message": "제안 메시지",
-        }
