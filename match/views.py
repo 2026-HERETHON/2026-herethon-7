@@ -10,6 +10,7 @@ from django.http import Http404
 import logging
 from django.db import transaction
 from django.utils import timezone
+from datetime import timedelta
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -912,6 +913,10 @@ def proposal_accept(request, proposal_id):
             # -----------------------------
             # 프로젝트 생성
             # -----------------------------
+
+            start_date = timezone.now().date()
+            end_date = start_date + timedelta(weeks=proposal.period)
+
             project = Project.objects.create(
 
                 proposal=proposal,
@@ -920,11 +925,11 @@ def proposal_accept(request, proposal_id):
 
                 progress=0,
 
-                status=Project.Status.IN_PROGRESS,
+                status = Project.Status.IN_PROGRESS,
 
-                start_date=timezone.now().date(),
+                start_date = start_date,
 
-                end_date=timezone.now().date(),
+                end_date = end_date,
 
             )
 
@@ -983,3 +988,76 @@ def proposal_accept(request, proposal_id):
         return redirect(
             "match:proposal_received_list"
         )
+    
+from django.views.decorators.http import require_POST
+
+
+@require_POST
+@login_required
+def proposal_reject(request, proposal_id):
+    """
+    협업 제안 거절
+
+    - 받은 제안만 거절 가능
+    - 상태를 REJECT로 변경
+    - 받은 제안 목록으로 이동
+    """
+
+    try:
+
+        proposal = get_object_or_404(
+            Proposal,
+            pk=proposal_id,
+        )
+
+        # 받은 제안만 처리 가능
+        if proposal.receiver != request.user:
+
+            messages.error(
+                request,
+                "권한이 없습니다."
+            )
+
+            return redirect(
+                "match:proposal_received_list"
+            )
+
+        # 이미 처리된 제안
+        if proposal.status != Proposal.Status.WAIT:
+
+            messages.warning(
+                request,
+                "이미 처리된 제안입니다."
+            )
+
+            return redirect(
+                "match:proposal_detail",
+                proposal_id=proposal.pk,
+            )
+
+        # 거절
+        proposal.status = Proposal.Status.REJECT
+        proposal.save()
+
+        messages.success(
+            request,
+            "협업 제안을 거절했습니다."
+        )
+
+        return redirect(
+            "match:proposal_received_list"
+        )
+
+    except Exception:
+
+        logger.exception("proposal_reject() 오류")
+
+        messages.error(
+            request,
+            "제안을 거절하는 중 오류가 발생했습니다."
+        )
+
+        return redirect(
+            "match:proposal_received_list"
+        )
+
