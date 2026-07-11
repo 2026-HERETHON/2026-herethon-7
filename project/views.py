@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.http import Http404
 from django.views.decorators.http import require_POST
 from .models import Project, Task, ProjectFile
+from user.models import Portfolio
 from .forms import TaskForm, ProjectFileForm
 
 logger = logging.getLogger(__name__)
@@ -384,6 +385,14 @@ def task_update(request, project_id, task_id):
         if total_count > 0 and done_count == total_count:
 
             project.status = Project.Status.COMPLETED
+
+            Portfolio.objects.get_or_create(
+                project=project,
+                defaults={
+                    "title": project.title,
+                    "summary": project.proposal.goal,
+                },
+            )
 
         else:
 
