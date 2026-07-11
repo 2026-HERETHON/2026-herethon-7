@@ -1,3 +1,4 @@
+from collections import defaultdict
 import logging
 
 from django.contrib import messages
@@ -462,29 +463,26 @@ def file_list(request, project_id):
 
         # 파일 목록
         files = (
-            ProjectFile.objects.filter(
-                project=project
-            )
-            .select_related(
-                "uploader"
-            )
-            .order_by(
-                "-uploaded_at"
-            )
+            ProjectFile.objects.filter(project=project)
+            .select_related("uploader")
+            .order_by("folder_name", "-uploaded_at")
         )
+
+        grouped_files = defaultdict(list)
+
+        for file in files:
+            folder = file.folder_name or "기타"
+            grouped_files[folder].append(file)
 
         # 업로드 폼
         form = ProjectFileForm()
 
         context = {
-
             "project": project,
-
-            "files": files,
-
+            "grouped_files": dict(grouped_files),
             "form": form,
-
         }
+
 
         return render(
             request,
