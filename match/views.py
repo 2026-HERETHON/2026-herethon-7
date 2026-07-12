@@ -8,9 +8,7 @@ from match.forms import ProposalForm
 from project.models import ProjectMember, Project
 from django.http import Http404
 import logging
-from django.db import transaction
-from django.utils import timezone
-from datetime import timedelta
+from .services import accept_proposal
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -751,109 +749,11 @@ def proposal_detail(request, proposal_id):
         )
     
 @login_required
-def proposal_detail(request, proposal_id):
-    """
-    받은 협업 제안 상세
-
-    표시 정보
-    - 제안자
-    - 기부 재능
-    - 희망 재능
-    - 제목
-    - 목표
-    - 메시지
-    - 협업 방식
-    - 기간
-    - 주당 시간
-    - 소통 방식
-    - 첨부파일
-    - 상태
-
-    WAIT 상태인 경우
-    - 수락 버튼
-    - 거절 버튼
-    """
-
-    try:
-
-        proposal = get_object_or_404(
-
-            Proposal.objects.select_related(
-                "sender",
-                "receiver",
-                "give_talent",
-                "need_talent",
-            ),
-
-            pk=proposal_id,
-
-        )
-
-        # 받은 제안만 조회 가능
-        if proposal.receiver != request.user:
-
-            messages.error(
-                request,
-                "접근 권한이 없습니다."
-            )
-
-            return redirect(
-                "match:proposal_received_list"
-            )
-
-        context = {
-
-            "proposal": proposal,
-
-            # 버튼 표시 여부
-            "can_reply": (
-                proposal.status == Proposal.Status.WAIT
-            ),
-
-        }
-
-        return render(
-            request,
-            "match/proposal_detail.html",
-            context
-        )
-
-    except Http404:
-
-        messages.error(
-            request,
-            "존재하지 않는 협업 제안입니다."
-        )
-
-        return redirect(
-            "match:proposal_received_list"
-        )
-
-    except Exception:
-
-        logger.exception(
-            "proposal_detail() 오류"
-        )
-
-        messages.error(
-            request,
-            "제안 정보를 불러오는 중 오류가 발생했습니다."
-        )
-
-        return redirect(
-            "match:proposal_received_list"
-        )
-    
-@login_required
 def proposal_accept(request, proposal_id):
     """
-    협업 제안 수락
+    협업 제안 수락 후 프로젝트&멤버 생성
 
-    처리 내용
-    - WAIT → ACCEPT
-    - 프로젝트 생성
-    - 프로젝트 멤버 자동 생성
-    - 워크스페이스로 이동
+    Service로 비즈니스 로직 처리 
     """
 
     if request.method != "POST":
@@ -902,56 +802,7 @@ def proposal_accept(request, proposal_id):
                 proposal_id=proposal.id,
             )
 
-        with transaction.atomic():
-
-            # -----------------------------
-            # 제안 수락
-            # -----------------------------
-            proposal.status = Proposal.Status.ACCEPT
-            proposal.save()
-
-            # -----------------------------
-            # 프로젝트 생성
-            # -----------------------------
-
-            start_date = timezone.now().date()
-            end_date = start_date + timedelta(weeks=proposal.period)
-
-            project = Project.objects.create(
-
-                proposal=proposal,
-
-                title=proposal.title,
-
-                progress=0,
-
-                status = Project.Status.IN_PROGRESS,
-
-                start_date = start_date,
-
-                end_date = end_date,
-
-            )
-
-            # -----------------------------
-            # 제안자
-            # -----------------------------
-            ProjectMember.objects.create(
-
-                project=project,
-                user=proposal.sender,
-
-            )
-
-            # -----------------------------
-            # 수락자
-            # -----------------------------
-            ProjectMember.objects.create(
-
-                project=project,
-                user=proposal.receiver,
-
-            )
+        project = accept_proposal(proposal)
 
         messages.success(
             request,

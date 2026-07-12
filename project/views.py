@@ -9,6 +9,7 @@ from django.views.decorators.http import require_POST
 from .models import Project, Task, ProjectFile
 from user.models import Portfolio
 from .forms import TaskForm, ProjectFileForm
+from .services import update_task_status
 
 logger = logging.getLogger(__name__)
 
@@ -311,10 +312,10 @@ def task_create(request, project_id):
 def task_update(request, project_id, task_id):
     """
     업무 상태 변경
+    프로젝트 완료 여부 확인
+    완료 시 포트폴리오 자동 생성
 
-    - 프로젝트 참여자만 수정 가능
-    - 진행률 자동 계산
-    - 모든 업무 완료 시 프로젝트 자동 완료
+    Service로 비즈니스 로직 처리
     """
 
     try:
@@ -352,58 +353,9 @@ def task_update(request, project_id, task_id):
                 project_id=project.pk,
             )
 
-        # -----------------------------
-        # 상태 변경
-        # -----------------------------
-        task.status = status
-        task.save(update_fields=["status"])
-
-        # -----------------------------
-        # 진행률 계산
-        # -----------------------------
-        total_count = Task.objects.filter(
-            project=project
-        ).count()
-
-        done_count = Task.objects.filter(
-            project=project,
-            status=Task.Status.DONE,
-        ).count()
-
-        if total_count == 0:
-            progress = 0
-        else:
-            progress = int(done_count / total_count * 100)
-
-        # -----------------------------
-        # 프로젝트 진행률 저장
-        # -----------------------------
-        project.progress = progress
-
-        # -----------------------------
-        # 프로젝트 완료 여부
-        # -----------------------------
-        if total_count > 0 and done_count == total_count:
-
-            project.status = Project.Status.COMPLETED
-
-            Portfolio.objects.get_or_create(
-                project=project,
-                defaults={
-                    "title": project.title,
-                    "summary": project.proposal.goal,
-                },
-            )
-
-        else:
-
-            project.status = Project.Status.IN_PROGRESS
-
-        project.save(
-            update_fields=[
-                "progress",
-                "status",
-            ]
+        update_task_status(
+            task=task,
+            status=status,
         )
 
         messages.success(
