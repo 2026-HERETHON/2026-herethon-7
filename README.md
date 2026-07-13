@@ -6,8 +6,11 @@
 
 > 내가 줄 수 있는 역량과 필요한 역량을 연결하여 함께 성장하는 커리어 협업 플랫폼
 
----
-<img width="703" height="539" alt="image" src="https://github.com/user-attachments/assets/51b63967-3b63-43f1-ae70-eb55a29e19b2" />
+
+
+<img width="687" height="535" alt="image" src="https://github.com/user-attachments/assets/2da15901-5143-438b-b8a8-6abffe8976a2" / width="100%">
+
+
 
 ## 📌 프로젝트 소개
 
@@ -93,35 +96,10 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 ---
 ## 👥 Team
 
-| 이름 | 역할 | GitHub |
-|------|------|--------|
-| 👩 **박채희** | 기획 · UI/UX 디자인 | @github |
-| 👩 **조연지** | Front-End | @github |
-| 👩 **이연재** | Front-End | @github |
-| 👨 **오아름** | Back-End | @github |
-| 👨 **정상지** | Back-End | @github |
-
-### 👩 박채희 (기획 · 디자인)
-- 서비스 기획
-- UI/UX 디자인
-- PPT 제작
-
-### 👩 조연지 (Front-End)
-- 
-- 
--
-
-### 👩 이연재 (Front-End)
-- 
-- 
--
-
-### 👨 오아름 (Back-End)
-- 
--
--
-
-### 👨 정상지 (Back-End)
-- 
-- 
-- 
+| 👩 **박채희** | 👩 **조연지** | 👩 **이연재** | 👨 **오아름** | 👨 **정상지** |
+|:---:|:---:|:---:|:---:|:---:|
+| <img src="https://github.com"> | <img src="https://github.com> | <img src="https://github.com> | <img src="https://github.com> | <img src="https://github.com |
+| **기획 · 디자인** |  |  |  |  |
+| 서비스 기획 |  |  |  |  |
+| UI/UX 디자인 |  |  |  |  |
+| PPT 제작 |  |  |  |  |
