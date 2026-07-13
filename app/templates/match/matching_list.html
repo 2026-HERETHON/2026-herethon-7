@@ -1,0 +1,118 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RE:Link 매칭</title>
+
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/matching.css' %}" />
+  </head>
+
+  <body>
+    <div class="app-shell">
+      <main class="matching-page">
+        <h1 class="matching-title">매칭</h1>
+
+        <nav class="matching-filter" aria-label="매칭 유형 필터">
+          <a
+            href="{% url 'match:matching_list' %}"
+            class="{% if not selected_identity %}is-active{% endif %}"
+          >
+            전체
+          </a>
+
+          <a
+            href="{% url 'match:matching_list' %}?identity=EXPERIENCED"
+            class="{% if selected_identity == 'EXPERIENCED' %}is-active{% endif %}"
+          >
+            경험 보유자
+          </a>
+
+          <a
+            href="{% url 'match:matching_list' %}?identity=STARTER"
+            class="{% if selected_identity == 'STARTER' %}is-active{% endif %}"
+          >
+            커리어 스타터
+          </a>
+        </nav>
+
+        {% if matching_users %}
+        <section class="matching-list" aria-label="추천 파트너">
+          {% for profile in matching_users %}
+          <a
+            class="matching-card"
+            href="{% url 'match:matching_detail' profile.user.id %}"
+          >
+            <div class="matching-card__header">
+              {% if profile.profile_image %}
+              <img
+                class="matching-card__profile"
+                src="{{ profile.profile_image.url }}"
+                alt="{{ profile.user.name }} 프로필"
+              />
+              {% else %}
+              <img
+                class="matching-card__profile"
+                src="{% static 'assets/images/profile-1.png' %}"
+                alt=""
+              />
+              {% endif %}
+
+              <div class="matching-card__person">
+                <strong>{{ profile.user.name }}</strong>
+                <span>{{ profile.get_identity_display }}</span>
+              </div>
+
+              <strong class="matching-card__score">82% 매칭</strong>
+            </div>
+
+            <div class="matching-card__talents">
+              <div>
+                <span class="matching-card__label">제공 가능 역량</span>
+
+                <div class="talent-tags">
+                  {% for item in profile.give_talents %}
+                  <span>{{ item.talent.name }}</span>
+                  {% empty %}
+                  <span>등록된 역량 없음</span>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div>
+                <span class="matching-card__label">필요한 역량</span>
+
+                <div class="talent-tags">
+                  {% for item in profile.need_talents %}
+                  <span>{{ item.talent.name }}</span>
+                  {% empty %}
+                  <span>등록된 역량 없음</span>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+        </section>
+
+        {% else %}
+        <section class="matching-empty">
+          <h2>아직 추천 가능한 파트너가 없어요.</h2>
+          <p>
+            프로필 보유 역량을 더 채우면<br />
+            정확한 추천을 받을 수 있어요.
+          </p>
+
+          <a href="/profile/edit/" class="profile-edit-button">
+            프로필 보완하기
+          </a>
+        </section>
+        {% endif %}
+      </main>
+
+      {% include 'components/bottom_nav.html' with active_nav='matching' %}
+    </div>
+  </body>
+</html>

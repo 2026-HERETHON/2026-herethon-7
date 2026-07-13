@@ -1,0 +1,138 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RE:Link 협업 제안</title>
+
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/matching.css' %}" />
+  </head>
+
+  <body>
+    <div class="app-shell">
+      <main class="proposal-page">
+        <header class="proposal-header">
+          <a
+            class="back-button"
+            href="{% url 'match:matching_detail' receiver.id %}"
+            aria-label="파트너 상세로 돌아가기"
+          >
+            ‹
+          </a>
+
+          <h1>협업 제안 작성</h1>
+        </header>
+
+        <p class="proposal-receiver">
+          <strong>{{ receiver.name }}</strong>님에게 보낼 제안을 작성해주세요.
+        </p>
+
+        <form class="proposal-form" method="post" enctype="multipart/form-data">
+          {% csrf_token %} {% if form.non_field_errors %}
+          <div class="form-error">{{ form.non_field_errors }}</div>
+          {% endif %}
+
+          <div class="form-field">
+            <label for="{{ form.title.id_for_label }}">
+              프로젝트 제목 <span>*</span>
+            </label>
+
+            {{ form.title }} {% for error in form.title.errors %}
+            <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+          <div class="form-field">
+            <label for="{{ form.goal.id_for_label }}">
+              프로젝트 목표 <span>*</span>
+            </label>
+
+            {{ form.goal }} {% for error in form.goal.errors %}
+            <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+          <div class="form-field">
+            <label for="{{ form.give_talent.id_for_label }}">
+              제공 가능한 재능 <span>*</span>
+            </label>
+
+            {{ form.give_talent }} {% for error in form.give_talent.errors %}
+            <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+          <div class="form-field">
+            <label for="{{ form.need_talent.id_for_label }}">
+              배우고 싶은 재능 <span>*</span>
+            </label>
+
+            {{ form.need_talent }} {% for error in form.need_talent.errors %}
+            <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+          <div class="form-field">
+            <label for="{{ form.mode.id_for_label }}">
+              협업 방식 <span>*</span>
+            </label>
+
+            {{ form.mode }} {% for error in form.mode.errors %}
+            <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+          <div class="form-field">
+            <label for="{{ form.period.id_for_label }}">
+              기간(주) <span>*</span>
+            </label>
+
+            {{ form.period }} {% for error in form.period.errors %}
+            <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+          <div class="form-field">
+            <label for="{{ form.weekly_time.id_for_label }}">
+              주당 가능 시간 <span>*</span>
+            </label>
+
+            {{ form.weekly_time }} {% for error in form.weekly_time.errors %}
+            <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+          <div class="form-field">
+            <label for="{{ form.communication.id_for_label }}">
+              소통 방식 <span>*</span>
+            </label>
+
+            {{ form.communication }}
+          </div>
+
+          <div class="form-field">
+            <label for="{{ form.message.id_for_label }}"> 제안 메시지 </label>
+
+            {{ form.message }} {% for error in form.message.errors %}
+            <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+          <div class="form-field">
+            <label for="{{ form.attachment.id_for_label }}"> 첨부파일 </label>
+
+            {{ form.attachment }} {% for error in form.attachment.errors %}
+            <p class="field-error">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+          <button class="proposal-submit-button" type="submit">
+            협업 제안 보내기
+          </button>
+        </form>
+      </main>
+    </div>
+  </body>
+</html>
