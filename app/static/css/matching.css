@@ -1,0 +1,895 @@
+.matching-page {
+  min-height: calc(100vh - 78px);
+  padding: 28px 18px 40px;
+}
+
+.matching-title {
+  margin: 0 0 24px;
+  text-align: center;
+  font-size: 24px;
+}
+
+/* 필터 */
+
+.matching-filter {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr 1.4fr;
+  gap: 9px;
+  margin-bottom: 25px;
+}
+
+.matching-filter a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 10px;
+
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.matching-filter a.is-active {
+  color: var(--color-white);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* 추천 목록 */
+
+.matching-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.matching-card {
+  display: block;
+  padding: 18px 16px;
+
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+}
+
+.matching-card__header {
+  display: flex;
+  align-items: center;
+}
+
+.matching-card__profile {
+  width: 52px;
+  height: 52px;
+  margin-right: 12px;
+
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.matching-card__person {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.matching-card__person strong {
+  font-size: 17px;
+}
+
+.matching-card__person span {
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.matching-card__score {
+  margin-left: auto;
+  color: var(--color-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* 재능 영역 */
+
+.matching-card__talents {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 17px;
+}
+
+.matching-card__label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.talent-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.talent-tags span {
+  padding: 5px 9px;
+
+  color: #4f6841;
+  background: #f1f7e9;
+  border: 1px solid #d7e8c5;
+  border-radius: 6px;
+
+  font-size: 12px;
+}
+
+/* 추천 상대가 없을 때 */
+
+.matching-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 560px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.matching-empty h2 {
+  margin: 0 0 14px;
+  font-size: 21px;
+}
+
+.matching-empty p {
+  margin: 0 0 30px;
+  color: var(--color-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.profile-edit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 210px;
+  height: 48px;
+
+  color: var(--color-white);
+  background: var(--color-primary);
+  border-radius: 8px;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* 작은 화면 */
+
+@media (max-width: 360px) {
+  .matching-page {
+    padding-right: 13px;
+    padding-left: 13px;
+  }
+
+  .matching-filter {
+    gap: 6px;
+  }
+
+  .matching-filter a {
+    padding: 0 6px;
+    font-size: 12px;
+  }
+}
+
+/* 매칭 상세 */
+
+.matching-detail {
+  min-height: 100vh;
+  padding: 20px 18px 35px;
+}
+
+.detail-header {
+  height: 44px;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  font-size: 36px;
+  line-height: 1;
+}
+
+.partner-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 10px 5px 28px;
+}
+
+.partner-profile__image {
+  width: 76px;
+  height: 76px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.partner-profile__info h1 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.partner-profile__info p {
+  margin: 0 0 7px;
+  color: var(--color-muted);
+  font-size: 15px;
+}
+
+.partner-profile__info span {
+  display: inline-block;
+  padding: 4px 8px;
+
+  color: #4f6841;
+  background: #f1f7e9;
+  border-radius: 5px;
+
+  font-size: 12px;
+}
+
+.detail-section {
+  margin-bottom: 17px;
+  padding: 18px 16px;
+
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 11px;
+  box-shadow: var(--shadow-card);
+}
+
+.detail-section h2 {
+  margin: 0 0 13px;
+  font-size: 17px;
+}
+
+.talent-exchange {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 30px;
+  margin: -10px 0 7px;
+
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.detail-intro p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.proposal-create-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 52px;
+  margin-top: 28px;
+
+  color: var(--color-white);
+  background: var(--color-primary);
+  border-radius: 8px;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* 협업 제안 작성 */
+
+.proposal-page {
+  min-height: 100vh;
+  padding: 20px 18px 40px;
+}
+
+.proposal-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+}
+
+.proposal-header .back-button {
+  position: absolute;
+  left: 0;
+}
+
+.proposal-header h1 {
+  margin: 0;
+  font-size: 23px;
+}
+
+.proposal-receiver {
+  margin: 20px 2px 25px;
+  color: var(--color-muted);
+  font-size: 15px;
+}
+
+.proposal-receiver strong {
+  color: var(--color-text);
+}
+
+/* 입력 폼 */
+
+.proposal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-field label {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.form-field label span {
+  color: #d35c5c;
+}
+
+.form-field input:not([type="file"]),
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 12px;
+
+  color: var(--color-text);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+
+  font-size: 14px;
+}
+
+.form-field input:not([type="file"]),
+.form-field select {
+  min-height: 46px;
+}
+
+.form-field textarea {
+  min-height: 105px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--color-primary);
+  outline: 2px solid rgb(126 185 65 / 15%);
+}
+
+.form-field input[type="file"] {
+  width: 100%;
+  padding: 11px;
+
+  background: var(--color-white);
+  border: 1px dashed #c8c8c8;
+  border-radius: 8px;
+}
+
+.field-error {
+  margin: 0;
+  color: #d35c5c;
+  font-size: 12px;
+}
+
+.form-error {
+  padding: 12px;
+  color: #9d3535;
+  background: #fff0f0;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+/* 전송 버튼 */
+
+.proposal-submit-button {
+  width: 100%;
+  height: 52px;
+  margin-top: 10px;
+
+  color: var(--color-white);
+  background: var(--color-primary);
+  border: 0;
+  border-radius: 8px;
+
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.proposal-submit-button:hover {
+  background: var(--color-primary-dark);
+}
+
+/* 제안 전송 완료 */
+
+.proposal-complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  min-height: calc(100vh - 78px);
+  padding: 85px 18px 45px;
+  text-align: center;
+}
+
+.complete-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 92px;
+  height: 92px;
+  margin-bottom: 28px;
+
+  color: var(--color-white);
+  background: var(--color-primary);
+  border-radius: 50%;
+
+  font-size: 48px;
+  font-weight: 700;
+}
+
+.proposal-complete h1 {
+  margin: 0 0 15px;
+  font-size: 25px;
+  line-height: 1.4;
+}
+
+.complete-description {
+  margin: 0 0 30px;
+  color: var(--color-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.proposal-summary {
+  width: 100%;
+  padding: 20px 18px;
+
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+
+  text-align: left;
+}
+
+.proposal-summary h2 {
+  margin: 0 0 18px;
+  font-size: 18px;
+}
+
+.proposal-summary dl {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  margin: 0;
+}
+
+.proposal-summary dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.proposal-summary dt {
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.proposal-summary dd {
+  margin: 0;
+  font-size: 14px;
+  text-align: right;
+}
+
+.other-matching-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 52px;
+  margin-top: 25px;
+
+  color: var(--color-white);
+  background: var(--color-primary);
+  border-radius: 8px;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+/* 받은 제안 목록 */
+
+.received-page {
+  min-height: calc(100vh - 78px);
+  padding: 20px 18px 40px;
+}
+
+.received-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-bottom: 25px;
+}
+
+.received-header .back-button {
+  position: absolute;
+  left: 0;
+}
+
+.received-header h1 {
+  margin: 0;
+  font-size: 23px;
+}
+
+.received-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.received-card {
+  display: block;
+  padding: 17px 15px;
+
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+}
+
+.received-card__header {
+  display: flex;
+  align-items: center;
+}
+
+.received-card__profile {
+  width: 48px;
+  height: 48px;
+  margin-right: 11px;
+
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.received-card__sender {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.received-card__sender strong {
+  font-size: 16px;
+}
+
+.received-card__sender span {
+  color: var(--color-muted);
+  font-size: 12px;
+}
+
+.proposal-status {
+  margin-left: auto;
+  padding: 5px 8px;
+
+  color: #5d7d3e;
+  background: #f1f7e9;
+  border-radius: 6px;
+
+  font-size: 12px;
+}
+
+.received-card h2 {
+  margin: 15px 0 12px;
+  font-size: 17px;
+}
+
+.received-card__talents {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.received-card__talents span {
+  padding: 5px 8px;
+
+  color: #4f6841;
+  background: #f1f7e9;
+  border: 1px solid #d7e8c5;
+  border-radius: 6px;
+
+  font-size: 12px;
+}
+
+.received-card__talents b {
+  font-size: 15px;
+}
+
+/* 받은 제안 없음 */
+
+.received-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 590px;
+  text-align: center;
+}
+
+.received-empty h2 {
+  margin: 0 0 13px;
+  font-size: 21px;
+}
+
+.received-empty p {
+  margin: 0 0 28px;
+  color: var(--color-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.received-empty a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 210px;
+  height: 48px;
+
+  color: var(--color-white);
+  background: var(--color-primary);
+  border-radius: 8px;
+
+  font-weight: 700;
+}
+
+/* 받은 제안 상세 */
+.proposal-detail-page {
+  min-height: 100vh;
+  padding: 24px 24px 140px;
+  background: var(--color-background);
+}
+
+.proposal-detail-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-bottom: 28px;
+}
+
+.proposal-detail-header .back-button {
+  position: absolute;
+  left: 0;
+  color: var(--color-text);
+  font-size: 42px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.proposal-detail-header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.proposal-sender {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.proposal-sender__profile {
+  width: 64px;
+  height: 64px;
+  margin-right: 14px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.proposal-sender__info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.proposal-sender__info strong {
+  font-size: 20px;
+}
+
+.proposal-sender__info span {
+  color: #777;
+  font-size: 14px;
+}
+
+.proposal-detail-status {
+  padding: 7px 11px;
+  border-radius: 20px;
+  color: var(--color-primary-dark);
+  background: #eff7e8;
+  font-size: 13px;
+}
+
+.proposal-detail-card {
+  margin-bottom: 16px;
+  padding: 22px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.proposal-detail-card h2 {
+  margin: 0 0 18px;
+  font-size: 19px;
+}
+
+.proposal-detail-card p {
+  margin: 8px 0 0;
+  color: #666;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.proposal-detail-label {
+  color: #777;
+  font-size: 13px;
+}
+
+.proposal-detail-card > .proposal-detail-label + h2 {
+  margin-top: 7px;
+}
+
+.proposal-detail-divider {
+  height: 1px;
+  margin: 20px 0;
+  background: var(--color-border);
+}
+
+.proposal-talent-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.proposal-talent-row > div {
+  display: flex;
+  min-height: 76px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f3f8ed;
+  text-align: center;
+}
+
+.proposal-talent-row span {
+  margin-bottom: 6px;
+  color: #777;
+  font-size: 12px;
+}
+
+.proposal-talent-row strong {
+  color: var(--color-primary-dark);
+  font-size: 15px;
+}
+
+.proposal-exchange-icon {
+  margin: 0 !important;
+  color: var(--color-primary) !important;
+  font-size: 22px !important;
+}
+
+.proposal-condition-list {
+  margin: 0;
+}
+
+.proposal-condition-list > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.proposal-condition-list > div:last-child {
+  border-bottom: 0;
+}
+
+.proposal-condition-list dt {
+  color: #777;
+}
+
+.proposal-condition-list dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.proposal-message {
+  word-break: break-word;
+}
+
+.proposal-attachment {
+  display: block;
+  padding: 14px;
+  border-radius: 10px;
+  color: var(--color-primary-dark);
+  background: #f3f8ed;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+}
+
+.proposal-response-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.proposal-response-buttons form {
+  margin: 0;
+}
+
+.proposal-response-buttons button {
+  width: 100%;
+  min-height: 56px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.proposal-reject-button {
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary-dark);
+  background: #fff;
+}
+
+.proposal-accept-button {
+  border: 1px solid var(--color-primary);
+  color: #fff;
+  background: var(--color-primary);
+}
+
+.proposal-processed-message {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 12px;
+  color: #777;
+  background: #eeeeee;
+  text-align: center;
+}
