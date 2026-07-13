@@ -92,5 +92,5 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 
 | 박채희 | 조연지 | 이연재 | 오아름 | 정상지 |
 |:---:|:---:|:---:|:---:|:---:|
-| **기획 · 디자인** | **Front-End** | **Front-End** | **Back-End** | **Back-End** |
-| 서비스 기획<br>UI/UX 디자인<br>PPT 제작 |  |  |  |  |
+| **Plan/Desin** | **FrontEnd** | **FrontEnd** | **BackEnd** | **BackEnd** |
+|       서비스 기획<br>UI/UX 디자인<br>PPT 제작        |        |       |        |      |
