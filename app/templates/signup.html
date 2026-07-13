@@ -13,6 +13,113 @@
     <title>Re:Link</title>
   </head>
   <body>
-    <div id="app">회원가입</div>
+    <div id="app">
+      <main class="signup-container">
+        <p class="title">회원가입</p>
+
+        <form class="signup-form" novalidate>
+          <!-- 아이디 -->
+          <div class="form-group">
+            <label>
+              아이디
+              <img
+                src="../static/assets/icons/required.svg"
+                class="required-icon"
+              />
+            </label>
+            <input type="text" placeholder="아이디를 입력하세요." />
+
+            <small class="error-msg">필수 항목을 입력하세요.</small>
+          </div>
+
+          <!-- 비밀번호 -->
+          <div class="form-group">
+            <label>
+              비밀번호
+              <img
+                src="../static/assets/icons/required.svg"
+                class="required-icon"
+              />
+            </label>
+            <input
+              type="password"
+              id="password"
+              placeholder="비밀번호를 입력하세요."
+            />
+
+            <small class="error-msg">필수 항목을 입력하세요.</small>
+          </div>
+
+          <!-- 비밀번호 확인 -->
+          <div class="form-group">
+            <label>
+              비밀번호 확인
+              <img
+                src="../static/assets/icons/required.svg"
+                class="required-icon"
+              />
+            </label>
+            <input
+              type="password"
+              id="password-check"
+              placeholder="비밀번호를 다시 한 번 입력하세요."
+            />
+
+            <small class="error-msg">필수 항목을 입력하세요.</small>
+          </div>
+
+          <!-- 이름 -->
+          <div class="form-group">
+            <label>이름</label>
+            <input type="text" placeholder="이름을 입력하세요." />
+
+            <small class="error-msg">필수 항목을 입력하세요.</small>
+          </div>
+
+          <!-- 약관동의 -->
+          <div class="agreement">
+            <label>약관동의</label>
+
+            <small class="agree-error"> 필수 항목을 선택하세요. </small>
+
+            <div class="check-item">
+              <input type="checkbox" />
+              <span> 전체동의 </span>
+            </div>
+
+            <div class="check-item required-item">
+              <input type="checkbox" class="required-check" />
+              <span>
+                이용약관 동의
+                <img
+                  src="../static/assets/icons/required.svg"
+                  class="required-icon"
+                />
+              </span>
+            </div>
+
+            <div class="check-item required-item">
+              <input type="checkbox" class="required-check" />
+              <span>
+                개인정보 수집 및 이용 동의
+                <img
+                  src="../static/assets/icons/required.svg"
+                  class="required-icon"
+                />
+              </span>
+            </div>
+
+            <div class="check-item">
+              <input type="checkbox" />
+              <span>마케팅 정보 수신 동의</span>
+            </div>
+          </div>
+
+          <button type="submit" class="green-btn">회원가입 완료</button>
+        </form>
+      </main>
+    </div>
+
+    <script src="../static/js/signup.js"></script>
   </body>
 </html>

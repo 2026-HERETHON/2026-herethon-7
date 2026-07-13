@@ -35,3 +35,28 @@ body {
   min-height: 100vh;
   background: #fffcf6;
 }
+
+/* Button */
+.green-btn {
+  display: block;
+  width: 180px;
+  height: 44px;
+  margin: 0 auto;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--white);
+  background: var(--green);
+  border: 1px solid var(--white);
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.green-btn:hover {
+  color: var(--green);
+  background: var(--white);
+  border-color: var(--green);
+}
