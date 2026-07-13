@@ -29,8 +29,20 @@ def signup(request):
     """회원가입"""
     if request.method == 'POST':
         form = SignupForm(request.POST)
+
+        if not request.session.get('email_verified'):
+            messages.error(request, '이메일 인증을 완료해주세요.')
+            return render(request, 'user/signup.html', {'form': form})
+
+        if request.POST.get('email') != request.session.get('verify_email'):
+            messages.error(request, '인증한 이메일과 다릅니다.')
+            return render(request, 'user/signup.html', {'form': form})
+
         if form.is_valid():
             form.save()
+            request.session.pop('verify_code', None)
+            request.session.pop('verify_email', None)
+            request.session.pop('email_verified', None)
             messages.success(request, '회원가입이 완료되었습니다.')
             return redirect('user:login')
     else:
