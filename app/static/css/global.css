@@ -6,7 +6,26 @@
   font-display: swap;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html,
 body {
   font-family: "Pretendard", sans-serif;
+  background: #f5f5f5;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+#app {
+  width: clamp(380px, 100vw, 440px);
+  min-height: 100vh;
+  background: #fffcf6;
 }
