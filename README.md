@@ -7,7 +7,8 @@
 > 내가 줄 수 있는 역량과 필요한 역량을 연결하여 함께 성장하는 커리어 협업 플랫폼
 
 
-<img width="511" height="389" alt="image" src="https://github.com/user-attachments/assets/fd476283-2641-4403-9201-146cfda62109" />
+<img width="465" height="324" alt="image" src="https://github.com/user-attachments/assets/2fb77233-7d47-40a9-8965-90fd011fd492" />
+
 
 
 ## 📌 프로젝트 소개
@@ -34,7 +35,7 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 - 협업 경험 및 포트폴리오 부족
 - 실무자의 피드백을 받을 기회 부족
 
-➡️ RE:Link는 서로의 강점을 교환하여 함께 성장할 수 있는 환경을 제공합니다.
+➡️ RE:Link는 서로의 강점을 교환하여 함께 성장할 수 있는 환경을 제공
 
 ---
 
@@ -55,11 +56,11 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 - 파일 공유
 - 실시간 채팅
 
-###포트폴리오 생성
+### 포트폴리오 생성
 - 프로젝트 정보를 기반으로 자동 작성
 - 결과물 및 느낀 점만 추가하여 손쉽게 포트폴리오 완성
 
-###후기 시스템
+### 후기 시스템
 - 협업 종료 후 상호 후기 작성
 - 협업 신뢰도 및 활동 이력 관리
 
@@ -80,14 +81,62 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 - Figma
 
 ---
+<br>
+
 ## 👥 Team
 
-|   박채희 |   조연지 |   이연재 |   오아름 |   정상지 |
-|:---:|:---:|:---:|:---:|:---:|
-| <img src="![Uploading image.png…]()
-" width="100"> | <img src="프로필이미지링크" width="100"> | <img src="프로필이미지링크" width="100"> | <img src="프로필이미지링크" width="100"> | <img src="프로필이미지링크" width="100"> |
-| **기획 · UI/UX 디자인** |  |  |  |  |
-| 서비스 기획 |  |  |  |  |
-| UI/UX 디자인 |  |  |  |  |
-| Figma 디자인 |  |  |  |  |
-| PPT 제작 |  |  |  |  |
+<table width="100%">
+  <tr>
+    <td width="20%" align="center">
+      <img src="./images/team/chaehee.png" width="110" height="110" alt="박채희 프로필">
+      <br><br>
+      <b>박채희</b>
+      <br>
+      <sub>기획 · 디자인</sub>
+      <br><br>
+      <sub>서비스 기획 · UI/UX 디자인 · PPT 제작</sub>
+    </td>
+
+    <td width="20%" align="center">
+      <img src="./images/team/yeonji.png" width="110" height="110" alt="조연지 프로필">
+      <br><br>
+      <b>조연지</b>
+      <br>
+      <sub>Front-End</sub>
+      <br><br>
+      <sub>담당 역할 작성 예정</sub>
+    </td>
+
+    <td width="20%" align="center">
+      <img src="./images/team/yeonjae.png" width="110" height="110" alt="이연재 프로필">
+      <br><br>
+      <b>이연재</b>
+      <br>
+      <sub>Front-End</sub>
+      <br><br>
+      <sub>담당 역할 작성 예정</sub>
+    </td>
+
+    <td width="20%" align="center">
+      <img src="./images/team/areum.png" width="110" height="110" alt="오아름 프로필">
+      <br><br>
+      <b>오아름</b>
+      <br>
+      <sub>Back-End</sub>
+      <br><br>
+      <sub>담당 역할 작성 예정</sub>
+    </td>
+
+    <td width="20%" align="center">
+      <img src="./images/team/sangji.png" width="110" height="110" alt="정상지 프로필">
+      <br><br>
+      <b>정상지</b>
+      <br>
+      <sub>Back-End</sub>
+      <br><br>
+      <sub>담당 역할 작성 예정</sub>
+    </td>
+  </tr>
+</table>
+
+<br>
