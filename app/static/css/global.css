@@ -6,6 +6,12 @@
   font-display: swap;
 }
 
+:root {
+  --green: #7eb941;
+  --white: #fffcf6;
+  --black: #000000;
+}
+
 * {
   margin: 0;
   padding: 0;

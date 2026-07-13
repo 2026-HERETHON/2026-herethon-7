@@ -13,6 +13,38 @@
     <title>Re:Link</title>
   </head>
   <body>
-    <div id="app">로그인</div>
+    <div id="app">
+      <main class="login-container">
+        <img
+          class="logo"
+          src="../static/assets/images/logo-icon.svg"
+          alt="logo"
+        />
+
+        <form class="login-form">
+          <input type="text" placeholder="아이디 입력" />
+
+          <input type="password" placeholder="비밀번호 입력" />
+
+          <label class="save-id">
+            <input type="checkbox" />
+            <span>아이디 저장</span>
+          </label>
+
+          <button type="submit">로그인</button>
+
+          <div class="login-link">
+            <a>아이디/비밀번호 찾기</a>
+            <span>|</span>
+            <a href="signup.html">회원가입</a>
+          </div>
+
+          <div class="social-container">
+            <p class="social">다른 계정으로 로그인/회원가입</p>
+            <img src="../static/assets/images/sns.png" alt="social" />
+          </div>
+        </form>
+      </main>
+    </div>
   </body>
 </html>
