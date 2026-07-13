@@ -88,7 +88,8 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 <table width="100%">
   <tr>
     <td width="20%" align="center">
-      <img src="./images/team/chaehee.png" width="110" height="110" alt="박채희 프로필">
+      <img src="./images/team/chaehee.png" width="110" height="110" alt="[Uploading image.png…]()
+">
       <br><br>
       <b>박채희</b>
       <br>
