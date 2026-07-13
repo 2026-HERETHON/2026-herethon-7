@@ -26,7 +26,7 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 
 우리 서비흐는 단순한 멘토링이 아닌 실제 협업을 통한 성장을 목표로 합니다.
 
----
+--
 
 ## 📌 기획 배경
 
@@ -42,9 +42,9 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 
 ➡️ RE:Link는 서로의 강점을 교환하여 함께 성장할 수 있는 환경을 제공
 
----
+--
 
-## ✨ 주요 기능
+## 📌 주요 기능
 
 ### AI 기반 파트너 매칭
 - 제공 가능한 역량과 필요한 역량을 기반으로 자동 매칭
@@ -70,8 +70,8 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 - 협업 신뢰도 및 활동 이력 관리
 
 
----
-## 🛠 Tech Stack
+--
+## 📌 Tech Stack
 
 ### Front-End
 - HTML5
@@ -85,12 +85,12 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 ### Design
 - Figma
 
----
+--
 
 
-**## 👥 Team
+## 👥 Team
 
 | 박채희 | 조연지 | 이연재 | 오아름 | 정상지 |
 |:---:|:---:|:---:|:---:|:---:|
-| **Plan/Desin** | **FrontEnd** | **FrontEnd** | **BackEnd** | **BackEnd** |
-|       서비스 기획<br>UI/UX 디자인<br>PPT 제작        |        |       |        |      |**
+| **Plan/Design** | **FrontEnd** | **FrontEnd** | **BackEnd** | **BackEnd** |
+| <br><br>서비스 기획<br><br>UI/UX 디자인<br><br>PPT 제작<br><br><br><br> | <br><br><br><br><br><br><br><br><br> | <br><br><br><br><br><br><br><br><br> | <br><br><br><br><br><br><br><br><br> | <br><br><br><br><br><br><br><br><br> |
