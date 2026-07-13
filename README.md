@@ -82,6 +82,7 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 - JavaScript
 
 ### Back-End
+- Python
 - Django (MTV Pattern)
 - SQLite
 
