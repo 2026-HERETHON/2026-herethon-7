@@ -85,19 +85,158 @@ form.addEventListener("submit", function (e) {
   }
 });
 
-// + 버튼 클릭 이벤트
-document.querySelectorAll(".select-box-row").forEach((row) => {
-  const plusBtn = row.querySelector(".plus-btn");
-  const box = row.querySelector(".select-box");
+// + 버튼 클릭 이벤트(모달)
+const overlay = document.querySelector(".sheet-overlay");
+const sheet = document.querySelector(".bottom-sheet");
 
-  plusBtn.addEventListener("click", () => {
-    const value = prompt("항목을 입력하세요.");
+const sheetTitle = document.querySelector(".sheet-title");
+const recommendTags = document.querySelector(".recommend-tags");
+const selectedTags = document.querySelector(".selected-tags");
 
-    if (!value) return;
+let currentBox = null;
+let selectedItems = [];
+let currentType = "";
 
-    box.textContent = value;
-    box.dataset.selected = "true";
+const sheetData = {
+  provide: {
+    title: "제공 가능 역량 (1개 필수) 추가",
+    items: ["SNS운영", "AI 활용", "문서 작성", "시장조사", "실무 피드백"],
+  },
 
-    row.closest(".required-group").classList.remove("error");
+  need: {
+    title: "필요한 역량 (1개 필수) 추가",
+    items: [
+      "마케팅 전략",
+      "실무 보고서 작성",
+      "시장조사",
+      "실무 피드백",
+      "문서 작성",
+    ],
+  },
+
+  interest: {
+    title: "관심분야 추가",
+    items: ["마케팅", "기획/제작", "디자인", "경영/회계", "개발"],
+  },
+};
+
+function openSheet(type, box) {
+  currentBox = box;
+  currentType = type;
+
+  sheet.classList.remove("hidden");
+  overlay.classList.remove("hidden");
+
+  sheetTitle.textContent = sheetData[type].title;
+
+  recommendTags.innerHTML = "";
+  selectedTags.innerHTML = "";
+
+  selectedItems = [];
+
+  sheetData[type].items.forEach((item) => {
+    createRecommendTag(item);
+  });
+}
+
+function createRecommendTag(text) {
+  const tag = document.createElement("button");
+
+  tag.type = "button";
+  tag.className = "tag normal";
+  tag.textContent = text;
+
+  tag.onclick = () => {
+    if (selectedItems.includes(text)) return;
+
+    selectedItems.push(text);
+
+    createSelectedTag(text);
+
+    tag.classList.remove("normal");
+    tag.classList.add("active");
+  };
+
+  recommendTags.appendChild(tag);
+}
+
+function createSelectedTag(text) {
+  const tag = document.createElement("div");
+
+  tag.className = "tag active";
+
+  tag.innerHTML = `
+      ${text}
+      <span class="remove-tag">✕</span>
+  `;
+
+  tag.querySelector(".remove-tag").onclick = () => {
+    tag.remove();
+
+    selectedItems = selectedItems.filter((item) => item !== text);
+
+    recommendTags.querySelectorAll(".tag").forEach((recommend) => {
+      if (recommend.textContent === text) {
+        recommend.classList.remove("active");
+        recommend.classList.add("normal");
+      }
+    });
+  };
+
+  selectedTags.appendChild(tag);
+}
+
+function closeSheet() {
+  sheet.classList.add("hidden");
+  overlay.classList.add("hidden");
+}
+
+overlay.addEventListener("click", closeSheet);
+
+document.querySelector(".cancel-btn").addEventListener("click", closeSheet);
+
+document
+  .querySelector("#provide-group .plus-btn")
+  .addEventListener("click", () => {
+    openSheet("provide", document.querySelector("#provide-group .select-box"));
+  });
+
+document
+  .querySelector("#need-group .plus-btn")
+  .addEventListener("click", () => {
+    openSheet("need", document.querySelector("#need-group .select-box"));
+  });
+
+document
+  .querySelector("#interest-group .plus-btn")
+  .addEventListener("click", () => {
+    openSheet(
+      "interest",
+      document.querySelector("#interest-group .select-box"),
+    );
+  });
+
+document.querySelector(".add-btn").addEventListener("click", () => {
+  if (selectedItems.length === 0) return;
+
+  currentBox.textContent = selectedItems.join(", ");
+
+  currentBox.dataset.selected = "true";
+
+  currentBox.closest(".required-group").classList.remove("error");
+
+  closeSheet();
+});
+
+// 검색
+const searchInput = document.querySelector("#sheet-search");
+
+searchInput.addEventListener("input", () => {
+  const keyword = searchInput.value.toLowerCase();
+
+  recommendTags.querySelectorAll(".tag").forEach((tag) => {
+    tag.style.display = tag.textContent.toLowerCase().includes(keyword)
+      ? ""
+      : "none";
   });
 });
