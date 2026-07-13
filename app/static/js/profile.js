@@ -10,6 +10,9 @@ profileInput.addEventListener("change", function () {
   if (!file) return;
 
   preview.src = URL.createObjectURL(file);
+
+  preview.classList.add("uploaded");
+  preview.parentElement.classList.add("uploaded");
 });
 
 // 한 줄 소개 글자 수
@@ -97,6 +100,12 @@ let currentBox = null;
 let selectedItems = [];
 let currentType = "";
 
+const selectedData = {
+  provide: [],
+  need: [],
+  interest: [],
+};
+
 const sheetData = {
   provide: {
     title: "제공 가능 역량 (1개 필수) 추가",
@@ -132,7 +141,11 @@ function openSheet(type, box) {
   recommendTags.innerHTML = "";
   selectedTags.innerHTML = "";
 
-  selectedItems = [];
+  selectedItems = [...selectedData[type]];
+
+  selectedItems.forEach((item) => {
+    createSelectedTag(item);
+  });
 
   sheetData[type].items.forEach((item) => {
     createRecommendTag(item);
@@ -145,6 +158,11 @@ function createRecommendTag(text) {
   tag.type = "button";
   tag.className = "tag normal";
   tag.textContent = text;
+
+  if (selectedItems.includes(text)) {
+    tag.classList.remove("normal");
+    tag.classList.add("active");
+  }
 
   tag.onclick = () => {
     if (selectedItems.includes(text)) return;
@@ -174,6 +192,16 @@ function createSelectedTag(text) {
     tag.remove();
 
     selectedItems = selectedItems.filter((item) => item !== text);
+
+    if (selectedItems.length === 0) {
+      currentBox.classList.remove("has-items");
+      currentBox.textContent =
+        currentType === "interest"
+          ? "아직 선택된 관심분야가 없습니다."
+          : "아직 선택된 역량이 없습니다.";
+
+      currentBox.dataset.selected = "false";
+    }
 
     recommendTags.querySelectorAll(".tag").forEach((recommend) => {
       if (recommend.textContent === text) {
@@ -219,7 +247,18 @@ document
 document.querySelector(".add-btn").addEventListener("click", () => {
   if (selectedItems.length === 0) return;
 
-  currentBox.textContent = selectedItems.join(", ");
+  currentBox.innerHTML = "";
+  currentBox.classList.add("has-items");
+
+  selectedItems.forEach((item) => {
+    const chip = document.createElement("span");
+    chip.className = "selected-chip";
+    chip.textContent = item;
+
+    currentBox.appendChild(chip);
+  });
+
+  selectedData[currentType] = [...selectedItems];
 
   currentBox.dataset.selected = "true";
 
