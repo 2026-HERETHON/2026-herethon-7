@@ -7,8 +7,13 @@
 > 내가 줄 수 있는 역량과 필요한 역량을 연결하여 함께 성장하는 커리어 협업 플랫폼
 
 
-<img width="465" height="324" alt="image" src="https://github.com/user-attachments/assets/2fb77233-7d47-40a9-8965-90fd011fd492" />
-
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/2fb77233-7d47-40a9-8965-90fd011fd492"
+    alt="RE:Link 서비스 화면"
+    width="90%"
+  />
+</p>
 
 
 ## 📌 프로젝트 소개
@@ -81,63 +86,11 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 - Figma
 
 ---
-<br>
+
 
 ## 👥 Team
 
-<table width="100%">
-  <tr>
-    <td width="20%" align="center">
-      <img src="./images/team/chaehee.png" width="110" height="110" alt="[Uploading image.png…]()
-">
-      <br><br>
-      <b>박채희</b>
-      <br>
-      <sub>기획 · 디자인</sub>
-      <br><br>
-      <sub>서비스 기획 · UI/UX 디자인 · PPT 제작</sub>
-    </td>
-
-    <td width="20%" align="center">
-      <img src="./images/team/yeonji.png" width="110" height="110" alt="조연지 프로필">
-      <br><br>
-      <b>조연지</b>
-      <br>
-      <sub>Front-End</sub>
-      <br><br>
-      <sub>담당 역할 작성 예정</sub>
-    </td>
-
-    <td width="20%" align="center">
-      <img src="./images/team/yeonjae.png" width="110" height="110" alt="이연재 프로필">
-      <br><br>
-      <b>이연재</b>
-      <br>
-      <sub>Front-End</sub>
-      <br><br>
-      <sub>담당 역할 작성 예정</sub>
-    </td>
-
-    <td width="20%" align="center">
-      <img src="./images/team/areum.png" width="110" height="110" alt="오아름 프로필">
-      <br><br>
-      <b>오아름</b>
-      <br>
-      <sub>Back-End</sub>
-      <br><br>
-      <sub>담당 역할 작성 예정</sub>
-    </td>
-
-    <td width="20%" align="center">
-      <img src="./images/team/sangji.png" width="110" height="110" alt="정상지 프로필">
-      <br><br>
-      <b>정상지</b>
-      <br>
-      <sub>Back-End</sub>
-      <br><br>
-      <sub>담당 역할 작성 예정</sub>
-    </td>
-  </tr>
-</table>
-
-<br>
+| 박채희 | 조연지 | 이연재 | 오아름 | 정상지 |
+|:---:|:---:|:---:|:---:|:---:|
+| **기획 · 디자인** | **Front-End** | **Front-End** | **Back-End** | **Back-End** |
+| 서비스 기획<br>UI/UX 디자인<br>PPT 제작 |  |  |  |  |
