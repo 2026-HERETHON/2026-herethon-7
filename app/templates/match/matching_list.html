@@ -46,17 +46,29 @@
             href="{% url 'match:matching_detail' profile.user.id %}"
           >
             <div class="matching-card__header">
-              {% if profile.profile_image %}
+              {% if profile.user.name == '김서연' %}
               <img
                 class="matching-card__profile"
-                src="{{ profile.profile_image.url }}"
-                alt="{{ profile.user.name }} 프로필"
+                src="{% static 'assets/images/profiles/profile-01.png' %}"
+                alt="김서연 프로필"
+              />
+              {% elif profile.user.name == '이지연' %}
+              <img
+                class="matching-card__profile"
+                src="{% static 'assets/images/profiles/profile-02.png' %}"
+                alt="이지연 프로필"
+              />
+              {% elif profile.user.name == '김서현' %}
+              <img
+                class="matching-card__profile"
+                src="{% static 'assets/images/profiles/profile-03.png' %}"
+                alt="김서현 프로필"
               />
               {% else %}
               <img
                 class="matching-card__profile"
-                src="{% static 'assets/images/profile-1.png' %}"
-                alt=""
+                src="{% static 'assets/images/profiles/profile-04.png' %}"
+                alt="{{ profile.user.name }} 프로필"
               />
               {% endif %}
 

@@ -61,7 +61,27 @@
           <div class="workspace-member-list">
             {% for member in members %}
             <article class="workspace-member">
-              <img src="{% static 'assets/images/profile-1.png' %}" alt="" />
+              {% if member.user.name == '김서연' %}
+              <img
+                src="{% static 'assets/images/profiles/profile-01.png' %}"
+                alt="김서연 프로필"
+              />
+              {% elif member.user.name == '이지연' %}
+              <img
+                src="{% static 'assets/images/profiles/profile-02.png' %}"
+                alt="이지연 프로필"
+              />
+              {% elif member.user.name == '김서현' %}
+              <img
+                src="{% static 'assets/images/profiles/profile-03.png' %}"
+                alt="김서현 프로필"
+              />
+              {% else %}
+              <img
+                src="{% static 'assets/images/profiles/profile-04.png' %}"
+                alt="{{ member.user.name }} 프로필"
+              />
+              {% endif %}
 
               <div>
                 <strong>{{ member.user.name }}</strong>

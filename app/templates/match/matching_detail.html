@@ -24,17 +24,29 @@
         </header>
 
         <section class="partner-profile">
-          {% if profile.profile_image %}
+          {% if partner.name == '김서연' %}
           <img
             class="partner-profile__image"
-            src="{{ profile.profile_image.url }}"
-            alt="{{ partner.name }} 프로필"
+            src="{% static 'assets/images/profiles/profile-01.png' %}"
+            alt="김서연 프로필"
+          />
+          {% elif partner.name == '이지연' %}
+          <img
+            class="partner-profile__image"
+            src="{% static 'assets/images/profiles/profile-02.png' %}"
+            alt="이지연 프로필"
+          />
+          {% elif partner.name == '김서현' %}
+          <img
+            class="partner-profile__image"
+            src="{% static 'assets/images/profiles/profile-03.png' %}"
+            alt="김서현 프로필"
           />
           {% else %}
           <img
             class="partner-profile__image"
-            src="{% static 'assets/images/profile-1.png' %}"
-            alt=""
+            src="{% static 'assets/images/profiles/profile-04.png' %}"
+            alt="{{ partner.name }} 프로필"
           />
           {% endif %}
 
