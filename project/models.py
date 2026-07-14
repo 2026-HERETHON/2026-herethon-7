@@ -88,7 +88,7 @@ class ProjectFile(models.Model):
 
 
 class ChatMessage(models.Model):
-    """채팅"""
+    """채팅메시지"""
     project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name='프로젝트')
     sender = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='작성자')
     content = models.TextField(verbose_name='내용')
