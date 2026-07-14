@@ -87,16 +87,16 @@ class ProjectFile(models.Model):
         return f'{self.project.title} - {self.file_path.name}'
 
 
-class Chat(models.Model):
+class ChatMessage(models.Model):
     """채팅"""
     project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name='프로젝트')
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='발신자')
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='작성자')
     content = models.TextField(verbose_name='내용')
     sent_at = models.DateTimeField(auto_now_add=True, verbose_name='전송일시')
 
     class Meta:
-        db_table = 'chat'
-        verbose_name = '채팅'
+        db_table = 'chatMessage'
+        verbose_name = '채팅메시지'
         ordering = ['sent_at']
 
     def __str__(self):
