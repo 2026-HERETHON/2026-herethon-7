@@ -74,6 +74,6 @@ form.addEventListener("submit", function (e) {
   // 모든 검사 통과 시 폼 제출 및 로그인 페이지로 이동
   if (valid) {
     form.submit();
-    window.location.href = "./complete.html";
+    window.location.href = "../complete.html";
   }
 });
