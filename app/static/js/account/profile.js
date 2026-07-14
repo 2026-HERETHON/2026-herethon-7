@@ -1,8 +1,11 @@
 const form = document.querySelector(".profile-form");
+const isMypageEdit =
+  new URLSearchParams(window.location.search).get("from") === "mypage";
 
 // 프로필 사진
 const profileInput = document.querySelector("#profile-image");
 const preview = document.querySelector("#profile-preview");
+let profileImageData = "";
 
 profileInput.addEventListener("change", function () {
   const file = this.files[0];
@@ -13,6 +16,12 @@ profileInput.addEventListener("change", function () {
 
   preview.classList.add("uploaded");
   preview.parentElement.classList.add("uploaded");
+
+  const reader = new FileReader();
+  reader.addEventListener("load", () => {
+    profileImageData = reader.result;
+  });
+  reader.readAsDataURL(file);
 });
 
 // 한 줄 소개 글자 수
@@ -83,8 +92,34 @@ form.addEventListener("submit", function (e) {
   });
 
   if (valid) {
+    const career = document.querySelector("#career-group .select-btn.active");
+    const workStyle = document.querySelector("#work-group .select-btn.active");
+    const previousProfile = getSavedProfile();
+    const savedProfile = {
+      name: nameInput.value.trim(),
+      intro: intro.value.trim(),
+      career: career?.textContent.trim() || "",
+      workStyle: workStyle?.textContent.trim() || "",
+      provide: selectedData.provide,
+      need: selectedData.need,
+      interest: selectedData.interest,
+      image: profileImageData,
+      counts: previousProfile?.counts || {
+        projects: 0,
+        collaborations: 0,
+        reviews: 0,
+      },
+    };
+
+    try {
+      localStorage.setItem("relinkProfile", JSON.stringify(savedProfile));
+    } catch {
+      savedProfile.image = "";
+      localStorage.setItem("relinkProfile", JSON.stringify(savedProfile));
+    }
+
     alert("저장되었습니다.");
-    // location.href = "./home.html";
+    window.location.href = isMypageEdit ? "./mypage.html" : "./home.html";
   }
 });
 
@@ -279,3 +314,69 @@ searchInput.addEventListener("input", () => {
       : "none";
   });
 });
+
+function getSavedProfile() {
+  try {
+    return JSON.parse(localStorage.getItem("relinkProfile"));
+  } catch {
+    return null;
+  }
+}
+
+function selectButton(groupSelector, savedText) {
+  if (!savedText) return;
+
+  document
+    .querySelectorAll(`${groupSelector} .select-btn`)
+    .forEach((button) => {
+      button.classList.toggle(
+        "active",
+        button.textContent.trim() === savedText,
+      );
+    });
+}
+
+function fillSelectedBox(type, items) {
+  if (!Array.isArray(items) || items.length === 0) return;
+
+  const box = document.querySelector(`#${type}-group .select-box`);
+  box.innerHTML = "";
+  box.classList.add("has-items");
+  box.dataset.selected = "true";
+  selectedData[type] = [...items];
+
+  items.forEach((item) => {
+    const chip = document.createElement("span");
+    chip.className = "selected-chip";
+    chip.textContent = item;
+    box.appendChild(chip);
+  });
+}
+
+function loadProfileForEdit() {
+  if (!isMypageEdit) return;
+
+  document.querySelector("#profile-page-title").textContent = "내 프로필 관리";
+
+  const savedProfile = getSavedProfile();
+  if (!savedProfile) return;
+
+  document.querySelector("#name").value = savedProfile.name || "";
+  intro.value = savedProfile.intro || "";
+  count.textContent = `${intro.value.length}/50`;
+
+  if (savedProfile.image) {
+    profileImageData = savedProfile.image;
+    preview.src = savedProfile.image;
+    preview.classList.add("uploaded");
+    preview.parentElement.classList.add("uploaded");
+  }
+
+  selectButton("#career-group", savedProfile.career);
+  selectButton("#work-group", savedProfile.workStyle);
+  fillSelectedBox("provide", savedProfile.provide);
+  fillSelectedBox("need", savedProfile.need);
+  fillSelectedBox("interest", savedProfile.interest);
+}
+
+loadProfileForEdit();
