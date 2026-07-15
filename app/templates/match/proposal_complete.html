@@ -1,0 +1,64 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RE:Link 제안 전송 완료</title>
+
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/matching.css' %}" />
+  </head>
+
+  <body>
+    <div class="app-shell">
+      <main class="proposal-complete">
+        <div class="complete-visual" aria-hidden="true">✓</div>
+
+        <h1>제안이 성공적으로<br />전송되었습니다!</h1>
+
+        <p class="complete-description">
+          {{ proposal.receiver.name }}님에게 협업 제안을 보냈어요.<br />
+          응답을 기다려주세요.
+        </p>
+
+        <section class="proposal-summary">
+          <h2>{{ proposal.title }}</h2>
+
+          <dl>
+            <div>
+              <dt>제공 재능</dt>
+              <dd>{{ proposal.give_talent.name }}</dd>
+            </div>
+
+            <div>
+              <dt>필요 재능</dt>
+              <dd>{{ proposal.need_talent.name }}</dd>
+            </div>
+
+            <div>
+              <dt>협업 방식</dt>
+              <dd>{{ proposal.get_mode_display }}</dd>
+            </div>
+
+            <div>
+              <dt>기간</dt>
+              <dd>{{ proposal.period }}주</dd>
+            </div>
+
+            <div>
+              <dt>주당 시간</dt>
+              <dd>{{ proposal.get_weekly_time_display }}</dd>
+            </div>
+          </dl>
+        </section>
+
+        <a class="other-matching-button" href="{% url 'match:matching_list' %}">
+          다른 매칭 둘러보기
+        </a>
+      </main>
+
+      {% include 'components/bottom_nav.html' with active_nav='matching' %}
+    </div>
+  </body>
+</html>
