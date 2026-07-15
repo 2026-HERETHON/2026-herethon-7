@@ -130,6 +130,7 @@
   background: #f8fcf3;
   border: 0;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .floating-add-button {
