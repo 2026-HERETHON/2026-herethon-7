@@ -119,7 +119,9 @@ form.addEventListener("submit", function (e) {
     }
 
     alert("저장되었습니다.");
-    window.location.href = isMypageEdit ? "./mypage.html" : "./home.html";
+    window.location.href = isMypageEdit
+      ? "../mypage/mypage.html"
+      : "./home.html";
   }
 });
 
