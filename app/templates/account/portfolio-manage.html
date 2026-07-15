@@ -16,6 +16,66 @@
     <title>Re:Link</title>
   </head>
   <body>
-    <div id="app">포트폴리오 관리</div>
+    <div id="app">
+      <main class="portfolio-container">
+        <header class="portfolio-header">
+          <button class="back-button" type="button" aria-label="뒤로 가기">
+            <img
+              src="../../static/assets/icons/mypage/arrow-left.svg"
+              alt=""
+              aria-hidden="true"
+            />
+          </button>
+          <p class="title">포트폴리오 관리</p>
+        </header>
+
+        <!-- 포트폴리오 카드 -->
+        <section
+          class="portfolio-list"
+          aria-label="등록된 포트폴리오"
+          hidden
+        ></section>
+
+        <button class="floating-add-button" type="button" hidden>
+          <img
+            src="../../static/assets/icons/mypage/green-plus.svg"
+            alt=""
+            aria-hidden="true"
+          />
+        </button>
+        <!-- 포트폴리오 카드 -->
+
+        <section class="empty-state" hidden>
+          <img
+            class="empty-image"
+            src="../../static/assets/images/portfolio.png"
+            alt="포트폴리오"
+            aria-hidden="true"
+          />
+          <h2>등록된 포트폴리오가 없어요.</h2>
+          <p>
+            포트폴리오를 등록하면<br />
+            나만의 작업을 한눈에 보여줄 수 있어요.
+          </p>
+          <button type="button" class="green-btn empty-add-btn">
+            추가하기
+          </button>
+        </section>
+
+        <template id="portfolio-card-template">
+          <article class="portfolio-card">
+            <div class="portfolio-title-row">
+              <h2></h2>
+              <span class="project-type"></span>
+            </div>
+            <p class="portfolio-period"></p>
+            <p class="portfolio-partner"></p>
+            <button class="detail-button" type="button">상세 보기</button>
+          </article>
+        </template>
+      </main>
+    </div>
+
+    <script src="../../static/js/account/portfolio.js"></script>
   </body>
 </html>
