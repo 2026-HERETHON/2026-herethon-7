@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../static/css/global.css" />
+    <link rel="stylesheet" href="../../static/css/account/profile.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../../static/assets/images/favicon.png"
+    />
+    <title>Re:Link</title>
+  </head>
+  <body>
+    <div id="app">
+      <main class="profile-container">
+        <p class="title" id="profile-page-title">내 프로필 등록</p>
+
+        <form class="profile-form" novalidate>
+          <!-- 프로필 사진 -->
+          <div class="profile-image-area">
+            <label for="profile-image">
+              <img
+                id="profile-preview"
+                src="../../static/assets/icons/profile.svg"
+                alt="프로필 이미지"
+              />
+            </label>
+
+            <input type="file" id="profile-image" accept="image/*" hidden />
+          </div>
+
+          <!-- 이름 -->
+          <div class="form-group">
+            <label>
+              이름
+              <img
+                src="../../static/assets/icons/required.svg"
+                class="required-icon"
+              />
+            </label>
+
+            <input type="text" id="name" placeholder="이름을 입력하세요." />
+
+            <small class="error-msg">필수 항목을 입력하세요.</small>
+          </div>
+
+          <!-- 한 줄 소개 -->
+          <div class="form-group">
+            <label>한 줄 소개(선택)</label>
+
+            <div class="textarea-wrapper">
+              <textarea
+                id="intro"
+                maxlength="50"
+                placeholder="한 줄 소개를 입력하세요."
+              ></textarea>
+
+              <span class="text-count">0/50</span>
+            </div>
+          </div>
+
+          <!-- 경력 사항 -->
+          <div class="select-group required-group" id="career-group">
+            <label>
+              경력 사항
+              <img
+                src="../../static/assets/icons/required.svg"
+                class="required-icon"
+              />
+            </label>
+
+            <small class="error-msg">필수 항목을 선택하세요.</small>
+
+            <div class="button-row">
+              <button type="button" class="select-btn" data-value="experienced">
+                경험 보유자
+              </button>
+              <button type="button" class="select-btn" data-value="starter">
+                커리어 스타터
+              </button>
+            </div>
+          </div>
+
+          <!-- 제공 가능 역량 -->
+          <div class="select-group required-group" id="provide-group">
+            <label>
+              제공 가능 역량
+              <p class="gray">(1개 필수)</p>
+              <img
+                src="../../static/assets/icons/required.svg"
+                class="required-icon"
+              />
+            </label>
+
+            <div class="select-box-row">
+              <div class="select-box">아직 선택된 역량이 없습니다.</div>
+
+              <button type="button" class="plus-btn">
+                <img
+                  src="../../static/assets/icons/plus.svg"
+                  class="plus-icon"
+                />
+              </button>
+            </div>
+          </div>
+
+          <!-- 필요한 역량 -->
+          <div class="select-group required-group" id="need-group">
+            <label>
+              필요한 역량
+              <p class="gray">(1개 필수)</p>
+              <img
+                src="../../static/assets/icons/required.svg"
+                class="required-icon"
+              />
+            </label>
+
+            <div class="select-box-row">
+              <div class="select-box">아직 선택된 역량이 없습니다.</div>
+
+              <button type="button" class="plus-btn">
+                <img
+                  src="../../static/assets/icons/plus.svg"
+                  class="plus-icon"
+                />
+              </button>
+            </div>
+          </div>
+
+          <!-- 협업 방식 -->
+          <div class="select-group required-group" id="work-group">
+            <label>
+              선호 협업 방식
+              <img
+                src="../../static/assets/icons/required.svg"
+                class="required-icon"
+              />
+            </label>
+
+            <small class="error-msg">필수 항목을 선택하세요.</small>
+
+            <div class="button-row">
+              <button type="button" class="select-btn" data-value="one">
+                1:1 교환형
+              </button>
+
+              <button type="button" class="select-btn" data-value="group">
+                소그룹(3~5명)
+              </button>
+            </div>
+          </div>
+
+          <!-- 관심분야 -->
+          <div class="select-group required-group" id="interest-group">
+            <label>
+              관심 분야
+              <img
+                src="../../static/assets/icons/required.svg"
+                class="required-icon"
+              />
+            </label>
+
+            <div class="select-box-row">
+              <div class="select-box">아직 선택된 관심분야가 없습니다.</div>
+
+              <button type="button" class="plus-btn">
+                <img
+                  src="../../static/assets/icons/plus.svg"
+                  class="plus-icon"
+                />
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="green-btn save-btn">저장하기</button>
+        </form>
+      </main>
+
+      <!-- Overlay -->
+      <div class="sheet-overlay hidden"></div>
+
+      <div class="bottom-sheet hidden">
+        <div class="sheet-handle"></div>
+
+        <h2 class="sheet-title"></h2>
+
+        <div class="selected-tags"></div>
+
+        <div class="search-box">
+          <img
+            src="../../static/assets/icons/search.svg"
+            class="search-icon"
+            alt="search-icon"
+          />
+          <input
+            type="text"
+            id="sheet-search"
+            placeholder="직접 입력하거나 추천 항목을 선택하세요."
+          />
+        </div>
+
+        <h2 class="sheet-title">추천 항목</h2>
+
+        <div class="recommend-tags"></div>
+
+        <div class="sheet-buttons">
+          <button type="button" class="cancel-btn">취소</button>
+
+          <button type="button" class="add-btn">추가하기</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../../static/js/account/profile.js"></script>
+  </body>
+</html>

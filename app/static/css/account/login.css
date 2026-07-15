@@ -1,0 +1,138 @@
+.login-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 50px 40px;
+}
+
+.logo {
+  width: 125px;
+  height: auto;
+  margin-bottom: 56px;
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+  width: 100%;
+  height: 54px;
+  font-size: 15px;
+  border: 1px solid var(--green);
+  border-radius: 15px;
+  background: transparent;
+  padding: 18px 14px;
+  outline: none;
+  margin-bottom: 20px;
+}
+
+.login-form input::placeholder {
+  color: #606060;
+}
+
+.save-id {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  gap: 8px;
+  margin: 10px 0 40px;
+}
+
+.save-id input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--green);
+  border-radius: 5px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.save-id input[type="checkbox"]:checked {
+  background: var(--green);
+}
+
+.save-id input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  width: 6px;
+  height: 12px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.login-form button {
+  width: 65%;
+  height: 44px;
+  margin: 0 auto;
+  font-size: 15px;
+  border-radius: 15px;
+  border: 1px solid var(--green);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.login-form button:hover {
+  background: var(--green);
+  color: var(--white);
+}
+
+.login-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+  font-size: 12px;
+  font-weight: 300;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.login-link a {
+  color: var(--black);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+.login-link span {
+  color: #808080;
+  cursor: default;
+}
+
+.social-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 135px;
+  gap: 20px;
+}
+
+.social-container p {
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.social-container img {
+  width: 187px;
+  height: auto;
+  cursor: pointer;
+}
