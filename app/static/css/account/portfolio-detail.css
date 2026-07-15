@@ -279,6 +279,7 @@ button {
 .summary-content dd {
   text-align: right;
   color: var(--black);
+  white-space: nowrap;
 }
 
 .content-section {

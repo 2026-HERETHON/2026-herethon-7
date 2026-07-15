@@ -13,6 +13,111 @@
     <title>Re:Link</title>
   </head>
   <body>
-    <div id="app">후기 보기</div>
+    <div id="app">
+      <main class="review-container">
+        <header class="review-header">
+          <button
+            class="back-button"
+            type="button"
+            aria-label="마이 페이지로 돌아가기"
+          >
+            <img
+              src="../../static/assets/icons/mypage/arrow-left.svg"
+              alt=""
+              aria-hidden="true"
+            />
+          </button>
+          <p class="title">후기 보기</p>
+          <span class="write-button" aria-hidden="true">
+            <img src="../../static/assets/icons/mypage/write.svg" alt="" />
+          </span>
+        </header>
+
+        <div class="review-tabs" role="tablist" aria-label="후기 종류">
+          <button
+            class="review-tab active"
+            id="received-tab"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="review-content"
+            data-review-type="received"
+          >
+            받은 후기
+          </button>
+          <button
+            class="review-tab"
+            id="written-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="review-content"
+            data-review-type="written"
+          >
+            내가 쓴 후기
+          </button>
+        </div>
+
+        <section
+          class="review-content"
+          id="review-content"
+          role="tabpanel"
+          aria-labelledby="received-tab"
+        >
+          <!-- 리뷰 리스트 (무) -->
+          <div class="empty-state">
+            <img
+              class="empty-illustration"
+              src="../../static/assets/images/review.png"
+              alt=""
+              aria-hidden="true"
+            />
+            <h2>아직 받은 후기가 없어요.</h2>
+            <p>협업이 끝나면 파트너가 후기를<br />남길 수 있어요.</p>
+          </div>
+
+          <!-- 리뷰 리스트 (유) -->
+          <div class="review-list" hidden></div>
+        </section>
+
+        <template id="review-card-template">
+          <article class="review-card">
+            <div class="review-profile">
+              <img class="reviewer-image" alt="" />
+            </div>
+            <div class="review-summary">
+              <h2 class="reviewer-name"></h2>
+              <dl>
+                <div>
+                  <dt>
+                    <img
+                      src="../../static/assets/icons/mypage/clock.svg"
+                      alt=""
+                      aria-hidden="true"
+                    />
+                    기간
+                  </dt>
+                  <dd class="review-period"></dd>
+                </div>
+                <div>
+                  <dt>
+                    <img
+                      src="../../static/assets/icons/mypage/book.svg"
+                      alt=""
+                      aria-hidden="true"
+                    />
+                    프로젝트
+                  </dt>
+                  <dd class="review-project"></dd>
+                </div>
+              </dl>
+            </div>
+            <p class="review-body"></p>
+          </article>
+        </template>
+      </main>
+    </div>
+
+    <script src="../../static/js/account/review.js"></script>
   </body>
 </html>

@@ -39,6 +39,10 @@
   height: 20px;
 }
 
+button {
+  cursor: pointer;
+}
+
 .empty-state {
   display: flex;
   flex-direction: column;
