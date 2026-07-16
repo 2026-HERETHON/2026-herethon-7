@@ -1,14 +1,15 @@
+{% load static %}
 <!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../static/css/global.css" />
-    <link rel="stylesheet" href="../../static/css/account/complete.css" />
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/account/complete.css' %}" />
     <link
       rel="icon"
       type="image/png"
-      href="../../static/assets/images/favicon.png"
+      href="{% static 'assets/images/favicon.png' %}"
     />
     <title>Re:Link</title>
   </head>
@@ -16,7 +17,7 @@
     <div id="app">
       <div class="complete-container">
         <img
-          src="../../static/assets/images/complete.png"
+          src="{% static 'assets/images/complete.png' %}"
           class="complete-img"
           alt="회원가입 완료"
         />
@@ -29,11 +30,10 @@
         </p>
 
         <div class="bottom">
-          <button class="green-btn" onclick="location.href = 'profile.html'">
+          <a class="green-btn" href="{% url 'user:profile_create' %}">
             프로필 작성하러 가기
-          </button>
-          <a class="later-btn" href="">나중에 하기</a>
-          <!-- 홈으로 이동 -->
+          </a>
+          <a class="later-btn" href="{% url 'match:home' %}">나중에 하기</a>
         </div>
       </div>
     </div>

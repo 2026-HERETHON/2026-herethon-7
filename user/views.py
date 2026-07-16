@@ -32,7 +32,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('user:profile_create')
+            return redirect('user:signup_complete')
     else:
         form = SignupForm()
     return render(request, 'account/signup.html', {'form': form})
@@ -67,6 +67,12 @@ def email_verify_confirm(request):
         else:
             messages.error(request, '인증코드가 일치하지 않습니다.')
     return redirect('user:signup')
+
+
+@login_required
+def signup_complete(request):
+    """회원가입 완료"""
+    return render(request, 'account/complete.html')
 
 
 # ========== 로그인/로그아웃 ==========

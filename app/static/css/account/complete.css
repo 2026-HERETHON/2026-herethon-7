@@ -38,8 +38,12 @@
   margin-top: 145px;
 }
 
-.bottom button {
+.bottom button,
+.bottom .green-btn {
   width: 235px;
+  text-align: center;
+  line-height: 44px;
+  text-decoration: none;
 }
 
 .later-btn {

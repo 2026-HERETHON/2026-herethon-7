@@ -42,7 +42,12 @@
               />
             </label>
 
-            <input type="text" id="name" placeholder="이름을 입력하세요." />
+            <input
+              type="text"
+              id="name"
+              placeholder="이름을 입력하세요."
+              value="{{ user.name|default:'' }}"
+            />
 
             <small class="error-msg">필수 항목을 입력하세요.</small>
           </div>
