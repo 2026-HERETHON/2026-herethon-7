@@ -6,90 +6,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>RE:Link 워크스페이스</title>
 
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
     <link rel="stylesheet" href="{% static 'css/common.css' %}" />
     <link rel="stylesheet" href="{% static 'css/project.css' %}" />
   </head>
 
   <body>
-    <div class="app-shell">
-      <main class="workspace-page">
-        <header class="workspace-header">
-          <a
-            class="workspace-back-button"
-            href="{% url 'project:project_list' %}"
-            aria-label="프로젝트 목록으로 돌아가기"
-            >‹</a
-          >
+    <div id="app">
+      <div class="app-shell">
+        <main class="workspace-page">
+          <header class="workspace-header">
+            <a
+              class="workspace-back-button"
+              href="{% url 'project:project_list' %}"
+              aria-label="프로젝트 목록으로 돌아가기"
+              >‹</a
+            >
 
-          <h1>워크스페이스</h1>
-        </header>
+            <h1>워크스페이스</h1>
+          </header>
 
-        <section class="workspace-summary">
-          <div class="workspace-summary__heading">
-            <span class="project-status">진행 중</span>
+          <section class="workspace-summary">
+            <div class="workspace-summary__heading">
+              <span class="project-status">진행 중</span>
 
-            <span class="workspace-period">
-              <time>{{ project.start_date|date:"Y.m.d" }}</time>
-              <b>–</b>
-              <time>{{ project.end_date|date:"Y.m.d" }}</time>
-            </span>
-          </div>
-
-          <h2>{{ project.title }}</h2>
-
-          <p>{{ project.proposal.goal }}</p>
-
-          <div class="workspace-progress-heading">
-            <span>전체 진행률</span>
-            <strong>{{ project.progress }}%</strong>
-          </div>
-
-          <div class="project-progress-track">
-            <span
-              class="project-progress-value"
-              style="width: {{ project.progress }}%"
-            ></span>
-          </div>
-        </section>
-
-        <section class="workspace-members">
-          <div class="workspace-section-heading">
-            <h2>함께하는 멤버</h2>
-            <span>{{ members|length }}명</span>
-          </div>
-
-          <div class="workspace-member-list">
-            {% for member in members %}
-            <article class="workspace-member">
-              <img src="{% static 'assets/images/profile-1.png' %}" alt="" />
-
-              <div>
-                <strong>{{ member.user.name }}</strong>
-                <span>프로젝트 멤버</span>
-              </div>
-            </article>
-            {% empty %}
-            <p class="workspace-empty-text">참여 중인 멤버가 없습니다.</p>
-            {% endfor %}
-          </div>
-        </section>
-
-        <section class="workspace-menu">
-          <a
-            class="workspace-menu-card"
-            href="{% url 'project:task_list' project.id %}"
-          >
-            <div class="workspace-menu-card__icon">✓</div>
-
-            <div>
-              <strong>업무 관리</strong>
-              <span>업무를 추가하고 진행 상태를 관리해요.</span>
+              <span class="workspace-period">
+                <time>{{ project.start_date|date:"Y.m.d" }}</time>
+                <b>–</b>
+                <time>{{ project.end_date|date:"Y.m.d" }}</time>
+              </span>
             </div>
 
-            <b>›</b>
-          </a>
-        </section>
-      </main>
+            <h2>{{ project.title }}</h2>
+
+            <p>{{ project.proposal.goal }}</p>
+
+            <div class="workspace-progress-heading">
+              <span>전체 진행률</span>
+              <strong>{{ project.progress }}%</strong>
+            </div>
+
+            <div class="project-progress-track">
+              <span
+                class="project-progress-value"
+                style="width: {{ project.progress }}%"
+              ></span>
+            </div>
+          </section>
+
+          <section class="workspace-members">
+            <div class="workspace-section-heading">
+              <h2>함께하는 멤버</h2>
+              <span>{{ members|length }}명</span>
+            </div>
+
+            <div class="workspace-member-list">
+              {% for member in members %}
+              <article class="workspace-member">
+                {% if member.user.name == '김서연' %}
+                <img
+                  src="{% static 'assets/images/profiles/profile-01.png' %}"
+                  alt="김서연 프로필"
+                />
+                {% elif member.user.name == '이지연' %}
+                <img
+                  src="{% static 'assets/images/profiles/profile-02.png' %}"
+                  alt="이지연 프로필"
+                />
+                {% elif member.user.name == '김서현' %}
+                <img
+                  src="{% static 'assets/images/profiles/profile-03.png' %}"
+                  alt="김서현 프로필"
+                />
+                {% else %}
+                <img
+                  src="{% static 'assets/images/profiles/profile-04.png' %}"
+                  alt="{{ member.user.name }} 프로필"
+                />
+                {% endif %}
+
+                <div>
+                  <strong>{{ member.user.name }}</strong>
+                  <span>프로젝트 멤버</span>
+                </div>
+              </article>
+              {% empty %}
+              <p class="workspace-empty-text">참여 중인 멤버가 없습니다.</p>
+              {% endfor %}
+            </div>
+          </section>
+
+          <section class="workspace-menu">
+            <a
+              class="workspace-menu-card"
+              href="{% url 'project:task_list' project.id %}"
+            >
+              <div class="workspace-menu-card__icon">✓</div>
+
+              <div>
+                <strong>업무 관리</strong>
+                <span>업무를 추가하고 진행 상태를 관리해요.</span>
+              </div>
+
+              <b>›</b>
+            </a>
+          </section>
+        </main>
+      </div>
     </div>
   </body>
 </html>

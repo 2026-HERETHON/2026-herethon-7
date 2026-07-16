@@ -6,96 +6,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>RE:Link 프로젝트</title>
 
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
     <link rel="stylesheet" href="{% static 'css/common.css' %}" />
     <link rel="stylesheet" href="{% static 'css/project.css' %}" />
   </head>
 
   <body>
-    <div class="app-shell">
-      <main class="project-list-page">
-        <header class="project-list-header">
-          <h1>프로젝트</h1>
-        </header>
+    <div id="app">
+      <div class="app-shell">
+        <main class="project-list-page">
+          <header class="project-list-header">
+            <h1>프로젝트</h1>
+          </header>
 
-        <nav class="project-filter" aria-label="프로젝트 상태">
-          <a
-            href="{% url 'project:project_list' %}?status=IN_PROGRESS"
-            class="{% if selected_status != 'COMPLETED' %}is-active{% endif %}"
-          >
-            진행 중
-          </a>
-
-          <a
-            href="{% url 'project:project_list' %}?status=COMPLETED"
-            class="{% if selected_status == 'COMPLETED' %}is-active{% endif %}"
-          >
-            완료
-          </a>
-        </nav>
-
-        {% if projects %}
-        <section class="project-card-list" aria-label="프로젝트 목록">
-          {% for project in projects %}
-          <a
-            class="project-list-card"
-            href="{% url 'project:project_overview' project.id %}"
-          >
-            <div class="project-list-card__heading">
-              <span class="project-status">
-                {% if project.status == 'COMPLETED' %} 완료 {% else %} 진행 중
-                {% endif %}
-              </span>
-
-              <span class="project-period">
-                {{ project.start_date|date:"Y.m.d" }} –
-                {{project.end_date|date:"Y.m.d" }}
-              </span>
-            </div>
-
-            <h2>{{ project.title }}</h2>
-
-            {% if project.proposal %}
-            <p class="project-goal">
-              {{ project.proposal.goal|default:"프로젝트 목표가 없습니다." }}
-            </p>
-            {% endif %}
-
-            <div class="project-progress-heading">
-              <span>전체 진행률</span>
-              <strong>{{ project.progress }}%</strong>
-            </div>
-
-            <div
-              class="project-progress-track"
-              aria-label="프로젝트 진행률 {{ project.progress }}%"
+          <nav class="project-filter" aria-label="프로젝트 상태">
+            <a
+              href="{% url 'project:project_list' %}?status=IN_PROGRESS"
+              class="{% if selected_status != 'COMPLETED' %}is-active{% endif %}"
             >
-              <span
-                class="project-progress-value"
-                style="width: {{ project.progress }}%"
-              ></span>
-            </div>
+              진행 중
+            </a>
 
-            <span class="project-card-link"> 워크스페이스 바로가기 › </span>
-          </a>
-          {% endfor %}
-        </section>
+            <a
+              href="{% url 'project:project_list' %}?status=COMPLETED"
+              class="{% if selected_status == 'COMPLETED' %}is-active{% endif %}"
+            >
+              완료
+            </a>
+          </nav>
 
-        {% else %}
-        <section class="project-list-empty">
-          {% if selected_status == 'COMPLETED' %}
-          <h2>완료된 프로젝트가 없어요.</h2>
-          <p>완료한 프로젝트가 생기면 이곳에서 확인할 수 있어요.</p>
+          {% if projects %}
+          <section class="project-card-list" aria-label="프로젝트 목록">
+            {% for project in projects %}
+            <a
+              class="project-list-card"
+              href="{% url 'project:project_overview' project.id %}"
+            >
+              <div class="project-list-card__heading">
+                <span class="project-status">
+                  {% if project.status == 'COMPLETED' %} 완료 {% else %} 진행 중
+                  {% endif %}
+                </span>
+
+                <span class="project-period">
+                  {{ project.start_date|date:"Y.m.d" }} –
+                  {{project.end_date|date:"Y.m.d" }}
+                </span>
+              </div>
+
+              <h2>{{ project.title }}</h2>
+
+              {% if project.proposal %}
+              <p class="project-goal">
+                {{ project.proposal.goal|default:"프로젝트 목표가 없습니다." }}
+              </p>
+              {% endif %}
+
+              <div class="project-progress-heading">
+                <span>전체 진행률</span>
+                <strong>{{ project.progress }}%</strong>
+              </div>
+
+              <div
+                class="project-progress-track"
+                aria-label="프로젝트 진행률 {{ project.progress }}%"
+              >
+                <span
+                  class="project-progress-value"
+                  style="width: {{ project.progress }}%"
+                ></span>
+              </div>
+
+              <span class="project-card-link"> 워크스페이스 바로가기 › </span>
+            </a>
+            {% endfor %}
+          </section>
+
           {% else %}
-          <h2>진행 중인 프로젝트가 없어요.</h2>
-          <p>협업 제안을 수락하면 새로운 프로젝트가 만들어져요.</p>
+          <section class="project-list-empty">
+            {% if selected_status == 'COMPLETED' %}
+            <h2>완료된 프로젝트가 없어요.</h2>
+            <p>완료한 프로젝트가 생기면 이곳에서 확인할 수 있어요.</p>
+            {% else %}
+            <h2>진행 중인 프로젝트가 없어요.</h2>
+            <p>협업 제안을 수락하면 새로운 프로젝트가 만들어져요.</p>
 
-          <a href="{% url 'match:matching_list' %}"> 매칭 둘러보기 </a>
+            <a href="{% url 'match:matching_list' %}"> 매칭 둘러보기 </a>
+            {% endif %}
+          </section>
           {% endif %}
-        </section>
-        {% endif %}
-      </main>
+        </main>
 
-      {% include 'components/bottom_nav.html' with active_nav='projects' %}
+        {% include 'components/bottom_nav.html' with active_nav='projects' %}
+      </div>
     </div>
   </body>
 </html>

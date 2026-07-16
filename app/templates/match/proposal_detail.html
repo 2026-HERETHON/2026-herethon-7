@@ -6,142 +6,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>RE:Link 받은 제안 상세</title>
 
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
     <link rel="stylesheet" href="{% static 'css/common.css' %}" />
     <link rel="stylesheet" href="{% static 'css/matching.css' %}" />
   </head>
 
   <body>
-    <div class="app-shell">
-      <main class="proposal-detail-page">
-        <header class="proposal-detail-header">
-          <a
-            class="back-button"
-            href="{% url 'match:proposal_received_list' %}"
-            aria-label="받은 제안 목록으로 돌아가기"
-          >
-            ‹
-          </a>
+    <div id="app">
+      <div class="app-shell">
+        <main class="proposal-detail-page">
+          <header class="proposal-detail-header">
+            <a
+              class="back-button"
+              href="{% url 'match:proposal_received_list' %}"
+              aria-label="받은 제안 목록으로 돌아가기"
+            >
+              ‹
+            </a>
 
-          <h1>제안 상세</h1>
-        </header>
+            <h1>제안 상세</h1>
+          </header>
 
-        <section class="proposal-sender">
-          <img
-            class="proposal-sender__profile"
-            src="{% static 'assets/images/profile-1.png' %}"
-            alt=""
-          />
+          <section class="proposal-sender">
+            {% if proposal.sender.name == '김서연' %}
+            <img
+              class="proposal-sender__profile"
+              src="{% static 'assets/images/profiles/profile-01.png' %}"
+              alt="김서연 프로필"
+            />
+            {% elif proposal.sender.name == '이지연' %}
+            <img
+              class="proposal-sender__profile"
+              src="{% static 'assets/images/profiles/profile-02.png' %}"
+              alt="이지연 프로필"
+            />
+            {% elif proposal.sender.name == '김서현' %}
+            <img
+              class="proposal-sender__profile"
+              src="{% static 'assets/images/profiles/profile-03.png' %}"
+              alt="김서현 프로필"
+            />
+            {% else %}
+            <img
+              class="proposal-sender__profile"
+              src="{% static 'assets/images/profiles/profile-04.png' %}"
+              alt="{{ proposal.sender.name }} 프로필"
+            />
+            {% endif %}
 
-          <div class="proposal-sender__info">
-            <strong>{{ proposal.sender.name }}</strong>
-            <span>협업 제안을 보냈어요.</span>
+            <div class="proposal-sender__info">
+              <strong>{{ proposal.sender.name }}</strong>
+              <span>협업 제안을 보냈어요.</span>
+            </div>
+
+            <span class="proposal-detail-status">
+              {{ proposal.get_status_display }}
+            </span>
+          </section>
+
+          <section class="proposal-detail-card">
+            <span class="proposal-detail-label">프로젝트 제목</span>
+            <h2>{{ proposal.title }}</h2>
+
+            <div class="proposal-detail-divider"></div>
+
+            <span class="proposal-detail-label">프로젝트 목표</span>
+            <p>{{ proposal.goal }}</p>
+          </section>
+
+          <section class="proposal-detail-card">
+            <h2>교환할 재능</h2>
+
+            <div class="proposal-talent-row">
+              <div>
+                <span>제공 재능</span>
+                <strong>{{ proposal.give_talent.name }}</strong>
+              </div>
+
+              <span class="proposal-exchange-icon" aria-hidden="true">↔</span>
+
+              <div>
+                <span>필요 재능</span>
+                <strong>{{ proposal.need_talent.name }}</strong>
+              </div>
+            </div>
+          </section>
+
+          <section class="proposal-detail-card">
+            <h2>협업 조건</h2>
+
+            <dl class="proposal-condition-list">
+              <div>
+                <dt>협업 방식</dt>
+                <dd>{{ proposal.get_mode_display }}</dd>
+              </div>
+
+              <div>
+                <dt>기간</dt>
+                <dd>{{ proposal.period }}주</dd>
+              </div>
+
+              <div>
+                <dt>주당 가능 시간</dt>
+                <dd>{{ proposal.get_weekly_time_display }}</dd>
+              </div>
+
+              <div>
+                <dt>소통 방식</dt>
+                <dd>{{ proposal.get_communication_display }}</dd>
+              </div>
+            </dl>
+          </section>
+
+          {% if proposal.message %}
+          <section class="proposal-detail-card">
+            <h2>제안 메시지</h2>
+            <p class="proposal-message">{{ proposal.message|linebreaksbr }}</p>
+          </section>
+          {% endif %} {% if proposal.attachment %}
+          <section class="proposal-detail-card">
+            <h2>첨부파일</h2>
+
+            <a
+              class="proposal-attachment"
+              href="{{ proposal.attachment.url }}"
+              target="_blank"
+              rel="noopener"
+            >
+              첨부파일 확인하기
+            </a>
+          </section>
+          {% endif %} {% if can_reply %}
+          <div class="proposal-response-buttons">
+            <form
+              method="post"
+              action="{% url 'match:proposal_reject' proposal.id %}"
+            >
+              {% csrf_token %}
+              <button class="proposal-reject-button" type="submit">
+                거절하기
+              </button>
+            </form>
+
+            <form
+              method="post"
+              action="{% url 'match:proposal_accept' proposal.id %}"
+            >
+              {% csrf_token %}
+              <button class="proposal-accept-button" type="submit">
+                수락하기
+              </button>
+            </form>
           </div>
+          {% else %}
+          <div class="proposal-processed-message">이미 처리된 제안입니다.</div>
+          {% endif %}
+        </main>
 
-          <span class="proposal-detail-status">
-            {{ proposal.get_status_display }}
-          </span>
-        </section>
-
-        <section class="proposal-detail-card">
-          <span class="proposal-detail-label">프로젝트 제목</span>
-          <h2>{{ proposal.title }}</h2>
-
-          <div class="proposal-detail-divider"></div>
-
-          <span class="proposal-detail-label">프로젝트 목표</span>
-          <p>{{ proposal.goal }}</p>
-        </section>
-
-        <section class="proposal-detail-card">
-          <h2>교환할 재능</h2>
-
-          <div class="proposal-talent-row">
-            <div>
-              <span>제공 재능</span>
-              <strong>{{ proposal.give_talent.name }}</strong>
-            </div>
-
-            <span class="proposal-exchange-icon" aria-hidden="true">↔</span>
-
-            <div>
-              <span>필요 재능</span>
-              <strong>{{ proposal.need_talent.name }}</strong>
-            </div>
-          </div>
-        </section>
-
-        <section class="proposal-detail-card">
-          <h2>협업 조건</h2>
-
-          <dl class="proposal-condition-list">
-            <div>
-              <dt>협업 방식</dt>
-              <dd>{{ proposal.get_mode_display }}</dd>
-            </div>
-
-            <div>
-              <dt>기간</dt>
-              <dd>{{ proposal.period }}주</dd>
-            </div>
-
-            <div>
-              <dt>주당 가능 시간</dt>
-              <dd>{{ proposal.get_weekly_time_display }}</dd>
-            </div>
-
-            <div>
-              <dt>소통 방식</dt>
-              <dd>{{ proposal.get_communication_display }}</dd>
-            </div>
-          </dl>
-        </section>
-
-        {% if proposal.message %}
-        <section class="proposal-detail-card">
-          <h2>제안 메시지</h2>
-          <p class="proposal-message">{{ proposal.message|linebreaksbr }}</p>
-        </section>
-        {% endif %} {% if proposal.attachment %}
-        <section class="proposal-detail-card">
-          <h2>첨부파일</h2>
-
-          <a
-            class="proposal-attachment"
-            href="{{ proposal.attachment.url }}"
-            target="_blank"
-            rel="noopener"
-          >
-            첨부파일 확인하기
-          </a>
-        </section>
-        {% endif %} {% if can_reply %}
-        <div class="proposal-response-buttons">
-          <form
-            method="post"
-            action="{% url 'match:proposal_reject' proposal.id %}"
-          >
-            {% csrf_token %}
-            <button class="proposal-reject-button" type="submit">
-              거절하기
-            </button>
-          </form>
-
-          <form
-            method="post"
-            action="{% url 'match:proposal_accept' proposal.id %}"
-          >
-            {% csrf_token %}
-            <button class="proposal-accept-button" type="submit">
-              수락하기
-            </button>
-          </form>
-        </div>
-        {% else %}
-        <div class="proposal-processed-message">이미 처리된 제안입니다.</div>
-        {% endif %}
-      </main>
-
-      {% include 'components/bottom_nav.html' with active_nav='matching' %}
+        {% include 'components/bottom_nav.html' with active_nav='matching' %}
+      </div>
     </div>
   </body>
 </html>
