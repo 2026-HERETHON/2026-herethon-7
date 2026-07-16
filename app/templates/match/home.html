@@ -5,10 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>RE:Link 홈</title>
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
     <link rel="stylesheet" href="{% static 'css/common.css' %}" />
     <link rel="stylesheet" href="{% static 'css/home.css' %}" />
   </head>
   <body>
+    <body>
+  <div id="app">
     <div class="app-shell">
       <main class="home">
         <header class="home-header">
@@ -24,7 +27,7 @@
           </button>
         </header>
         <section class="greeting" aria-labelledby="greeting-title">
-          <h1 id="greeting-title">안녕하세요, {{ user_name }}님!</h1>
+          <h1 id="greeting-title">안녕하세요, {{ request.user.name }}님!</h1>
           <p>함께 성장할 파트너를 찾아보세요.</p>
         </section>
 
@@ -39,7 +42,7 @@
           <article class="talent-card talent-card--provide">
             <h2>제공 가능한 재능</h2>
             <div class="talent-card__content">
-              <strong>{{ provided_talent_count }}개</strong>
+              <strong>{{ give_talents|length }}개</strong>
               <img
                 class="talent-card__icon"
                 src="{% static 'assets/icons/material-symbols_book.svg' %}"
@@ -50,7 +53,7 @@
           <article class="talent-card talent-card--need">
             <h2>필요한 재능</h2>
             <div class="talent-card__content">
-              <strong>{{ needed_talent_count }}개</strong>
+              <strong>{{ need_talents|length }}개</strong>
               <img
                 class="talent-card__icon"
                 src="{% static 'assets/icons/degree-hat.svg' %}"
@@ -110,7 +113,8 @@
         </section>
       </main>
 
-      {% include 'components/bottom_nav.html' with active_nav='home' %}
+            {% include 'components/bottom_nav.html' with active_nav='home' %}
     </div>
-  </body>
+  </div>
+</body>
 </html>
