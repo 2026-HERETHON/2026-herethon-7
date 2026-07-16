@@ -199,14 +199,16 @@ def mypage_home(request):
     """마이페이지 홈"""
     user = request.user
     profile = getattr(user, 'profile', None)
+    member_qs = user.projectmember_set.all()
 
     context = {
         'user': user,
         'profile': profile,
-        'project_count': user.projectmember_set.filter(project__status='IN_PROGRESS').count() if profile else 0,
+        'project_count': member_qs.count() if profile else 0,
+        'collaboration_count': member_qs.filter(project__status='IN_PROGRESS').count() if profile else 0,
         'review_count': user.received_reviews.count() if profile else 0,
     }
-    return render(request, 'user/mypage.html', context)
+    return render(request, 'mypage/mypage.html', context)
 
 
 # ========== 포트폴리오 ==========
