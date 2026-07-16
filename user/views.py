@@ -29,25 +29,13 @@ def signup(request):
     """회원가입"""
     if request.method == 'POST':
         form = SignupForm(request.POST)
-
-        if not request.session.get('email_verified'):
-            messages.error(request, '이메일 인증을 완료해주세요.')
-            return render(request, 'user/signup.html', {'form': form})
-
-        if request.POST.get('email') != request.session.get('verify_email'):
-            messages.error(request, '인증한 이메일과 다릅니다.')
-            return render(request, 'user/signup.html', {'form': form})
-
         if form.is_valid():
-            form.save()
-            request.session.pop('verify_code', None)
-            request.session.pop('verify_email', None)
-            request.session.pop('email_verified', None)
-            messages.success(request, '회원가입이 완료되었습니다.')
-            return redirect('user:login')
+            user = form.save()
+            login(request, user)
+            return redirect('user:profile_create')
     else:
         form = SignupForm()
-    return render(request, 'user/signup.html', {'form': form})
+    return render(request, 'account/signup.html', {'form': form})
 
 
 def email_verify_send(request):
@@ -85,6 +73,8 @@ def email_verify_confirm(request):
 
 def login_view(request):
     """로그인"""
+    login_error = False
+
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -103,11 +93,15 @@ def login_view(request):
                 if not hasattr(user, 'profile'):
                     return redirect('user:profile_create')
                 return redirect('match:home')
-            else:
-                messages.error(request, '이메일 또는 비밀번호가 올바르지 않습니다.')
+            login_error = True
+        else:
+            login_error = True
     else:
         form = LoginForm()
-    return render(request, 'user/login.html', {'form': form})
+    return render(request, 'account/login.html', {
+        'form': form,
+        'login_error': login_error,
+    })
 
 
 def logout_view(request):
@@ -163,7 +157,7 @@ def profile_create(request):
         form = ProfileForm(user=request.user)
 
     talents = Talent.objects.all()
-    return render(request, 'user/profile_form.html', {
+    return render(request, 'account/profile.html', {
         'form': form,
         'talents': talents,
         'is_edit': False,

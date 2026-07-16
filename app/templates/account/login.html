@@ -1,14 +1,15 @@
+{% load static %}
 <!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../static/css/global.css" />
-    <link rel="stylesheet" href="../../static/css/account/login.css" />
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/account/login.css' %}" />
     <link
       rel="icon"
       type="image/png"
-      href="../../static/assets/images/favicon.png"
+      href="{% static 'assets/images/favicon.png' %}"
     />
     <title>Re:Link</title>
   </head>
@@ -17,34 +18,59 @@
       <main class="login-container">
         <img
           class="logo"
-          src="../../static/assets/images/logo-icon.svg"
+          src="{% static 'assets/images/logo-icon.svg' %}"
           alt="logo"
         />
 
-        <form class="login-form">
-          <input type="text" placeholder="아이디 입력" />
+        <form
+          class="login-form"
+          method="post"
+          action="{% url 'user:login' %}"
+          novalidate
+          {% if login_error %}data-login-error="true"{% endif %}
+        >
+          {% csrf_token %}
 
-          <input type="password" placeholder="비밀번호 입력" />
+          <div class="form-group">
+            <input
+              type="email"
+              name="email"
+              placeholder="이메일 입력"
+              value="{{ form.email.value|default:'' }}"
+            />
+            <small class="error-msg">필수 항목을 입력하세요.</small>
+          </div>
+
+          <div class="form-group">
+            <input type="password" name="password" placeholder="비밀번호 입력" />
+            <small class="error-msg">필수 항목을 입력하세요.</small>
+          </div>
+
+          <p class="login-error-msg">
+            이메일 또는 비밀번호가 올바르지 않습니다.
+          </p>
 
           <label class="save-id">
-            <input type="checkbox" />
+            <input type="checkbox" name="remember_me" />
             <span>아이디 저장</span>
           </label>
 
           <button type="submit">로그인</button>
 
           <div class="login-link">
-            <a>아이디/비밀번호 찾기</a>
+            <a href="{% url 'user:password_find' %}">아이디/비밀번호 찾기</a>
             <span>|</span>
-            <a href="signup.html">회원가입</a>
+            <a href="{% url 'user:signup' %}">회원가입</a>
           </div>
 
           <div class="social-container">
             <p class="social">다른 계정으로 로그인/회원가입</p>
-            <img src="../../static/assets/images/sns.png" alt="social" />
+            <img src="{% static 'assets/images/sns.png' %}" alt="social" />
           </div>
         </form>
       </main>
     </div>
+
+    <script src="{% static 'js/account/login.js' %}"></script>
   </body>
 </html>

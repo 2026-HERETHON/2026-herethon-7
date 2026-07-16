@@ -1,14 +1,15 @@
+{% load static %}
 <!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../static/css/global.css" />
-    <link rel="stylesheet" href="../../static/css/account/signup.css" />
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/account/signup.css' %}" />
     <link
       rel="icon"
       type="image/png"
-      href="../../static/assets/images/favicon.png"
+      href="{% static 'assets/images/favicon.png' %}"
     />
     <title>Re:Link</title>
   </head>
@@ -17,17 +18,29 @@
       <main class="signup-container">
         <p class="title">회원가입</p>
 
-        <form class="signup-form" novalidate>
-          <!-- 아이디 -->
+        <form
+          class="signup-form"
+          method="post"
+          action="{% url 'user:signup' %}"
+          novalidate
+        >
+          {% csrf_token %}
+
+          <!-- 이메일 -->
           <div class="form-group">
             <label>
-              아이디
+              이메일
               <img
-                src="../../static/assets/icons/required.svg"
+                src="{% static 'assets/icons/required.svg' %}"
                 class="required-icon"
               />
             </label>
-            <input type="text" placeholder="아이디를 입력하세요." />
+            <input
+              type="email"
+              name="email"
+              placeholder="이메일을 입력하세요."
+              value="{{ form.email.value|default:'' }}"
+            />
 
             <small class="error-msg">필수 항목을 입력하세요.</small>
           </div>
@@ -37,13 +50,14 @@
             <label>
               비밀번호
               <img
-                src="../../static/assets/icons/required.svg"
+                src="{% static 'assets/icons/required.svg' %}"
                 class="required-icon"
               />
             </label>
             <input
               type="password"
               id="password"
+              name="password"
               placeholder="비밀번호를 입력하세요."
             />
 
@@ -55,13 +69,14 @@
             <label>
               비밀번호 확인
               <img
-                src="../../static/assets/icons/required.svg"
+                src="{% static 'assets/icons/required.svg' %}"
                 class="required-icon"
               />
             </label>
             <input
               type="password"
               id="password-check"
+              name="password_confirm"
               placeholder="비밀번호를 다시 한 번 입력하세요."
             />
 
@@ -71,7 +86,12 @@
           <!-- 이름 -->
           <div class="form-group">
             <label>이름</label>
-            <input type="text" placeholder="이름을 입력하세요." />
+            <input
+              type="text"
+              name="name"
+              placeholder="이름을 입력하세요."
+              value="{{ form.name.value|default:'' }}"
+            />
 
             <small class="error-msg">필수 항목을 입력하세요.</small>
           </div>
@@ -92,7 +112,7 @@
               <span>
                 이용약관 동의
                 <img
-                  src="../../static/assets/icons/required.svg"
+                  src="{% static 'assets/icons/required.svg' %}"
                   class="required-icon"
                 />
               </span>
@@ -103,7 +123,7 @@
               <span>
                 개인정보 수집 및 이용 동의
                 <img
-                  src="../../static/assets/icons/required.svg"
+                  src="{% static 'assets/icons/required.svg' %}"
                   class="required-icon"
                 />
               </span>
@@ -120,6 +140,6 @@
       </main>
     </div>
 
-    <script src="../../static/js/account/signup.js"></script>
+    <script src="{% static 'js/account/signup.js' %}"></script>
   </body>
 </html>
