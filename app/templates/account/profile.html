@@ -18,7 +18,12 @@
       <main class="profile-container">
         <p class="title" id="profile-page-title">내 프로필 등록</p>
 
-        <form class="profile-form" novalidate>
+        <form
+          class="profile-form"
+          novalidate
+          data-home-url="{% url 'match:home' %}"
+          data-mypage-url="{% url 'user:mypage_home' %}"
+        >
           <!-- 프로필 사진 -->
           <div class="profile-image-area">
             <label for="profile-image">
