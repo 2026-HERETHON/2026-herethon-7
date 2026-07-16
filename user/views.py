@@ -185,7 +185,7 @@ def profile_edit(request):
         form = ProfileForm(instance=profile, user=request.user)
 
     talents = Talent.objects.all()
-    return render(request, 'user/profile_form.html', {
+    return render(request, 'account/profile.html', {
         'form': form,
         'talents': talents,
         'is_edit': True,

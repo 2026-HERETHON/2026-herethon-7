@@ -23,6 +23,17 @@
           novalidate
           data-home-url="{% url 'match:home' %}"
           data-mypage-url="{% url 'user:mypage_home' %}"
+          {%
+          if
+          user.profile
+          %}
+          data-saved-intro="{{ user.profile.intro|default:'' }}"
+          data-saved-identity="{{ user.profile.identity }}"
+          data-saved-work-style="{{ user.profile.work_style }}"
+          data-saved-image="{% if user.profile.profile_image %}{{ user.profile.profile_image.url }}{% endif %}"
+          {%
+          endif
+          %}
         >
           <!-- 프로필 사진 -->
           <div class="profile-image-area">

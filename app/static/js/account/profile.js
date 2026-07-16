@@ -95,6 +95,9 @@ form.addEventListener("submit", function (e) {
     const career = document.querySelector("#career-group .select-btn.active");
     const workStyle = document.querySelector("#work-group .select-btn.active");
     const previousProfile = getSavedProfile();
+    const savedImage =
+      profileImageData ||
+      (preview.src.includes("profile.svg") ? "" : preview.src);
     const savedProfile = {
       name: nameInput.value.trim(),
       intro: intro.value.trim(),
@@ -103,7 +106,7 @@ form.addEventListener("submit", function (e) {
       provide: selectedData.provide,
       need: selectedData.need,
       interest: selectedData.interest,
-      image: profileImageData,
+      image: savedImage,
       counts: previousProfile?.counts || {
         projects: 0,
         collaborations: 0,
@@ -338,6 +341,26 @@ function selectButton(groupSelector, savedText) {
     });
 }
 
+function selectButtonByValue(groupSelector, value) {
+  if (!value) return;
+
+  document
+    .querySelectorAll(`${groupSelector} .select-btn`)
+    .forEach((button) => {
+      button.classList.toggle("active", button.dataset.value === value);
+    });
+}
+
+const IDENTITY_VALUES = {
+  EXPERIENCED: "experienced",
+  STARTER: "starter",
+};
+
+const WORK_STYLE_VALUES = {
+  ONE: "one",
+  GROUP: "group",
+};
+
 function fillSelectedBox(type, items) {
   if (!Array.isArray(items) || items.length === 0) return;
 
@@ -361,24 +384,48 @@ function loadProfileForEdit() {
   document.querySelector("#profile-page-title").textContent = "내 프로필 관리";
 
   const savedProfile = getSavedProfile();
-  if (!savedProfile) return;
 
-  document.querySelector("#name").value = savedProfile.name || "";
-  intro.value = savedProfile.intro || "";
-  count.textContent = `${intro.value.length}/50`;
+  if (savedProfile) {
+    document.querySelector("#name").value = savedProfile.name || "";
+    intro.value = savedProfile.intro || "";
+    count.textContent = `${intro.value.length}/50`;
 
-  if (savedProfile.image) {
-    profileImageData = savedProfile.image;
-    preview.src = savedProfile.image;
+    if (savedProfile.image) {
+      profileImageData = savedProfile.image;
+      preview.src = savedProfile.image;
+      preview.classList.add("uploaded");
+      preview.parentElement.classList.add("uploaded");
+    }
+
+    selectButton("#career-group", savedProfile.career);
+    selectButton("#work-group", savedProfile.workStyle);
+    fillSelectedBox("provide", savedProfile.provide);
+    fillSelectedBox("need", savedProfile.need);
+    fillSelectedBox("interest", savedProfile.interest);
+    return;
+  }
+
+  const serverIntro = form.dataset.savedIntro;
+  const serverIdentity = form.dataset.savedIdentity;
+  const serverWorkStyle = form.dataset.savedWorkStyle;
+  const serverImage = form.dataset.savedImage;
+
+  if (!serverIdentity && !serverImage) return;
+
+  if (serverIntro) {
+    intro.value = serverIntro;
+    count.textContent = `${intro.value.length}/50`;
+  }
+
+  if (serverImage) {
+    profileImageData = serverImage;
+    preview.src = serverImage;
     preview.classList.add("uploaded");
     preview.parentElement.classList.add("uploaded");
   }
 
-  selectButton("#career-group", savedProfile.career);
-  selectButton("#work-group", savedProfile.workStyle);
-  fillSelectedBox("provide", savedProfile.provide);
-  fillSelectedBox("need", savedProfile.need);
-  fillSelectedBox("interest", savedProfile.interest);
+  selectButtonByValue("#career-group", IDENTITY_VALUES[serverIdentity]);
+  selectButtonByValue("#work-group", WORK_STYLE_VALUES[serverWorkStyle]);
 }
 
 loadProfileForEdit();
