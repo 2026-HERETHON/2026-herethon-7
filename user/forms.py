@@ -57,11 +57,13 @@ class ProfileForm(forms.ModelForm):
     give_talents = forms.ModelMultipleChoiceField(
         queryset=Talent.objects.all(),
         required=True,
+        widget=forms.CheckboxSelectMultiple,
         label='줄 수 있는 것 (기부재능)'
     )
     need_talents = forms.ModelMultipleChoiceField(
         queryset=Talent.objects.all(),
         required=True,
+        widget=forms.CheckboxSelectMultiple,
         label='필요한 것 (희망재능)'
     )
 

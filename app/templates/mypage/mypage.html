@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../static/css/global.css" />
+    <link rel="stylesheet" href="../../static/css/mypage/mypage.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../../static/assets/images/favicon.png"
+    />
+    <title>Re:Link</title>
+  </head>
+  <body>
+    <div id="app">
+      <main class="mypage-container">
+        <header class="mypage-header">
+          <p class="title">마이 페이지</p>
+
+          <button class="notification-button" type="button" aria-label="알림">
+            <img
+              src="../../static/assets/icons/mypage/bell.svg"
+              alt=""
+              aria-hidden="true"
+            />
+          </button>
+        </header>
+
+        <section class="profile-card">
+          <div class="profile-summary">
+            <div class="profile-image">
+              <img
+                id="profile-image"
+                src="../../static/assets/icons/profile.svg"
+                alt="프로필"
+              />
+            </div>
+
+            <div class="profile-copy">
+              <p class="profile-name" id="profile-name">사용자 이름</p>
+              <a
+                class="profile-empty-message"
+                href="../account/profile.html?from=mypage"
+              >
+                프로필을 등록해주세요.
+              </a>
+              <p class="profile-career" id="profile-career" hidden></p>
+            </div>
+          </div>
+
+          <dl class="activity-summary">
+            <div class="activity-item">
+              <dt>
+                <img
+                  src="../../static/assets/icons/mypage/project.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <span id="project-count">0</span>
+              </dt>
+              <dd>참여 프로젝트</dd>
+            </div>
+            <div class="activity-item">
+              <dt>
+                <img
+                  src="../../static/assets/icons/mypage/people.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <span id="collaboration-count">0</span>
+              </dt>
+              <dd>협업중</dd>
+            </div>
+            <div class="activity-item">
+              <dt>
+                <img
+                  src="../../static/assets/icons/mypage/star.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <span id="review-count">0</span>
+              </dt>
+              <dd>받은 후기</dd>
+            </div>
+          </dl>
+        </section>
+
+        <img
+          class="growth-banner"
+          src="../../static/assets/images/mypage-banner.png"
+          alt="이번 주도 한 걸음씩, 함께 성장해봐요! 작은 협업이 큰 성장을 만들어요."
+        />
+
+        <nav class="mypage-menu">
+          <a href="../account/profile.html?from=mypage">
+            <img
+              src="../../static/assets/icons/mypage/black-person.svg"
+              alt=""
+              aria-hidden="true"
+            />
+            <span>내 프로필 관리</span>
+            <img
+              class="menu-arrow"
+              src="../../static/assets/icons/mypage/arrow-right.svg"
+              alt=""
+              aria-hidden="true"
+            />
+          </a>
+          <a href="./portfolio-manage.html">
+            <img
+              src="../../static/assets/icons/mypage/black-portfolio.svg"
+              alt=""
+              aria-hidden="true"
+            />
+            <span>포트폴리오 관리</span>
+            <img
+              class="menu-arrow"
+              src="../../static/assets/icons/mypage/arrow-right.svg"
+              alt=""
+              aria-hidden="true"
+            />
+          </a>
+          <a href="./review.html">
+            <img
+              src="../../static/assets/icons/mypage/black-star.svg"
+              alt=""
+              aria-hidden="true"
+            />
+            <span>후기 보기</span>
+            <img
+              class="menu-arrow"
+              src="../../static/assets/icons/mypage/arrow-right.svg"
+              alt=""
+              aria-hidden="true"
+            />
+          </a>
+          <a href="../coming-soon.html">
+            <img
+              src="../../static/assets/icons/mypage/black-setting.svg"
+              alt=""
+              aria-hidden="true"
+            />
+            <span>환경 설정</span>
+            <img
+              class="menu-arrow"
+              src="../../static/assets/icons/mypage/arrow-right.svg"
+              alt=""
+              aria-hidden="true"
+            />
+          </a>
+        </nav>
+      </main>
+    </div>
+
+    <script src="../../static/js/mypage/mypage.js"></script>
+  </body>
+</html>

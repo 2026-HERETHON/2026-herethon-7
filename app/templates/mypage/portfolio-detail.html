@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../static/css/global.css" />
+    <link
+      rel="stylesheet"
+      href="../../static/css/mypage/portfolio-detail.css"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../../static/assets/images/favicon.png"
+    />
+    <title>Re:Link</title>
+  </head>
+  <body>
+    <div id="app">
+      <main class="detail-container">
+        <header class="detail-header">
+          <button class="back-button" type="button" aria-label="뒤로 가기">
+            <img
+              src="../../static/assets/icons/mypage/arrow-left.svg"
+              alt=""
+              aria-hidden="true"
+            />
+          </button>
+          <p class="title">포트폴리오 상세</p>
+        </header>
+
+        <!-- 포트폴리오 상세 정보 (입력 전) -->
+        <section class="edit-view" hidden>
+          <div class="load-banner">
+            <div class="load-title">
+              <img
+                src="../../static/assets/icons/mypage/check.svg"
+                alt=""
+                aria-hidden="true"
+              />
+              <strong>프로젝트 정보 불러오기 완료</strong>
+            </div>
+            <p>프로젝트 워크스페이스 정보가 자동으로 불러와졌어요.</p>
+          </div>
+
+          <section class="project-info-card" aria-label="프로젝트 정보">
+            <dl>
+              <div>
+                <dt>프로젝트명</dt>
+                <dd data-field="title"></dd>
+              </div>
+              <div>
+                <dt>기간</dt>
+                <dd data-field="period"></dd>
+              </div>
+              <div>
+                <dt>파트너</dt>
+                <dd data-field="partner"></dd>
+              </div>
+              <div>
+                <dt>협업 형태</dt>
+                <dd data-field="type"></dd>
+              </div>
+              <div>
+                <dt>개요</dt>
+                <dd data-field="overview"></dd>
+              </div>
+              <div>
+                <dt>역할</dt>
+                <dd data-field="role"></dd>
+              </div>
+            </dl>
+          </section>
+
+          <form class="portfolio-detail-form">
+            <section class="form-section">
+              <h2>성과 및 결과물</h2>
+              <div class="result-input-row">
+                <div class="result-inputs"></div>
+                <label class="image-add-box">
+                  <input type="file" accept="image/*" multiple hidden />
+                  <img
+                    src="../../static/assets/icons/mypage/gray-plus.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                  <span>이미지 추가</span>
+                </label>
+              </div>
+            </section>
+
+            <section class="form-section">
+              <label for="learnings"><h2>느낀점/알게된점</h2></label>
+              <div class="textarea-box">
+                <textarea
+                  id="learnings"
+                  maxlength="200"
+                  placeholder="느낀점/알게된점을 입력하세요."
+                ></textarea>
+                <span class="text-count">0/200</span>
+              </div>
+            </section>
+
+            <div class="bottom-actions">
+              <button class="outline-button cancel-button" type="button">
+                취소
+              </button>
+              <button class="fill-button complete-button" type="submit">
+                완료
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- 포트폴리오 상세 정보 (입력 후) -->
+        <section class="read-view" hidden>
+          <section class="summary-card">
+            <div class="project-icon">
+              <img
+                src="../../static/assets/icons/mypage/rocket.svg"
+                alt=""
+                aria-hidden="true"
+              />
+            </div>
+            <div class="summary-content">
+              <h2 data-field="title"></h2>
+              <dl>
+                <div>
+                  <dt>
+                    <img
+                      src="../../static/assets/icons/mypage/calendar.svg"
+                      alt=""
+                      aria-hidden="true"
+                    />기간
+                  </dt>
+                  <dd data-field="period"></dd>
+                </div>
+                <div>
+                  <dt>
+                    <img
+                      src="../../static/assets/icons/mypage/partner.svg"
+                      alt=""
+                      aria-hidden="true"
+                    />파트너
+                  </dt>
+                  <dd data-field="partner"></dd>
+                </div>
+                <div>
+                  <dt>
+                    <img
+                      src="../../static/assets/icons/mypage/cowork.svg"
+                      alt=""
+                      aria-hidden="true"
+                    />협업 형태
+                  </dt>
+                  <dd data-field="type"></dd>
+                </div>
+              </dl>
+            </div>
+          </section>
+
+          <section class="content-section">
+            <h2>프로젝트 개요</h2>
+            <p class="overview-copy" data-field="overview"></p>
+          </section>
+
+          <section class="content-section">
+            <h2>담당 역할</h2>
+            <div class="role-list"></div>
+          </section>
+
+          <section class="content-section">
+            <h2>성과 및 결과물 미리보기</h2>
+            <div class="result-gallery"></div>
+          </section>
+
+          <section class="content-section">
+            <h2>느낀점/알게된점</h2>
+            <ul class="learning-list"></ul>
+          </section>
+
+          <div class="bottom-actions">
+            <button class="outline-button edit-button" type="button">
+              수정하기
+            </button>
+            <button class="fill-button share-button" type="button">
+              공유하기
+            </button>
+          </div>
+        </section>
+
+        <template id="learning-item-template">
+          <li>
+            <img
+              src="../../static/assets/icons/mypage/check.svg"
+              alt=""
+              aria-hidden="true"
+            />
+            <span></span>
+          </li>
+        </template>
+
+        <p class="not-found" hidden>포트폴리오 정보를 찾을 수 없어요.</p>
+      </main>
+    </div>
+    <script src="../../static/js/mypage/portfolio.js"></script>
+  </body>
+</html>
