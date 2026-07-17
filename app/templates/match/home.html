@@ -26,15 +26,12 @@
             />
           </a>
           <a
-  class="notification-button"
-  href="{% url 'match:notification_list' %}"
-  aria-label="알림 페이지로 이동"
->
-  <img
-    src="{% static 'assets/icons/notification.svg' %}"
-    alt=""
-  />
-</a>
+            class="notification-button"
+            href="{% url 'match:notification_list' %}"
+            aria-label="알림 페이지로 이동"
+          >
+            <img src="{% static 'assets/icons/notification.svg' %}" alt="" />
+          </a>
         </header>
         <section class="greeting" aria-labelledby="greeting-title">
           <h1 id="greeting-title">안녕하세요, {{ request.user.name }}님!</h1>
@@ -83,9 +80,14 @@
             <h2 id="project-title">진행중인 프로젝트</h2>
             <span>{{ ongoing_project_count }}개 진행중</span>
           </div>
+
           {% if ongoing_project %}
-          <a class="project-card" href="/projects/{{ ongoing_project.id }}/">
+          <a
+            class="project-card"
+            href="{% url 'project:project_overview' ongoing_project.id %}"
+          >
             <h3>{{ ongoing_project.title }}</h3>
+
             <div class="progress-row">
               <span
                 class="progress-track"
@@ -96,25 +98,26 @@
                   style="--progress: {{ ongoing_project.progress }}%"
                 ></span>
               </span>
+
               <strong>{{ ongoing_project.progress }}%</strong>
             </div>
-            <div class="member-list" aria-label="참여자 4명">
+
+            <div class="member-list" aria-label="프로젝트 참여자">
+              {% for member in ongoing_project.projectmember_set.all %}
+              <!-- 한 명의 프로젝트 참여자 -->
+              {% if member.user.profile.profile_image %}
               <img
-                src="{% static 'assets/images/profiles/profile-01.png' %}"
-                alt=""
+                src="{{ member.user.profile.profile_image.url }}"
+                alt="{{ member.user.name }} 프로필"
               />
-              <img
-                src="{% static 'assets/images/profiles/profile-02.png' %}"
-                alt=""
-              />
-              <img
-                src="{% static 'assets/images/profiles/profile-03.png' %}"
-                alt=""
-              />
+              {% else %}
               <img
                 src="{% static 'assets/images/profiles/profile-04.png' %}"
-                alt=""
+                alt="{{ member.user.name }} 프로필"
               />
+              {% endif %}
+              <!-- 참여자 출력 종료 -->
+              {% endfor %}
             </div>
           </a>
           {% else %}

@@ -56,22 +56,35 @@ def home(request):
         # -----------------------------
         # 진행 중 프로젝트 조회
         # -----------------------------
-        project_members = ProjectMember.objects.filter(
-            user=user
-        ).select_related("project")
+        projects = (
+            Project.objects.filter(
+                projectmember__user=request.user,
+                status=Project.Status.IN_PROGRESS,
+            )
+            .select_related("proposal")
+            .prefetch_related(
+                "projectmember_set__user__profile"
+            )
+            .order_by("-created_at")
+            .distinct()
+        )
 
-        projects = Project.objects.filter(
-            projectmember__user=user,
-            status=Project.Status.IN_PROGRESS,
-        ).distinct()
+        ongoing_project = projects.first()
 
         context = {
             "profile": profile,
             "give_talents": give_talents,
             "need_talents": need_talents,
-            "projects": projects,
-        }
 
+            # 진행 중 프로젝트 전체 목록
+            "projects": projects,
+
+            # /projects/의 진행 중 목록에서 가장 위의 프로젝트
+            "ongoing_project": ongoing_project,
+
+            # 진행 중 프로젝트 개수
+            "ongoing_project_count": projects.count(),
+        }
         # -----------------------------
         # templates/match/home.html
         # -----------------------------
@@ -97,6 +110,8 @@ def home(request):
                 "give_talents": [],
                 "need_talents": [],
                 "projects": [],
+                "ongoing_project": None,
+                "ongoing_project_count": 0,
             }
         )
     

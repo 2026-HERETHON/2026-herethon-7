@@ -38,6 +38,7 @@ def project_list(request):
             .select_related(
                 "proposal",
             )
+            .order_by("-created_at")
             .distinct()
         )
 
