@@ -289,29 +289,38 @@
   line-height: 1;
 }
 
+.back-button img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
 .partner-profile {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin: 10px 5px 28px;
+  margin: 20px 14px 28px;
 }
 
 .partner-profile__image {
-  width: 76px;
-  height: 76px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
   border-radius: 50%;
 }
 
 .partner-profile__info h1 {
-  margin: 0 0 6px;
-  font-size: 22px;
+  margin: 0 0 12px;
+  font-size: 20px;
 }
 
 .partner-profile__info p {
-  margin: 0 0 7px;
-  color: var(--color-muted);
-  font-size: 15px;
+  padding: 5px 10px;
+  color: var(--black);
+  border: 1px solid #0000002b;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .partner-profile__info span {
@@ -326,30 +335,51 @@
 }
 
 .detail-section {
-  margin-bottom: 17px;
+  margin-bottom: 18px;
   padding: 18px 16px;
-
   background: var(--color-white);
   border: 1px solid var(--color-border);
   border-radius: 11px;
   box-shadow: var(--shadow-card);
 }
 
+.icon-container {
+  padding: 6px;
+  background: #f8fcf3;
+  border: 1px solid #7eb9414d;
+  border-radius: 50%;
+}
+
 .detail-section h2 {
-  margin: 0 0 13px;
-  font-size: 17px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 20px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.detail-section h2 img {
+  display: block;
+  width: auto;
+  height: 18px;
+  object-fit: contain;
 }
 
 .talent-exchange {
   display: flex;
   align-items: center;
   justify-content: center;
-
   height: 30px;
-  margin: -10px 0 7px;
-
   font-size: 25px;
   font-weight: 700;
+  margin: 18px 0;
+}
+
+.talent-exchange img {
+  display: block;
+  width: 22px;
+  height: 22px;
 }
 
 .detail-intro p {
@@ -363,16 +393,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-  height: 52px;
-  margin-top: 28px;
-
-  color: var(--color-white);
-  background: var(--color-primary);
-  border-radius: 8px;
-
-  font-size: 17px;
-  font-weight: 700;
+  width: 240px;
+  margin-top: 100px;
 }
 
 /* 협업 제안 작성 */
