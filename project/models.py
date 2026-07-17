@@ -18,6 +18,10 @@ class Project(models.Model):
     status = models.CharField(max_length=20, choices=Status.choices, default='IN_PROGRESS', verbose_name='상태')
     start_date = models.DateField(verbose_name='시작일')
     end_date = models.DateField(verbose_name='종료일')
+    overview_completed = models.BooleanField(
+    default=False,
+    verbose_name="개요 작성 완료 여부",
+)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일시')
 
     class Meta:
@@ -60,6 +64,12 @@ class Task(models.Model):
     assignee = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='담당자')
     title = models.CharField(max_length=100, verbose_name='제목')
     deadline = models.DateField(blank=True, null=True, verbose_name='마감일')
+    description = models.TextField(
+    max_length=100,
+    blank=True,
+    null=True,
+    verbose_name="설명",
+)
     status = models.CharField(max_length=10, choices=Status.choices, default='TODO', verbose_name='상태')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일시')
 

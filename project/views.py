@@ -9,7 +9,7 @@ from django.views.decorators.http import require_POST
 from .models import Project, Task, ProjectFile, ChatMessage
 from django.http import JsonResponse
 from user.models import Portfolio
-from .forms import TaskForm, ProjectFileForm
+from .forms import ProjectFileForm, ProjectOverviewForm, TaskForm
 from .services import update_task_status
 
 
@@ -147,6 +147,47 @@ def project_overview(request, project_id):
         return redirect(
             "project:project_list"
         )
+
+@login_required
+def project_overview_edit(request, project_id):
+    project = get_object_or_404(
+        Project.objects.select_related("proposal"),
+        pk=project_id,
+        projectmember__user=request.user,
+    )
+
+    if request.method == "POST":
+        form = ProjectOverviewForm(
+            request.POST,
+            project=project,
+        )
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(
+                request,
+                "프로젝트 개요가 저장되었습니다.",
+            )
+
+            return redirect(
+                "project:project_overview",
+                project_id=project.id,
+            )
+
+    else:
+        form = ProjectOverviewForm(
+            project=project,
+        )
+
+    return render(
+        request,
+        "project/overview_form.html",
+        {
+            "project": project,
+            "form": form,
+        },
+    )
     
 @login_required
 def task_list(request, project_id):
@@ -234,80 +275,47 @@ def task_list(request, project_id):
     
 
 
-@require_POST
 @login_required
 def task_create(request, project_id):
-    """
-    업무 생성
+    project = get_object_or_404(
+        Project,
+        pk=project_id,
+        projectmember__user=request.user,
+    )
 
-    - 프로젝트 참여자만 생성 가능
-    - 담당자는 프로젝트 멤버만 선택 가능
-    """
-
-    try:
-
-        project = get_object_or_404(
-
-            Project,
-
-            pk=project_id,
-            projectmember__user=request.user,
-
-        )
-
+    if request.method == "POST":
         form = TaskForm(
             request.POST,
             project=project,
         )
 
         if form.is_valid():
-
             task = form.save(commit=False)
-
             task.project = project
-
+            task.status = Task.Status.TODO
             task.save()
 
             messages.success(
                 request,
-                "업무가 추가되었습니다."
+                "업무가 추가되었습니다.",
             )
 
-        else:
-
-            messages.error(
-                request,
-                "입력값을 확인해주세요."
+            return redirect(
+                "project:task_list",
+                project_id=project.id,
             )
 
-        return redirect(
-            "project:task_list",
-            project_id=project.pk,
-        )
+    else:
+        form = TaskForm(project=project)
 
-    except Http404:
-
-        messages.error(
-            request,
-            "프로젝트를 찾을 수 없거나 접근 권한이 없습니다."
-        )
-
-        return redirect(
-            "project:project_list"
-        )
-
-    except Exception:
-
-        logger.exception("task_create() 오류")
-
-        messages.error(
-            request,
-            "업무를 추가하는 중 오류가 발생했습니다."
-        )
-
-        return redirect(
-            "project:project_list"
-        )
+    return render(
+        request,
+        "project/task_form.html",
+        {
+            "project": project,
+            "form": form,
+        },
+    )
     
 @require_POST
 @login_required
