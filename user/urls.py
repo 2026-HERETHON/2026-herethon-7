@@ -28,6 +28,7 @@ urlpatterns = [
 
     # 마이페이지
     path('mypage/', views.mypage_home, name='mypage_home'),
+    path('mypage/settings/', views.coming_soon, name='settings'),
 
     # 포트폴리오
     path('mypage/portfolio/', views.portfolio_list, name='portfolio_list'),

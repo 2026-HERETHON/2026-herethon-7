@@ -211,6 +211,12 @@ def mypage_home(request):
     return render(request, 'mypage/mypage.html', context)
 
 
+@login_required
+def coming_soon(request):
+    """준비 중 페이지"""
+    return render(request, 'coming-soon.html')
+
+
 # ========== 포트폴리오 ==========
 
 @login_required
