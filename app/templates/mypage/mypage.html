@@ -1,14 +1,16 @@
+{% load static %}
 <!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../static/css/global.css" />
-    <link rel="stylesheet" href="../../static/css/mypage/mypage.css" />
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/mypage/mypage.css' %}" />
     <link
       rel="icon"
       type="image/png"
-      href="../../static/assets/images/favicon.png"
+      href="{% static 'assets/images/favicon.png' %}"
     />
     <title>Re:Link</title>
   </head>
@@ -20,7 +22,7 @@
 
           <button class="notification-button" type="button" aria-label="알림">
             <img
-              src="../../static/assets/icons/mypage/bell.svg"
+              src="{% static 'assets/icons/mypage/bell.svg' %}"
               alt=""
               aria-hidden="true"
             />
@@ -32,20 +34,26 @@
             <div class="profile-image">
               <img
                 id="profile-image"
-                src="../../static/assets/icons/profile.svg"
+                class="{% if profile and profile.profile_image %}uploaded{% endif %}"
+                src="{% if profile and profile.profile_image %}{{ profile.profile_image.url }}{% else %}{% static 'assets/icons/profile.svg' %}{% endif %}"
                 alt="프로필"
               />
             </div>
 
             <div class="profile-copy">
-              <p class="profile-name" id="profile-name">사용자 이름</p>
+              <p class="profile-name" id="profile-name">{{ user.name }}</p>
+              {% if profile %}
+              <p class="profile-career" id="profile-career">
+                {{ profile.get_identity_display }}
+              </p>
+              {% else %}
               <a
                 class="profile-empty-message"
-                href="../account/profile.html?from=mypage"
+                href="{% url 'user:profile_create' %}?from=mypage"
               >
                 프로필을 등록해주세요.
               </a>
-              <p class="profile-career" id="profile-career" hidden></p>
+              {% endif %}
             </div>
           </div>
 
@@ -53,33 +61,33 @@
             <div class="activity-item">
               <dt>
                 <img
-                  src="../../static/assets/icons/mypage/project.svg"
+                  src="{% static 'assets/icons/mypage/project.svg' %}"
                   alt=""
                   aria-hidden="true"
                 />
-                <span id="project-count">0</span>
+                <span id="project-count">{{ project_count }}</span>
               </dt>
               <dd>참여 프로젝트</dd>
             </div>
             <div class="activity-item">
               <dt>
                 <img
-                  src="../../static/assets/icons/mypage/people.svg"
+                  src="{% static 'assets/icons/mypage/people.svg' %}"
                   alt=""
                   aria-hidden="true"
                 />
-                <span id="collaboration-count">0</span>
+                <span id="collaboration-count">{{ collaboration_count }}</span>
               </dt>
               <dd>협업중</dd>
             </div>
             <div class="activity-item">
               <dt>
                 <img
-                  src="../../static/assets/icons/mypage/star.svg"
+                  src="{% static 'assets/icons/mypage/star.svg' %}"
                   alt=""
                   aria-hidden="true"
                 />
-                <span id="review-count">0</span>
+                <span id="review-count">{{ review_count }}</span>
               </dt>
               <dd>받은 후기</dd>
             </div>
@@ -88,71 +96,75 @@
 
         <img
           class="growth-banner"
-          src="../../static/assets/images/mypage-banner.png"
+          src="{% static 'assets/images/mypage-banner.png' %}"
           alt="이번 주도 한 걸음씩, 함께 성장해봐요! 작은 협업이 큰 성장을 만들어요."
         />
 
         <nav class="mypage-menu">
-          <a href="../account/profile.html?from=mypage">
+          <a
+            href="{% if profile %}{% url 'user:profile_edit' %}?from=mypage{% else %}{% url 'user:profile_create' %}?from=mypage{% endif %}"
+          >
             <img
-              src="../../static/assets/icons/mypage/black-person.svg"
+              src="{% static 'assets/icons/mypage/black-person.svg' %}"
               alt=""
               aria-hidden="true"
             />
             <span>내 프로필 관리</span>
             <img
               class="menu-arrow"
-              src="../../static/assets/icons/mypage/arrow-right.svg"
+              src="{% static 'assets/icons/mypage/arrow-right.svg' %}"
               alt=""
               aria-hidden="true"
             />
           </a>
-          <a href="./portfolio-manage.html">
+          <a href="{% url 'user:portfolio_list' %}">
             <img
-              src="../../static/assets/icons/mypage/black-portfolio.svg"
+              src="{% static 'assets/icons/mypage/black-portfolio.svg' %}"
               alt=""
               aria-hidden="true"
             />
             <span>포트폴리오 관리</span>
             <img
               class="menu-arrow"
-              src="../../static/assets/icons/mypage/arrow-right.svg"
+              src="{% static 'assets/icons/mypage/arrow-right.svg' %}"
               alt=""
               aria-hidden="true"
             />
           </a>
-          <a href="./review.html">
+          <a href="{% url 'user:review_list' %}">
             <img
-              src="../../static/assets/icons/mypage/black-star.svg"
+              src="{% static 'assets/icons/mypage/black-star.svg' %}"
               alt=""
               aria-hidden="true"
             />
             <span>후기 보기</span>
             <img
               class="menu-arrow"
-              src="../../static/assets/icons/mypage/arrow-right.svg"
+              src="{% static 'assets/icons/mypage/arrow-right.svg' %}"
               alt=""
               aria-hidden="true"
             />
           </a>
-          <a href="../coming-soon.html">
+          <a href="{% url 'user:settings' %}">
             <img
-              src="../../static/assets/icons/mypage/black-setting.svg"
+              src="{% static 'assets/icons/mypage/black-setting.svg' %}"
               alt=""
               aria-hidden="true"
             />
             <span>환경 설정</span>
             <img
               class="menu-arrow"
-              src="../../static/assets/icons/mypage/arrow-right.svg"
+              src="{% static 'assets/icons/mypage/arrow-right.svg' %}"
               alt=""
               aria-hidden="true"
             />
           </a>
         </nav>
       </main>
+
+      {% include 'components/bottom_nav.html' with active_nav='mypage' %}
     </div>
 
-    <script src="../../static/js/mypage/mypage.js"></script>
+    <script src="{% static 'js/mypage/mypage.js' %}"></script>
   </body>
 </html>

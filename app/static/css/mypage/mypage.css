@@ -1,6 +1,6 @@
 .mypage-container {
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 78px);
   display: flex;
   flex-direction: column;
   padding: 40px 20px;
@@ -99,8 +99,7 @@
 .profile-career {
   display: inline-flex;
   align-items: center;
-  height: 18px;
-  padding: 0 14px;
+  padding: 2px 14px;
   font-size: 12px;
   background: transparent;
   border: 1px solid #d9d9d9;

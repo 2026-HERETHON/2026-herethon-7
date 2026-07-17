@@ -1,17 +1,18 @@
+{% load static %}
 <!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../static/css/global.css" />
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
     <link
       rel="stylesheet"
-      href="../../static/css/mypage/portfolio-manage.css"
+      href="{% static 'css/mypage/portfolio-manage.css' %}"
     />
     <link
       rel="icon"
       type="image/png"
-      href="../../static/assets/images/favicon.png"
+      href="{% static 'assets/images/favicon.png' %}"
     />
     <title>Re:Link</title>
   </head>
@@ -21,7 +22,7 @@
         <header class="portfolio-header">
           <button class="back-button" type="button" aria-label="뒤로 가기">
             <img
-              src="../../static/assets/icons/mypage/arrow-left.svg"
+              src="{% static 'assets/icons/mypage/arrow-left.svg' %}"
               alt=""
               aria-hidden="true"
             />
@@ -33,22 +34,47 @@
         <section
           class="portfolio-list"
           aria-label="등록된 포트폴리오"
-          hidden
-        ></section>
+          {% if not portfolio_items %}hidden{% endif %}
+        >
+          {% for item in portfolio_items %}
+            <article class="portfolio-card">
+              <div class="portfolio-title-row">
+                <h2>{{ item.portfolio.title|default:item.portfolio.project.title }}</h2>
+                <span class="project-type">{{ item.project_type }}</span>
+              </div>
+              <p class="portfolio-period">
+                {{ item.portfolio.project.start_date|date:"Y.m" }}~{{ item.portfolio.project.end_date|date:"Y.m" }}
+              </p>
+              <p class="portfolio-partner">파트너: {{ item.partner.name }}</p>
+              <button
+                class="detail-button"
+                type="button"
+                data-detail-url="{% url 'user:portfolio_detail' item.portfolio.pk %}"
+              >
+                상세 보기
+              </button>
+            </article>
+          {% endfor %}
+        </section>
 
-        <button class="floating-add-button" type="button" hidden>
+        <button
+          class="floating-add-button"
+          type="button"
+          data-add-url="{% url 'project:project_list' %}"
+          {% if not portfolio_items %}hidden{% endif %}
+        >
           <img
-            src="../../static/assets/icons/mypage/green-plus.svg"
+            src="{% static 'assets/icons/mypage/green-plus.svg' %}"
             alt=""
             aria-hidden="true"
           />
         </button>
         <!-- 포트폴리오 카드 -->
 
-        <section class="empty-state" hidden>
+        <section class="empty-state" {% if portfolio_items %}hidden{% endif %}>
           <img
             class="empty-image"
-            src="../../static/assets/images/portfolio.png"
+            src="{% static 'assets/images/portfolio.png' %}"
             alt="포트폴리오"
             aria-hidden="true"
           />
@@ -57,25 +83,18 @@
             포트폴리오를 등록하면<br />
             나만의 작업을 한눈에 보여줄 수 있어요.
           </p>
-          <button type="button" class="green-btn empty-add-btn">
+          <button
+            type="button"
+            class="green-btn empty-add-btn"
+            data-add-url="{% url 'project:project_list' %}"
+          >
             추가하기
           </button>
         </section>
 
-        <template id="portfolio-card-template">
-          <article class="portfolio-card">
-            <div class="portfolio-title-row">
-              <h2></h2>
-              <span class="project-type"></span>
-            </div>
-            <p class="portfolio-period"></p>
-            <p class="portfolio-partner"></p>
-            <button class="detail-button" type="button">상세 보기</button>
-          </article>
-        </template>
       </main>
     </div>
 
-    <script src="../../static/js/mypage/portfolio.js"></script>
+    <script src="{% static 'js/mypage/portfolio.js' %}"></script>
   </body>
 </html>

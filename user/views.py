@@ -29,25 +29,13 @@ def signup(request):
     """회원가입"""
     if request.method == 'POST':
         form = SignupForm(request.POST)
-
-        if not request.session.get('email_verified'):
-            messages.error(request, '이메일 인증을 완료해주세요.')
-            return render(request, 'user/signup.html', {'form': form})
-
-        if request.POST.get('email') != request.session.get('verify_email'):
-            messages.error(request, '인증한 이메일과 다릅니다.')
-            return render(request, 'user/signup.html', {'form': form})
-
         if form.is_valid():
-            form.save()
-            request.session.pop('verify_code', None)
-            request.session.pop('verify_email', None)
-            request.session.pop('email_verified', None)
-            messages.success(request, '회원가입이 완료되었습니다.')
-            return redirect('user:login')
+            user = form.save()
+            login(request, user)
+            return redirect('user:signup_complete')
     else:
         form = SignupForm()
-    return render(request, 'user/signup.html', {'form': form})
+    return render(request, 'account/signup.html', {'form': form})
 
 
 def email_verify_send(request):
@@ -81,10 +69,18 @@ def email_verify_confirm(request):
     return redirect('user:signup')
 
 
+@login_required
+def signup_complete(request):
+    """회원가입 완료"""
+    return render(request, 'account/complete.html')
+
+
 # ========== 로그인/로그아웃 ==========
 
 def login_view(request):
     """로그인"""
+    login_error = False
+
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -103,11 +99,15 @@ def login_view(request):
                 if not hasattr(user, 'profile'):
                     return redirect('user:profile_create')
                 return redirect('match:home')
-            else:
-                messages.error(request, '이메일 또는 비밀번호가 올바르지 않습니다.')
+            login_error = True
+        else:
+            login_error = True
     else:
         form = LoginForm()
-    return render(request, 'user/login.html', {'form': form})
+    return render(request, 'account/login.html', {
+        'form': form,
+        'login_error': login_error,
+    })
 
 
 def logout_view(request):
@@ -163,7 +163,7 @@ def profile_create(request):
         form = ProfileForm(user=request.user)
 
     talents = Talent.objects.all()
-    return render(request, 'user/profile_form.html', {
+    return render(request, 'account/profile.html', {
         'form': form,
         'talents': talents,
         'is_edit': False,
@@ -185,7 +185,7 @@ def profile_edit(request):
         form = ProfileForm(instance=profile, user=request.user)
 
     talents = Talent.objects.all()
-    return render(request, 'user/profile_form.html', {
+    return render(request, 'account/profile.html', {
         'form': form,
         'talents': talents,
         'is_edit': True,
@@ -199,14 +199,22 @@ def mypage_home(request):
     """마이페이지 홈"""
     user = request.user
     profile = getattr(user, 'profile', None)
+    member_qs = user.projectmember_set.all()
 
     context = {
         'user': user,
         'profile': profile,
-        'project_count': user.projectmember_set.filter(project__status='IN_PROGRESS').count() if profile else 0,
+        'project_count': member_qs.count() if profile else 0,
+        'collaboration_count': member_qs.filter(project__status='IN_PROGRESS').count() if profile else 0,
         'review_count': user.received_reviews.count() if profile else 0,
     }
-    return render(request, 'user/mypage.html', context)
+    return render(request, 'mypage/mypage.html', context)
+
+
+@login_required
+def coming_soon(request):
+    """준비 중 페이지"""
+    return render(request, 'coming-soon.html')
 
 
 # ========== 포트폴리오 ==========
@@ -217,18 +225,74 @@ def portfolio_list(request):
     # 내가 참여한 완료 프로젝트의 포트폴리오
     portfolios = Portfolio.objects.filter(
         project__projectmember__user=request.user
-    ).select_related('project')
-    return render(request, 'user/portfolio_list.html', {'portfolios': portfolios})
+    ).select_related(
+        'project__proposal'
+    ).prefetch_related(
+        'project__projectmember_set__user'
+    ).order_by('-created_at')
+
+    for portfolio in portfolios:
+        partners = [
+            member.user.name
+            for member in portfolio.project.projectmember_set.all()
+            if member.user_id != request.user.id
+        ]
+        portfolio.partner_names = ', '.join(partners) or '-'
+
+    return render(request, 'mypage/portfolio-manage.html', {
+        'portfolios': portfolios,
+    })
 
 
 @login_required
 def portfolio_detail(request, portfolio_id):
     """포트폴리오 상세"""
-    portfolio = get_object_or_404(Portfolio, pk=portfolio_id)
-    is_owner = portfolio.project.projectmember_set.filter(user=request.user).exists()
-    return render(request, 'user/portfolio_detail.html', {
+    portfolio = get_object_or_404(
+        Portfolio.objects.select_related(
+            'project__proposal'
+        ).prefetch_related(
+            'project__projectmember_set__user__profile'
+        ),
+        pk=portfolio_id,
+        project__projectmember__user=request.user,
+    )
+
+    if request.method == 'POST':
+        learnings = request.POST.get('learnings', '').strip()
+        uploaded_file = request.FILES.get('file_path')
+        remove_file = request.POST.get('remove_file') == 'true'
+        has_result = bool(uploaded_file or (portfolio.file_path and not remove_file))
+
+        if learnings and has_result:
+            if uploaded_file:
+                if portfolio.file_path:
+                    portfolio.file_path.delete(save=False)
+                portfolio.file_path = uploaded_file
+            portfolio.role = learnings
+            portfolio.save(update_fields=['role', 'file_path'])
+            messages.success(request, '포트폴리오가 저장되었습니다.')
+            return redirect('user:portfolio_detail', portfolio_id=portfolio.pk)
+
+        messages.error(request, '성과 및 결과물과 느낀점을 모두 입력해주세요.')
+
+    members = list(portfolio.project.projectmember_set.all())
+    current_member = next(
+        (member for member in members if member.user_id == request.user.id),
+        None,
+    )
+    partners = [
+        member.user.name
+        for member in members
+        if member.user_id != request.user.id
+    ]
+
+    return render(request, 'mypage/portfolio-detail.html', {
         'portfolio': portfolio,
-        'is_owner': is_owner,
+        'members': members,
+        'current_member': current_member,
+        'partner_names': ', '.join(partners) or '-',
+        'learnings': portfolio.role.splitlines() if portfolio.role else [],
+        'has_details': bool(portfolio.file_path and portfolio.role),
     })
 
 
@@ -260,7 +324,7 @@ def review_list(request):
     """후기 목록"""
     written_reviews = request.user.written_reviews.all().select_related('project', 'receiver')
     received_reviews = request.user.received_reviews.all().select_related('project', 'writer')
-    return render(request, 'user/review_list.html', {
+    return render(request, 'mypage/review.html', {
         'written_reviews': written_reviews,
         'received_reviews': received_reviews,
     })

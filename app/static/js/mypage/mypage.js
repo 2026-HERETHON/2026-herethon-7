@@ -8,20 +8,39 @@ function getSavedProfile() {
   }
 }
 
+function ensureCareerElement(profileCopy, emptyMessage) {
+  let career = document.querySelector("#profile-career");
+
+  if (career) return career;
+
+  career = document.createElement("p");
+  career.className = "profile-career";
+  career.id = "profile-career";
+
+  if (emptyMessage) {
+    emptyMessage.replaceWith(career);
+  } else {
+    profileCopy.appendChild(career);
+  }
+
+  return career;
+}
+
 function renderProfile(profile) {
   if (!profile?.name) return;
 
   const profileImage = document.querySelector("#profile-image");
+  const profileName = document.querySelector("#profile-name");
+  const profileCopy = document.querySelector(".profile-copy");
   const emptyMessage = document.querySelector(".profile-empty-message");
-  const career = document.querySelector("#profile-career");
 
-  document.querySelector("#profile-name").textContent = profile.name;
-  emptyMessage.hidden = true;
+  profileName.textContent = profile.name;
 
+  const career = ensureCareerElement(profileCopy, emptyMessage);
   career.textContent = profile.career || "프로필 등록 완료";
   career.hidden = false;
 
-  if (profile.image) {
+  if (profile.image && profileImage) {
     profileImage.src = profile.image;
     profileImage.classList.add("uploaded");
   }

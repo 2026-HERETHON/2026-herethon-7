@@ -13,6 +13,7 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('signup/email-verify/', views.email_verify_send, name='email_verify_send'),
     path('signup/email-verify/confirm/', views.email_verify_confirm, name='email_verify_confirm'),
+    path('signup/complete/', views.signup_complete, name='signup_complete'),
 
     # 로그인/로그아웃
     path('login/', views.login_view, name='login'),
@@ -27,6 +28,7 @@ urlpatterns = [
 
     # 마이페이지
     path('mypage/', views.mypage_home, name='mypage_home'),
+    path('mypage/settings/', views.coming_soon, name='settings'),
 
     # 포트폴리오
     path('mypage/portfolio/', views.portfolio_list, name='portfolio_list'),
