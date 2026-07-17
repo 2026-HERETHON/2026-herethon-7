@@ -1,257 +1,190 @@
 const form = document.querySelector(".profile-form");
-const isMypageEdit =
-  new URLSearchParams(window.location.search).get("from") === "mypage";
-
-// 프로필 사진
 const profileInput = document.querySelector("#profile-image");
 const preview = document.querySelector("#profile-preview");
-let profileImageData = "";
-
-profileInput.addEventListener("change", function () {
-  const file = this.files[0];
-
-  if (!file) return;
-
-  preview.src = URL.createObjectURL(file);
-
-  preview.classList.add("uploaded");
-  preview.parentElement.classList.add("uploaded");
-
-  const reader = new FileReader();
-  reader.addEventListener("load", () => {
-    profileImageData = reader.result;
-  });
-  reader.readAsDataURL(file);
-});
-
-// 한 줄 소개 글자 수
 const intro = document.querySelector("#intro");
 const count = document.querySelector(".text-count");
 
-intro.addEventListener("input", () => {
-  count.textContent = `${intro.value.length}/50`;
+profileInput.addEventListener("change", function () {
+  const file = this.files[0];
+  if (!file) return;
+
+  preview.src = URL.createObjectURL(file);
+  preview.classList.add("uploaded");
+  preview.parentElement.classList.add("uploaded");
 });
 
-// 선택 버튼
+if (!preview.src.includes("profile.svg")) {
+  preview.classList.add("uploaded");
+  preview.parentElement.classList.add("uploaded");
+}
+
+function updateIntroCount() {
+  count.textContent = `${intro.value.length}/50`;
+}
+
+intro.addEventListener("input", updateIntroCount);
+updateIntroCount();
+
 document.querySelectorAll(".button-row").forEach((row) => {
   const buttons = row.querySelectorAll(".select-btn");
 
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
-      buttons.forEach((btn) => btn.classList.remove("active"));
+      buttons.forEach((item) => item.classList.remove("active"));
       button.classList.add("active");
-
       row.closest(".required-group").classList.remove("error");
     });
   });
 });
 
-// 프로필 유효성 검사
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
+function getTalentOptions(type) {
+  return [
+    ...document.querySelectorAll(
+      `#talent-fields [data-type="${type}"] input`,
+    ),
+  ].map((input) => ({
+    id: input.value,
+    name: input.closest("label")?.textContent.trim() || input.value,
+    input,
+  }));
+}
 
-  let valid = true;
-
-  const nameGroup = document.querySelector(".form-group");
-  const nameInput = document.querySelector("#name");
-
-  if (nameInput.value.trim() === "") {
-    nameGroup.classList.add("error");
-    valid = false;
-  } else {
-    nameGroup.classList.remove("error");
-  }
-
-  // 필수 선택 항목 검사
-  document.querySelectorAll(".required-group").forEach((group) => {
-    const buttons = group.querySelectorAll(".select-btn");
-
-    if (buttons.length > 0) {
-      const selected = [...buttons].some((btn) =>
-        btn.classList.contains("active"),
-      );
-
-      if (!selected) {
-        group.classList.add("error");
-        valid = false;
-      } else {
-        group.classList.remove("error");
-      }
-    }
-
-    const selectBox = group.querySelector(".select-box");
-
-    if (selectBox) {
-      if (selectBox.dataset.selected !== "true") {
-        group.classList.add("error");
-        valid = false;
-      } else {
-        group.classList.remove("error");
-      }
-    }
-  });
-
-  if (valid) {
-    const career = document.querySelector("#career-group .select-btn.active");
-    const workStyle = document.querySelector("#work-group .select-btn.active");
-    const previousProfile = getSavedProfile();
-    const savedImage =
-      profileImageData ||
-      (preview.src.includes("profile.svg") ? "" : preview.src);
-    const savedProfile = {
-      name: nameInput.value.trim(),
-      intro: intro.value.trim(),
-      career: career?.textContent.trim() || "",
-      workStyle: workStyle?.textContent.trim() || "",
-      provide: selectedData.provide,
-      need: selectedData.need,
-      interest: selectedData.interest,
-      image: savedImage,
-      counts: previousProfile?.counts || {
-        projects: 0,
-        collaborations: 0,
-        reviews: 0,
-      },
-    };
-
-    try {
-      localStorage.setItem("relinkProfile", JSON.stringify(savedProfile));
-    } catch {
-      savedProfile.image = "";
-      localStorage.setItem("relinkProfile", JSON.stringify(savedProfile));
-    }
-
-    alert("저장되었습니다.");
-    window.location.href = isMypageEdit
-      ? form.dataset.mypageUrl
-      : form.dataset.homeUrl;
-  }
-});
-
-// + 버튼 클릭 이벤트(모달)
-const overlay = document.querySelector(".sheet-overlay");
-const sheet = document.querySelector(".bottom-sheet");
-
-const sheetTitle = document.querySelector(".sheet-title");
-const recommendTags = document.querySelector(".recommend-tags");
-const selectedTags = document.querySelector(".selected-tags");
-
-let currentBox = null;
-let selectedItems = [];
-let currentType = "";
+const talentOptions = {
+  provide: getTalentOptions("provide"),
+  need: getTalentOptions("need"),
+};
 
 const selectedData = {
-  provide: [],
-  need: [],
-  interest: [],
+  provide: talentOptions.provide.filter((item) => item.input.checked),
+  need: talentOptions.need.filter((item) => item.input.checked),
+  interest: (form.dataset.savedSkills || "")
+    .split(",")
+    .map((name) => name.trim())
+    .filter(Boolean)
+    .map((name) => ({ id: name, name })),
 };
 
-const sheetData = {
-  provide: {
-    title: "제공 가능 역량 (1개 필수) 추가",
-    items: ["SNS운영", "AI 활용", "문서 작성", "시장조사", "실무 피드백"],
-  },
+const interestOptions = ["마케팅", "기획/제작", "디자인", "경영/회계", "개발"].map(
+  (name) => ({ id: name, name }),
+);
 
-  need: {
-    title: "필요한 역량 (1개 필수) 추가",
-    items: [
-      "마케팅 전략",
-      "실무 보고서 작성",
-      "시장조사",
-      "실무 피드백",
-      "문서 작성",
-    ],
-  },
+function fillSelectedBox(type) {
+  const box = document.querySelector(`#${type}-group .select-box`);
+  const items = selectedData[type];
 
-  interest: {
-    title: "관심분야 추가",
-    items: ["마케팅", "기획/제작", "디자인", "경영/회계", "개발"],
-  },
-};
+  box.innerHTML = "";
+  box.classList.toggle("has-items", items.length > 0);
+  box.dataset.selected = items.length > 0 ? "true" : "false";
 
-function openSheet(type, box) {
-  currentBox = box;
-  currentType = type;
+  if (items.length === 0) {
+    box.textContent =
+      type === "interest"
+        ? "아직 선택된 관심분야가 없습니다."
+        : "아직 선택된 역량이 없습니다.";
+    return;
+  }
 
-  sheet.classList.remove("hidden");
-  overlay.classList.remove("hidden");
-
-  sheetTitle.textContent = sheetData[type].title;
-
-  recommendTags.innerHTML = "";
-  selectedTags.innerHTML = "";
-
-  selectedItems = [...selectedData[type]];
-
-  selectedItems.forEach((item) => {
-    createSelectedTag(item);
-  });
-
-  sheetData[type].items.forEach((item) => {
-    createRecommendTag(item);
+  items.forEach((item) => {
+    const chip = document.createElement("span");
+    chip.className = "selected-chip";
+    chip.textContent = item.name;
+    box.appendChild(chip);
   });
 }
 
-function createRecommendTag(text) {
+["provide", "need", "interest"].forEach(fillSelectedBox);
+
+function selectSavedButton(groupSelector, value) {
+  if (!value) return;
+
+  document
+    .querySelectorAll(`${groupSelector} .select-btn`)
+    .forEach((button) => {
+      button.classList.toggle("active", button.dataset.value === value);
+    });
+}
+
+selectSavedButton("#career-group", form.dataset.savedIdentity);
+selectSavedButton("#work-group", form.dataset.savedWorkStyle);
+
+const overlay = document.querySelector(".sheet-overlay");
+const sheet = document.querySelector(".bottom-sheet");
+const sheetTitle = document.querySelector(".sheet-title");
+const recommendTags = document.querySelector(".recommend-tags");
+const selectedTags = document.querySelector(".selected-tags");
+const searchInput = document.querySelector("#sheet-search");
+
+let currentType = "";
+let selectedItems = [];
+
+function itemExists(items, target) {
+  return items.some((item) => item.id === target.id);
+}
+
+function optionsFor(type) {
+  return type === "interest" ? interestOptions : talentOptions[type];
+}
+
+function titleFor(type) {
+  if (type === "provide") return "제공 가능 역량 (1개 필수) 추가";
+  if (type === "need") return "필요한 역량 (1개 필수) 추가";
+  return "관심분야 추가";
+}
+
+function createSelectedTag(item) {
+  const tag = document.createElement("div");
+  const remove = document.createElement("span");
+
+  tag.className = "tag active";
+  tag.append(document.createTextNode(item.name));
+  remove.className = "remove-tag";
+  remove.textContent = "✕";
+  tag.appendChild(remove);
+
+  remove.addEventListener("click", () => {
+    selectedItems = selectedItems.filter(
+      (selected) => selected.id !== item.id,
+    );
+    renderSheet();
+  });
+
+  selectedTags.appendChild(tag);
+}
+
+function createRecommendTag(item) {
   const tag = document.createElement("button");
-
   tag.type = "button";
-  tag.className = "tag normal";
-  tag.textContent = text;
+  tag.className = itemExists(selectedItems, item)
+    ? "tag active"
+    : "tag normal";
+  tag.textContent = item.name;
 
-  if (selectedItems.includes(text)) {
-    tag.classList.remove("normal");
-    tag.classList.add("active");
-  }
-
-  tag.onclick = () => {
-    if (selectedItems.includes(text)) return;
-
-    selectedItems.push(text);
-
-    createSelectedTag(text);
-
-    tag.classList.remove("normal");
-    tag.classList.add("active");
-  };
+  tag.addEventListener("click", () => {
+    if (!itemExists(selectedItems, item)) {
+      selectedItems.push(item);
+      renderSheet();
+    }
+  });
 
   recommendTags.appendChild(tag);
 }
 
-function createSelectedTag(text) {
-  const tag = document.createElement("div");
+function renderSheet() {
+  selectedTags.innerHTML = "";
+  recommendTags.innerHTML = "";
+  selectedItems.forEach(createSelectedTag);
+  optionsFor(currentType).forEach(createRecommendTag);
+  searchInput.dispatchEvent(new Event("input"));
+}
 
-  tag.className = "tag active";
-
-  tag.innerHTML = `
-      ${text}
-      <span class="remove-tag">✕</span>
-  `;
-
-  tag.querySelector(".remove-tag").onclick = () => {
-    tag.remove();
-
-    selectedItems = selectedItems.filter((item) => item !== text);
-
-    if (selectedItems.length === 0) {
-      currentBox.classList.remove("has-items");
-      currentBox.textContent =
-        currentType === "interest"
-          ? "아직 선택된 관심분야가 없습니다."
-          : "아직 선택된 역량이 없습니다.";
-
-      currentBox.dataset.selected = "false";
-    }
-
-    recommendTags.querySelectorAll(".tag").forEach((recommend) => {
-      if (recommend.textContent === text) {
-        recommend.classList.remove("active");
-        recommend.classList.add("normal");
-      }
-    });
-  };
-
-  selectedTags.appendChild(tag);
+function openSheet(type) {
+  currentType = type;
+  selectedItems = [...selectedData[type]];
+  sheetTitle.textContent = titleFor(type);
+  searchInput.value = "";
+  renderSheet();
+  sheet.classList.remove("hidden");
+  overlay.classList.remove("hidden");
 }
 
 function closeSheet() {
@@ -260,55 +193,38 @@ function closeSheet() {
 }
 
 overlay.addEventListener("click", closeSheet);
-
 document.querySelector(".cancel-btn").addEventListener("click", closeSheet);
 
 document
   .querySelector("#provide-group .plus-btn")
-  .addEventListener("click", () => {
-    openSheet("provide", document.querySelector("#provide-group .select-box"));
-  });
-
+  .addEventListener("click", () => openSheet("provide"));
 document
   .querySelector("#need-group .plus-btn")
-  .addEventListener("click", () => {
-    openSheet("need", document.querySelector("#need-group .select-box"));
-  });
-
+  .addEventListener("click", () => openSheet("need"));
 document
   .querySelector("#interest-group .plus-btn")
-  .addEventListener("click", () => {
-    openSheet(
-      "interest",
-      document.querySelector("#interest-group .select-box"),
-    );
-  });
+  .addEventListener("click", () => openSheet("interest"));
 
 document.querySelector(".add-btn").addEventListener("click", () => {
+  const customInterest = searchInput.value.trim();
+
+  if (
+    currentType === "interest" &&
+    customInterest &&
+    !itemExists(selectedItems, { id: customInterest })
+  ) {
+    selectedItems.push({ id: customInterest, name: customInterest });
+  }
+
   if (selectedItems.length === 0) return;
 
-  currentBox.innerHTML = "";
-  currentBox.classList.add("has-items");
-
-  selectedItems.forEach((item) => {
-    const chip = document.createElement("span");
-    chip.className = "selected-chip";
-    chip.textContent = item;
-
-    currentBox.appendChild(chip);
-  });
-
   selectedData[currentType] = [...selectedItems];
-
-  currentBox.dataset.selected = "true";
-
-  currentBox.closest(".required-group").classList.remove("error");
-
+  fillSelectedBox(currentType);
+  document
+    .querySelector(`#${currentType}-group`)
+    .classList.remove("error");
   closeSheet();
 });
-
-// 검색
-const searchInput = document.querySelector("#sheet-search");
 
 searchInput.addEventListener("input", () => {
   const keyword = searchInput.value.toLowerCase();
@@ -320,112 +236,45 @@ searchInput.addEventListener("input", () => {
   });
 });
 
-function getSavedProfile() {
-  try {
-    return JSON.parse(localStorage.getItem("relinkProfile"));
-  } catch {
-    return null;
-  }
-}
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  let valid = true;
 
-function selectButton(groupSelector, savedText) {
-  if (!savedText) return;
+  const nameInput = document.querySelector("#name");
+  const nameGroup = nameInput.closest(".form-group");
+  nameGroup.classList.toggle("error", nameInput.value.trim() === "");
+  if (nameInput.value.trim() === "") valid = false;
 
-  document
-    .querySelectorAll(`${groupSelector} .select-btn`)
-    .forEach((button) => {
-      button.classList.toggle(
-        "active",
-        button.textContent.trim() === savedText,
-      );
-    });
-}
+  document.querySelectorAll(".required-group").forEach((group) => {
+    const hasButton = group.querySelector(".select-btn");
+    const box = group.querySelector(".select-box");
+    const missing =
+      (hasButton && !group.querySelector(".select-btn.active")) ||
+      (box && box.dataset.selected !== "true");
 
-function selectButtonByValue(groupSelector, value) {
-  if (!value) return;
-
-  document
-    .querySelectorAll(`${groupSelector} .select-btn`)
-    .forEach((button) => {
-      button.classList.toggle("active", button.dataset.value === value);
-    });
-}
-
-const IDENTITY_VALUES = {
-  EXPERIENCED: "experienced",
-  STARTER: "starter",
-};
-
-const WORK_STYLE_VALUES = {
-  ONE: "one",
-  GROUP: "group",
-};
-
-function fillSelectedBox(type, items) {
-  if (!Array.isArray(items) || items.length === 0) return;
-
-  const box = document.querySelector(`#${type}-group .select-box`);
-  box.innerHTML = "";
-  box.classList.add("has-items");
-  box.dataset.selected = "true";
-  selectedData[type] = [...items];
-
-  items.forEach((item) => {
-    const chip = document.createElement("span");
-    chip.className = "selected-chip";
-    chip.textContent = item;
-    box.appendChild(chip);
+    group.classList.toggle("error", Boolean(missing));
+    if (missing) valid = false;
   });
-}
 
-function loadProfileForEdit() {
-  if (!isMypageEdit) return;
+  if (!valid) return;
 
-  document.querySelector("#profile-page-title").textContent = "내 프로필 관리";
+  document.querySelector("#identity").value = document.querySelector(
+    "#career-group .select-btn.active",
+  ).dataset.value;
+  document.querySelector("#work-style").value = document.querySelector(
+    "#work-group .select-btn.active",
+  ).dataset.value;
+  document.querySelector("#skills").value = selectedData.interest
+    .map((item) => item.name)
+    .join(",");
 
-  const savedProfile = getSavedProfile();
+  ["provide", "need"].forEach((type) => {
+    const selectedIds = new Set(selectedData[type].map((item) => item.id));
+    talentOptions[type].forEach((item) => {
+      item.input.checked = selectedIds.has(item.id);
+    });
+  });
 
-  if (savedProfile) {
-    document.querySelector("#name").value = savedProfile.name || "";
-    intro.value = savedProfile.intro || "";
-    count.textContent = `${intro.value.length}/50`;
-
-    if (savedProfile.image) {
-      profileImageData = savedProfile.image;
-      preview.src = savedProfile.image;
-      preview.classList.add("uploaded");
-      preview.parentElement.classList.add("uploaded");
-    }
-
-    selectButton("#career-group", savedProfile.career);
-    selectButton("#work-group", savedProfile.workStyle);
-    fillSelectedBox("provide", savedProfile.provide);
-    fillSelectedBox("need", savedProfile.need);
-    fillSelectedBox("interest", savedProfile.interest);
-    return;
-  }
-
-  const serverIntro = form.dataset.savedIntro;
-  const serverIdentity = form.dataset.savedIdentity;
-  const serverWorkStyle = form.dataset.savedWorkStyle;
-  const serverImage = form.dataset.savedImage;
-
-  if (!serverIdentity && !serverImage) return;
-
-  if (serverIntro) {
-    intro.value = serverIntro;
-    count.textContent = `${intro.value.length}/50`;
-  }
-
-  if (serverImage) {
-    profileImageData = serverImage;
-    preview.src = serverImage;
-    preview.classList.add("uploaded");
-    preview.parentElement.classList.add("uploaded");
-  }
-
-  selectButtonByValue("#career-group", IDENTITY_VALUES[serverIdentity]);
-  selectButtonByValue("#work-group", WORK_STYLE_VALUES[serverWorkStyle]);
-}
-
-loadProfileForEdit();
+  form.querySelector(".save-btn").disabled = true;
+  form.submit();
+});

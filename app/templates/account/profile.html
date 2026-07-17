@@ -16,36 +16,52 @@
   <body>
     <div id="app">
       <main class="profile-container">
-        <p class="title" id="profile-page-title">내 프로필 등록</p>
+        <p class="title" id="profile-page-title">
+          {% if is_edit %}내 프로필 관리{% else %}내 프로필 등록{% endif %}
+        </p>
 
         <form
           class="profile-form"
+          method="post"
+          enctype="multipart/form-data"
           novalidate
-          data-home-url="{% url 'match:home' %}"
-          data-mypage-url="{% url 'user:mypage_home' %}"
-          {%
-          if
-          user.profile
-          %}
-          data-saved-intro="{{ user.profile.intro|default:'' }}"
-          data-saved-identity="{{ user.profile.identity }}"
-          data-saved-work-style="{{ user.profile.work_style }}"
-          data-saved-image="{% if user.profile.profile_image %}{{ user.profile.profile_image.url }}{% endif %}"
-          {%
-          endif
-          %}
+          data-saved-identity="{{ form.identity.value|default:'' }}"
+          data-saved-work-style="{{ form.work_style.value|default:'' }}"
+          data-saved-skills="{{ form.skills.value|default:'' }}"
         >
+          {% csrf_token %}
+          <input type="hidden" name="identity" id="identity" />
+          <input type="hidden" name="work_style" id="work-style" />
+          <input type="hidden" name="skills" id="skills" />
+
+          <div id="talent-fields" hidden>
+            <div data-type="provide">{{ form.give_talents }}</div>
+            <div data-type="need">{{ form.need_talents }}</div>
+          </div>
+
+          {% if form.errors %}
+            <div class="server-errors" role="alert">
+              입력 내용을 다시 확인해 주세요.
+            </div>
+          {% endif %}
+
           <!-- 프로필 사진 -->
           <div class="profile-image-area">
             <label for="profile-image">
               <img
                 id="profile-preview"
-                src="{% static 'assets/icons/profile.svg' %}"
+                src="{% if form.instance.profile_image %}{{ form.instance.profile_image.url }}{% else %}{% static 'assets/icons/profile.svg' %}{% endif %}"
                 alt="프로필 이미지"
               />
             </label>
 
-            <input type="file" id="profile-image" accept="image/*" hidden />
+            <input
+              type="file"
+              id="profile-image"
+              name="profile_image"
+              accept="image/*"
+              hidden
+            />
           </div>
 
           <!-- 이름 -->
@@ -61,8 +77,9 @@
             <input
               type="text"
               id="name"
+              name="name"
               placeholder="이름을 입력하세요."
-              value="{{ user.name|default:'' }}"
+              value="{{ form.name.value|default:'' }}"
             />
 
             <small class="error-msg">필수 항목을 입력하세요.</small>
@@ -75,9 +92,10 @@
             <div class="textarea-wrapper">
               <textarea
                 id="intro"
+                name="intro"
                 maxlength="50"
                 placeholder="한 줄 소개를 입력하세요."
-              ></textarea>
+              >{{ form.intro.value|default:'' }}</textarea>
 
               <span class="text-count">0/50</span>
             </div>
@@ -96,10 +114,10 @@
             <small class="error-msg">필수 항목을 선택하세요.</small>
 
             <div class="button-row">
-              <button type="button" class="select-btn" data-value="experienced">
+              <button type="button" class="select-btn" data-value="EXPERIENCED">
                 경험 보유자
               </button>
-              <button type="button" class="select-btn" data-value="starter">
+              <button type="button" class="select-btn" data-value="STARTER">
                 커리어 스타터
               </button>
             </div>
@@ -164,11 +182,11 @@
             <small class="error-msg">필수 항목을 선택하세요.</small>
 
             <div class="button-row">
-              <button type="button" class="select-btn" data-value="one">
+              <button type="button" class="select-btn" data-value="ONE">
                 1:1 교환형
               </button>
 
-              <button type="button" class="select-btn" data-value="group">
+              <button type="button" class="select-btn" data-value="GROUP">
                 소그룹(3~5명)
               </button>
             </div>

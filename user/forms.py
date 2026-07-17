@@ -54,6 +54,7 @@ class LoginForm(forms.Form):
 
 class ProfileForm(forms.ModelForm):
     """프로필 등록/수정 폼"""
+    name = forms.CharField(max_length=50, required=True, label='이름')
     give_talents = forms.ModelMultipleChoiceField(
         queryset=Talent.objects.all(),
         required=True,
@@ -75,6 +76,9 @@ class ProfileForm(forms.ModelForm):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
+        if self.user:
+            self.fields['name'].initial = self.user.name
+
         # 수정 시 기존 재능 선택값 채우기
         if self.instance and self.instance.pk:
             self.fields['give_talents'].initial = Talent.objects.filter(
@@ -91,6 +95,9 @@ class ProfileForm(forms.ModelForm):
         if self.user:
             profile.user = self.user
         if commit:
+            if self.user and self.user.name != self.cleaned_data['name']:
+                self.user.name = self.cleaned_data['name']
+                self.user.save(update_fields=['name'])
             profile.save()
 
             # 기존 재능 삭제 후 재등록
