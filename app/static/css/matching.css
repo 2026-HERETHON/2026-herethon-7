@@ -866,46 +866,33 @@ body.modal-open {
   display: flex;
   flex-direction: column;
   align-items: center;
-
   min-height: calc(100vh - 78px);
-  padding: 85px 18px 45px;
+  padding: 120px 0 20px;
   text-align: center;
 }
 
-.complete-visual {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 92px;
-  height: 92px;
-  margin-bottom: 28px;
-
-  color: var(--color-white);
-  background: var(--color-primary);
-  border-radius: 50%;
-
-  font-size: 48px;
-  font-weight: 700;
+.proposal-complete img {
+  width: 238px;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 22px;
 }
 
 .proposal-complete h1 {
-  margin: 0 0 15px;
-  font-size: 25px;
-  line-height: 1.4;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 22px;
 }
 
 .complete-description {
-  margin: 0 0 30px;
   color: var(--color-muted);
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .proposal-summary {
   width: 100%;
   padding: 20px 18px;
-
   background: var(--color-white);
   border: 1px solid var(--color-border);
   border-radius: 12px;
@@ -947,17 +934,8 @@ body.modal-open {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  width: 100%;
-  height: 52px;
-  margin-top: 25px;
-
-  color: var(--color-white);
-  background: var(--color-primary);
-  border-radius: 8px;
-
-  font-size: 17px;
-  font-weight: 700;
+  width: 232px;
+  margin-top: 120px;
 }
 /* 받은 제안 목록 */
 
