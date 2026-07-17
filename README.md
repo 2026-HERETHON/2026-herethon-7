@@ -24,7 +24,7 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 경력 보유자는 최신 툴과 트렌드를 배우며 커리어 공백을 줄일 수 있고,
 커리어 스타터는 실무 프로젝트 경험과 피드백을 통해 포트폴리오를 쌓을 수 있습니다.
 
-우리 서비흐는 단순한 멘토링이 아닌 실제 협업을 통한 성장을 목표로 합니다.
+우리 서비스는 단순한 멘토링이 아닌 실제 협업을 통한 성장을 목표로 합니다.
 
 
 
@@ -104,4 +104,4 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 | 박채희 | 조연지 | 이연재 | 오아름 | 정상지 |
 |:---:|:---:|:---:|:---:|:---:|
 | **Plan/Design** | **FrontEnd** | **FrontEnd** | **BackEnd** | **BackEnd** |
-| <br><br>서비스 기획<br><br>UI/UX 디자인<br><br>PPT 제작<br><br><br><br> | <br><br>프론트엔드<br><br><br><br><br><br><br> | <br><br><br><br><br><br><br><br><br> | <br><br>백엔드<br><br>발표<br><br><br><br><br> | <br><br><br><br><br><br><br><br><br> |
+| <br><br>서비스 기획<br><br>UI/UX 디자인<br><br>PPT 제작<br><br><br><br> | <br><br>프론트엔드<br><br><br><br><br><br><br> | <br><br>프론트엔드<br><br><br><br><br><br><br> | <br><br>백엔드<br><br>발표<br><br><br><br><br> | <br><br><br><br><br><br><br><br><br> |
