@@ -38,11 +38,11 @@
             <div data-type="provide">{{ form.give_talents }}</div>
             <div data-type="need">{{ form.need_talents }}</div>
           </div>
-
+          {{ form.give_talents_custom }} {{ form.need_talents_custom }}
           {% if form.errors %}
-            <div class="server-errors" role="alert">
-              입력 내용을 다시 확인해 주세요.
-            </div>
+          <div class="server-errors" role="alert">
+            입력 내용을 다시 확인해 주세요.
+          </div>
           {% endif %}
 
           <!-- 프로필 사진 -->
@@ -95,7 +95,9 @@
                 name="intro"
                 maxlength="50"
                 placeholder="한 줄 소개를 입력하세요."
-              >{{ form.intro.value|default:'' }}</textarea>
+              >
+{{ form.intro.value|default:'' }}</textarea
+              >
 
               <span class="text-count">0/50</span>
             </div>
@@ -229,15 +231,10 @@
         <div class="selected-tags"></div>
 
         <div class="search-box">
-          <img
-            src="{% static 'assets/icons/search.svg' %}"
-            class="search-icon"
-            alt="search-icon"
-          />
           <input
             type="text"
             id="sheet-search"
-            placeholder="직접 입력하거나 추천 항목을 선택하세요."
+            placeholder="직접 입력 후 Enter를 눌러 추가하세요."
           />
         </div>
 
