@@ -893,3 +893,242 @@
   background: #eeeeee;
   text-align: center;
 }
+
+/* 알림에서 확인하는 협업 제안 */
+.received-proposal-page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 20px 20px 40px;
+  background: var(--color-background);
+}
+
+.received-proposal-header {
+  min-height: 44px;
+}
+
+.received-proposal-header a {
+  color: var(--color-text);
+  font-size: 40px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.received-proposal-sender {
+  margin: 4px 16px 34px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.received-proposal-sender > img {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.received-proposal-sender > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.received-proposal-sender strong {
+  font-size: 18px;
+}
+
+.received-proposal-sender span {
+  font-size: 14px;
+}
+
+.received-proposal-sender em {
+  padding: 4px 9px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  font-size: 12px;
+  font-style: normal;
+}
+
+.received-proposal-summary,
+.received-proposal-conditions {
+  margin-bottom: 24px;
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.received-proposal-summary h2,
+.received-proposal-exchange h2 {
+  margin: 0 0 14px;
+  font-size: 18px;
+}
+
+.received-proposal-summary > strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.received-proposal-summary p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.received-proposal-exchange {
+  margin-bottom: 24px;
+}
+
+.received-proposal-exchange__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+}
+
+.received-proposal-exchange__content article {
+  box-sizing: border-box;
+  min-height: 100px;
+  padding: 16px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  background: #fff;
+}
+
+.received-proposal-exchange__content article span {
+  color: #666;
+  font-size: 13px;
+}
+
+.received-proposal-exchange__content article strong {
+  padding: 5px 8px;
+  border-radius: 8px;
+  color: #43583a;
+  background: #f5f9ee;
+  font-size: 13px;
+}
+
+.received-proposal-exchange__content > img {
+  width: 30px;
+  height: 30px;
+  justify-self: center;
+}
+
+.received-proposal-conditions dl {
+  margin: 0;
+}
+
+.received-proposal-conditions dl > div {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.received-proposal-conditions dl > div:first-child {
+  margin-top: 0;
+}
+
+.received-proposal-conditions dt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.received-proposal-conditions dt img {
+  width: 17px;
+  height: 17px;
+}
+
+.received-proposal-conditions dd {
+  margin: 0;
+}
+
+.received-proposal-actions {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.received-proposal-actions form {
+  margin: 0;
+}
+
+.received-proposal-actions button {
+  width: 100%;
+  min-height: 46px;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.received-proposal-accept {
+  border: 1px solid var(--color-primary);
+  color: var(--color-text);
+}
+
+.received-proposal-reject {
+  border: 1px solid #dc6e6e;
+  color: var(--color-text);
+}
+
+.received-proposal-processed {
+  margin-top: 40px;
+  color: #777;
+  text-align: center;
+}
+
+.proposal-accepted-page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 140px 32px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--color-background);
+  text-align: center;
+}
+
+.proposal-accepted-illustration {
+  display: block;
+  width: 260px;
+  height: auto;
+  margin-bottom: 42px;
+  object-fit: contain;
+}
+
+.proposal-accepted-page h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.proposal-accepted-page p {
+  margin: 20px 0 0;
+  color: #666;
+  font-size: 15px;
+}
+
+.proposal-accepted-page > a {
+  width: 220px;
+  min-height: 52px;
+  margin-top: 130px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: var(--color-primary);
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+}

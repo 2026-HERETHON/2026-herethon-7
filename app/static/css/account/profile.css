@@ -8,11 +8,33 @@
   padding: 40px 20px;
 }
 
+.profile-header {
+  position: relative;
+  width: 100%;
+  min-height: 48px;
+  margin-bottom: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-header__back {
+  position: absolute;
+  left: 0;
+  padding: 0;
+  border: 0;
+  color: #111;
+  background: transparent;
+  font-size: 42px;
+  line-height: 1;
+  cursor: pointer;
+}
+
 .title {
-  text-align: center;
+  margin: 0;
   font-size: 24px;
   font-weight: 500;
-  margin-bottom: 68px;
+  text-align: center;
   cursor: default;
 }
 

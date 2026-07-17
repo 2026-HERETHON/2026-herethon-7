@@ -16,13 +16,15 @@
     <div id="app">
       <div class="app-shell">
         <main class="proposal-accepted-page">
-          <div class="proposal-accepted-illustration" aria-hidden="true">
-            🎉
-          </div>
+          <img
+            class="proposal-accepted-illustration"
+            src="{% static 'assets/images/notifications/proposal-accepted.svg' %}"
+            alt="협업 제안 수락을 축하하는 일러스트"
+          />
 
           <h1>좋은 소식이에요!</h1>
 
-          <p>{{ proposal.sender.name }}님이 회원님의 제안을 수락했어요.</p>
+          <p>{{ proposal.sender.name }}님이 회원님의 제안을 수락했어요</p>
 
           <a href="{% url 'project:project_overview' project.id %}">
             프로젝트로 이동

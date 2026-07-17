@@ -11,6 +11,12 @@ urlpatterns = [
         views.home,
         name="home",
     ),
+    # 알림 목록
+    path(
+        "notifications/",
+        views.notification_list,
+        name="notification_list",
+    ),
 
     # ==========================
     # 매칭
@@ -63,6 +69,12 @@ urlpatterns = [
         "proposal/<int:proposal_id>/accept/",
         views.proposal_accept,
         name="proposal_accept",
+    ),
+
+    path(
+    "proposal/<int:proposal_id>/accepted/",
+    views.proposal_accept_complete,
+    name="proposal_accept_complete",
     ),
 
     # 제안 거절

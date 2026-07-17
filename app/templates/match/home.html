@@ -22,9 +22,16 @@
               alt="RE:Link"
             />
           </a>
-          <button class="notification-button" type="button" aria-label="알림">
-            <img src="{% static 'assets/icons/notification.svg' %}" alt="" />
-          </button>
+          <a
+  class="notification-button"
+  href="{% url 'match:notification_list' %}"
+  aria-label="알림 페이지로 이동"
+>
+  <img
+    src="{% static 'assets/icons/notification.svg' %}"
+    alt=""
+  />
+</a>
         </header>
         <section class="greeting" aria-labelledby="greeting-title">
           <h1 id="greeting-title">안녕하세요, {{ request.user.name }}님!</h1>
