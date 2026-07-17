@@ -222,100 +222,210 @@ def coming_soon(request):
 @login_required
 def portfolio_list(request):
     """포트폴리오 목록"""
-    # 내가 참여한 완료 프로젝트의 포트폴리오
-    portfolios = Portfolio.objects.filter(
-        project__projectmember__user=request.user
-    ).select_related(
-        'project__proposal'
-    ).prefetch_related(
-        'project__projectmember_set__user'
-    ).order_by('-created_at')
+
+    portfolios = (
+        Portfolio.objects.filter(
+            user=request.user
+        )
+        .select_related(
+            "project",
+            "project__proposal",
+        )
+        .prefetch_related(
+            "project__projectmember_set__user"
+        )
+        .order_by("-created_at")
+    )
+
+    portfolio_items = []
 
     for portfolio in portfolios:
-        partners = [
-            member.user.name
-            for member in portfolio.project.projectmember_set.all()
-            if member.user_id != request.user.id
-        ]
-        portfolio.partner_names = ', '.join(partners) or '-'
 
-    return render(request, 'mypage/portfolio-manage.html', {
-        'portfolios': portfolios,
-    })
+        members = list(portfolio.project.projectmember_set.all())
 
+        partner = next(
+            (
+                member.user
+                for member in members
+                if member.user_id != request.user.id
+            ),
+            None,
+        )
+
+        portfolio_items.append(
+            {
+                "portfolio": portfolio,
+                "partner": partner,
+                "project_type": portfolio.project.proposal.get_mode_display(),
+            }
+        )
+
+    return render(
+        request,
+        "mypage/portfolio-manage.html",
+        {
+            "portfolio_items": portfolio_items,
+        },
+    )
 
 @login_required
 def portfolio_detail(request, portfolio_id):
     """포트폴리오 상세"""
+
     portfolio = get_object_or_404(
         Portfolio.objects.select_related(
-            'project__proposal'
+            "project",
+            "project__proposal",
+            "user",
         ).prefetch_related(
-            'project__projectmember_set__user__profile'
+            "project__projectmember_set__user__profile"
         ),
         pk=portfolio_id,
-        project__projectmember__user=request.user,
+        user=request.user,
     )
 
-    if request.method == 'POST':
-        learnings = request.POST.get('learnings', '').strip()
-        uploaded_file = request.FILES.get('file_path')
-        remove_file = request.POST.get('remove_file') == 'true'
-        has_result = bool(uploaded_file or (portfolio.file_path and not remove_file))
+    if request.method == "POST":
 
-        if learnings and has_result:
-            if uploaded_file:
-                if portfolio.file_path:
-                    portfolio.file_path.delete(save=False)
-                portfolio.file_path = uploaded_file
-            portfolio.role = learnings
-            portfolio.save(update_fields=['role', 'file_path'])
-            messages.success(request, '포트폴리오가 저장되었습니다.')
-            return redirect('user:portfolio_detail', portfolio_id=portfolio.pk)
+        uploaded_file = request.FILES.get("file_path")
+        if not portfolio.file_path and not uploaded_file:
+            messages.error(request, "결과물을 업로드해주세요.")
+        summary = request.POST.get("summary", "").strip()
 
-        messages.error(request, '성과 및 결과물과 느낀점을 모두 입력해주세요.')
+        if uploaded_file:
+            if portfolio.file_path:
+                portfolio.file_path.delete(save=False)
+            portfolio.file_path = uploaded_file
 
-    members = list(portfolio.project.projectmember_set.all())
+        portfolio.summary = summary
+        portfolio.save(update_fields=[
+            "summary",
+            "file_path",
+        ])
+
+        messages.success(
+            request,
+            "포트폴리오가 저장되었습니다."
+        )
+
+        return redirect(
+            "user:portfolio_detail",
+            portfolio_id=portfolio.pk,
+        )
+
+    project = portfolio.project
+    proposal = project.proposal
+
+    members = list(
+        project.projectmember_set.select_related(
+            "user",
+            "user__profile",
+        )
+    )
+
     current_member = next(
-        (member for member in members if member.user_id == request.user.id),
+        (
+            member
+            for member in members
+            if member.user_id == request.user.id
+        ),
         None,
     )
-    partners = [
+
+    partner_names = ", ".join(
         member.user.name
         for member in members
         if member.user_id != request.user.id
-    ]
+    ) or "-"
 
-    return render(request, 'mypage/portfolio-detail.html', {
-        'portfolio': portfolio,
-        'members': members,
-        'current_member': current_member,
-        'partner_names': ', '.join(partners) or '-',
-        'learnings': portfolio.role.splitlines() if portfolio.role else [],
-        'has_details': bool(portfolio.file_path and portfolio.role),
-    })
+    role_details = []
+
+    for member in members:
+
+        profile = getattr(member.user, "profile", None)
+
+        role_details.append({
+            "name": member.user.name,
+            "role": member.role or "-",
+            "profile_image": (
+                profile.profile_image.url
+                if profile and profile.profile_image
+                else None
+            ),
+        })
+
+    context = {
+        "portfolio": portfolio,
+
+        "partner_names": partner_names,
+
+        "project_type": proposal.get_mode_display(),
+
+        "overview": proposal.goal,
+
+        "my_role": current_member.role if current_member else "-",
+
+        "role_details": role_details,
+
+        "is_owner": portfolio.user == request.user,
+
+        "has_completed_detail": bool(
+            portfolio.summary or portfolio.file_path
+        ),
+    }
+
+    return render(
+        request,
+        "mypage/portfolio-detail.html",
+        context,
+    )
 
 
 @login_required
 def portfolio_edit(request, portfolio_id):
     """포트폴리오 수정"""
-    portfolio = get_object_or_404(Portfolio, pk=portfolio_id)
 
-    # 본인 포트폴리오인지 확인
-    if not portfolio.project.projectmember_set.filter(user=request.user).exists():
-        messages.error(request, '수정 권한이 없습니다.')
-        return redirect('user:portfolio_list')
+    portfolio = get_object_or_404(
+        Portfolio,
+        pk=portfolio_id,
+        user=request.user,
+    )
 
-    if request.method == 'POST':
-        form = PortfolioForm(request.POST, request.FILES, instance=portfolio)
+    if request.method == "POST":
+
+        form = PortfolioForm(
+            request.POST,
+            request.FILES,
+            instance=portfolio,
+        )
+
         if form.is_valid():
-            form.save()
-            messages.success(request, '포트폴리오가 수정되었습니다.')
-            return redirect('user:portfolio_detail', portfolio_id=portfolio.pk)
-    else:
-        form = PortfolioForm(instance=portfolio)
-    return render(request, 'user/portfolio_form.html', {'form': form, 'portfolio': portfolio})
 
+            form.save()
+
+            messages.success(
+                request,
+                "포트폴리오가 수정되었습니다."
+            )
+
+            return redirect(
+                "user:portfolio_detail",
+                portfolio_id=portfolio.pk,
+            )
+
+    else:
+
+        form = PortfolioForm(
+            instance=portfolio,
+        )
+
+    return render(
+        request,
+        "user/portfolio_form.html",
+        {
+            "form": form,
+            "portfolio": portfolio,
+        },
+    )
 
 # ========== 후기 ==========
 

@@ -59,7 +59,7 @@
               </div>
               <div>
                 <dt>파트너</dt>
-                <dd data-field="partner">{{ partner.name }}</dd>
+                <dd data-field="partner">{{ partner_names }}</dd>
               </div>
               <div>
                 <dt>협업 형태</dt>
@@ -94,7 +94,6 @@
                     type="file"
                     name="file_path"
                     accept="image/*"
-                    {% if not portfolio.file_path %}required{% endif %}
                     hidden
                   />
                   <img
@@ -163,7 +162,7 @@
                       aria-hidden="true"
                     />파트너
                   </dt>
-                  <dd data-field="partner">{{ partner.name }}</dd>
+                  <dd data-field="partner">{{ partner_names }}</dd>
                 </div>
                 <div>
                   <dt>
