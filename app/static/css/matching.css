@@ -1,0 +1,1552 @@
+.matching-page {
+  min-height: calc(100vh - 78px);
+  padding: 28px 18px 40px;
+}
+
+.matching-title {
+  margin: 0 0 24px;
+  text-align: center;
+  font-size: 24px;
+}
+
+/* 필터 */
+
+.matching-filter {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr 1.4fr;
+  gap: 9px;
+  margin-bottom: 25px;
+}
+
+.matching-filter a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 10px;
+
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.matching-filter a.is-active {
+  color: var(--color-white);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* 추천 목록 */
+
+.matching-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.matching-card {
+  display: block;
+  padding: 18px 16px;
+
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+}
+
+.matching-card__header {
+  display: flex;
+  align-items: center;
+}
+
+.matching-card__profile {
+  width: 52px;
+  height: 52px;
+  margin-right: 12px;
+
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.matching-card__person {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.matching-card__person strong {
+  font-size: 17px;
+}
+
+.matching-card__person span {
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.matching-card__score {
+  margin-left: auto;
+  color: var(--color-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* 재능 영역 */
+
+.matching-card__talents {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 17px;
+}
+
+.matching-card__label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.talent-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.talent-tags span {
+  padding: 5px 9px;
+
+  color: #4f6841;
+  background: #f1f7e9;
+  border: 1px solid #d7e8c5;
+  border-radius: 6px;
+
+  font-size: 12px;
+}
+
+/* 추천 상대가 없을 때 */
+
+.matching-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 560px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.matching-empty img {
+  width: 253px;
+  height: 240px;
+  object-fit: contain;
+  margin-bottom: 18px;
+}
+
+.matching-empty h2 {
+  margin: 0 0 14px;
+  font-size: 21px;
+}
+
+.matching-empty p {
+  margin: 0 0 30px;
+  color: var(--color-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.profile-edit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 210px;
+  height: 48px;
+
+  color: var(--color-white);
+  background: var(--color-primary);
+  border-radius: 8px;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* 매칭 로딩 */
+
+.matching-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 100svh;
+  padding: 164px 26px 135px;
+}
+
+.matching-loading__image {
+  display: block;
+  width: min(100%, 350px);
+  height: auto;
+}
+
+.matching-loading h1 {
+  margin: 55px 0 0;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.matching-loading p {
+  margin: 60px 0 0;
+  color: var(--color-muted);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.matching-loading__spinner {
+  width: 40px;
+  height: 40px;
+  margin-top: 40px;
+  border: 5px solid #e7f2d9;
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: matching-spin 0.9s linear infinite;
+}
+
+.matching-loading__edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 258px;
+  margin-top: 64px;
+}
+
+@keyframes matching-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .matching-loading__spinner {
+    animation-duration: 1.8s;
+  }
+}
+
+/* 작은 화면 */
+
+@media (max-width: 360px) {
+  .matching-page {
+    padding-right: 13px;
+    padding-left: 13px;
+  }
+
+  .matching-filter {
+    gap: 6px;
+  }
+
+  .matching-filter a {
+    padding: 0 6px;
+    font-size: 12px;
+  }
+
+  .matching-loading {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+
+  .matching-loading h1 {
+    font-size: 21px;
+  }
+
+  .matching-loading p {
+    font-size: 16px;
+  }
+}
+
+/* 매칭 상세 */
+
+.matching-detail {
+  min-height: 100vh;
+  padding: 20px 18px 35px;
+}
+
+.detail-header {
+  height: 44px;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  font-size: 36px;
+  line-height: 1;
+}
+
+.back-button img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.partner-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 14px 28px;
+}
+
+.partner-profile__image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.partner-profile__info h1 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+.partner-profile__info p {
+  padding: 5px 10px;
+  color: var(--black);
+  border: 1px solid #0000002b;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.partner-profile__info span {
+  display: inline-block;
+  padding: 4px 8px;
+
+  color: #4f6841;
+  background: #f1f7e9;
+  border-radius: 5px;
+
+  font-size: 12px;
+}
+
+.detail-section {
+  margin-bottom: 18px;
+  padding: 18px 16px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 11px;
+  box-shadow: var(--shadow-card);
+}
+
+.icon-container {
+  padding: 6px;
+  background: #f8fcf3;
+  border: 1px solid #7eb9414d;
+  border-radius: 50%;
+}
+
+.detail-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 20px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.detail-section h2 img {
+  display: block;
+  width: auto;
+  height: 18px;
+  object-fit: contain;
+}
+
+.talent-exchange {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  font-size: 25px;
+  font-weight: 700;
+  margin: 18px 0;
+}
+
+.talent-exchange img {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+.detail-intro p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.proposal-create-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 240px;
+  margin-top: 100px;
+}
+
+/* 협업 제안 작성 */
+
+.proposal-page {
+  min-height: 100vh;
+  padding: 20px 24px 36px;
+}
+
+.proposal-header {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  margin-bottom:24px;
+}
+
+.proposal-header .back-button {
+  width: 24px;
+  height: 36px;
+  justify-content: flex-start;
+}
+
+/* 입력 폼 */
+
+.proposal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-field label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.form-field .required-icon {
+  width: 8px;
+  height: 8px;
+}
+
+.form-field input:not([type="file"]),
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 9px 16px;
+  color: var(--color-text);
+  background: var(--color-white);
+  border: 1px solid #d7d7d7;
+  border-radius: 11px;
+  font-size: 16px;
+}
+
+.form-field input:not([type="file"]),
+.form-field select {
+  height: 42px;
+}
+
+.form-field textarea {
+  min-height: 42px;
+  resize: none;
+  line-height: 1.35;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--color-primary);
+  outline: 2px solid rgb(126 185 65 / 12%);
+}
+
+.counted-input {
+  position: relative;
+}
+
+.counted-input input,
+.counted-input textarea {
+  padding-right: 54px !important;
+}
+
+.character-count {
+  position: absolute;
+  right: 13px;
+  bottom: 10px;
+  color: #d8d8d8;
+  font-size: 11px;
+}
+
+.talent-picker {
+  display: grid;
+  grid-template-columns: 1fr 38px 1fr;
+  align-items: center;
+}
+
+.talent-card {
+  display: flex;
+  min-width: 0;
+  padding: 12px 8px;
+  align-items: center;
+  flex-direction: column;
+  gap: 9px;
+  color: var(--color-text);
+  background: #fff;
+  border: 1px solid #d5d5d5;
+  border-radius: 11px;
+  cursor: pointer;
+}
+
+.talent-card strong {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.talent-card img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.talent-card small {
+  color: #777;
+  font-size: 12px;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.talent-card small.is-selected {
+  display: inline-flex;
+  width: auto;
+  max-width: 100%;
+  padding: 4px 10px;
+  color: #4f6841;
+  background: #fbfff7;
+  border: 1px solid #cfdda9;
+  border-radius: 15px;
+  font-size: 13px;
+}
+
+.talent-change-icon {
+  width: 22px;
+  height: 22px;
+  justify-self: center;
+}
+
+.native-talent-selects {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.mode-field > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+}
+
+.mode-field > div > div label {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  color: #111;
+  background: #fff;
+  border: 1px solid #d7d7d7;
+  border-radius: 11px;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.mode-field input {
+  position: absolute;
+  width: 1px !important;
+  height: 1px !important;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.mode-field > div > div:has(input:checked) label {
+  color: var(--color-primary);
+  background: #f2f8e9;
+  border-color: var(--color-primary);
+}
+
+.mode-field > div > div:has(input:checked) label::after {
+  content: "✓";
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: var(--color-primary);
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+.file-input-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 30px;
+  gap: 10px;
+}
+
+.file-input-label {
+  display: flex;
+  height: 38px;
+  padding: 0 14px;
+  align-items: center;
+  gap: 7px;
+  overflow: hidden;
+  color: #00000099;
+  background: #fff;
+  border: 1px dashed #d5d5d5;
+  border-radius: 10px;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  cursor: pointer;
+}
+
+.file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.upload-icon {
+  color: #666 !important;
+  font-size: 18px;
+}
+
+.file-add-button {
+  display: flex;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px dashed #d5d5d5;
+  border-radius: 5px;
+  font-weight: 400 !important;
+  cursor: pointer;
+}
+
+.file-add-button img {
+  width: 22px;
+  height: 22px;
+}
+
+.file-input-row input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.field-error {
+  margin: 0;
+  color: #d35c5c;
+  font-size: 12px;
+}
+
+.client-error {
+  display: none;
+}
+
+.form-field.has-error .client-error {
+  display: block;
+}
+
+.form-field.has-error input:not([type="file"]),
+.form-field.has-error select,
+.form-field.has-error textarea,
+.talent-field.has-error .talent-card,
+.mode-field.has-error > div > div label {
+  border-color: #a8494b;
+  background: #a8494b0d;
+}
+
+.form-error {
+  padding: 12px;
+  color: #9d3535;
+  background: #fff0f0;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+/* 전송 버튼 */
+
+.proposal-submit-button {
+  display: flex;
+  width: 217px;
+  margin: 10px auto 0;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.proposal-submit-button img {
+  width: 20px;
+  height: 20px;
+}
+
+.proposal-submit-button:hover {
+  background: #7EB94133;
+}
+
+/* 재능 교환 모달 */
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.talent-modal {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.talent-modal.is-open {
+  display: flex;
+}
+
+.talent-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  border: 0;
+  background: rgb(0 0 0 / 31%);
+}
+
+.talent-modal__sheet {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 440px);
+  padding: 12px 24px 22px;
+  background: var(--color-background);
+  border-radius: 25px 25px 0 0;
+}
+
+.talent-modal__handle {
+  width: 76px;
+  height: 3px;
+  margin: 0 auto 22px;
+  background: #d7d7d7;
+  border-radius: 3px;
+}
+
+.talent-modal__sheet h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.talent-modal__sheet > p {
+  margin: 7px 0 27px;
+  color: #777;
+  font-size: 13px;
+  text-align: center;
+}
+
+.modal-talent-group + .modal-talent-group {
+  margin-top: 28px;
+}
+
+.modal-talent-group h3 {
+  margin: 0 0 12px;
+  color: var(--color-primary);
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.talent-search {
+  display: flex;
+  height: 40px;
+  padding: 0 13px;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #d7d7d7;
+  border-radius: 11px;
+}
+
+.talent-search img {
+  width: 20px;
+  height: 20px;
+}
+
+.talent-search input {
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 14px;
+}
+
+.talent-options {
+  display: flex;
+  max-height: 76px;
+  margin-top: 13px;
+  flex-wrap: wrap;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.talent-option {
+  padding: 7px 12px;
+  color: #111;
+  background: #fff;
+  border: 1px solid #d7d7d7;
+  border-radius: 11px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.talent-option.is-selected {
+  color: #4f6841;
+  background: #f4faec;
+  border-color: var(--color-primary);
+}
+
+.talent-modal__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 30px;
+}
+
+.talent-modal__actions button {
+  height: 49px;
+  border: 1px solid #bdbdbd;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.talent-modal__cancel {
+  color: #111;
+  background: #ddd;
+}
+
+.talent-modal__apply {
+  color: #fff;
+  background: var(--color-primary);
+  border-color: var(--color-primary) !important;
+}
+
+/* 제안 전송 완료 */
+
+.proposal-complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 78px);
+  padding: 120px 0 20px;
+  text-align: center;
+}
+
+.proposal-complete img {
+  width: 238px;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 22px;
+}
+
+.proposal-complete h1 {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 22px;
+}
+
+.complete-description {
+  color: var(--color-muted);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.proposal-summary {
+  width: 100%;
+  padding: 20px 18px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+
+  text-align: left;
+}
+
+.proposal-summary h2 {
+  margin: 0 0 18px;
+  font-size: 18px;
+}
+
+.proposal-summary dl {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  margin: 0;
+}
+
+.proposal-summary dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.proposal-summary dt {
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.proposal-summary dd {
+  margin: 0;
+  font-size: 14px;
+  text-align: right;
+}
+
+.other-matching-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 232px;
+  margin-top: 120px;
+}
+/* 받은 제안 목록 */
+
+.received-page {
+  min-height: calc(100vh - 78px);
+  padding: 20px 18px 40px;
+}
+
+.received-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-bottom: 25px;
+}
+
+.received-header .back-button {
+  position: absolute;
+  left: 0;
+}
+
+.received-header h1 {
+  margin: 0;
+  font-size: 23px;
+}
+
+.received-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.received-card {
+  display: block;
+  padding: 17px 15px;
+
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+}
+
+.received-card__header {
+  display: flex;
+  align-items: center;
+}
+
+.received-card__profile {
+  width: 48px;
+  height: 48px;
+  margin-right: 11px;
+
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.received-card__sender {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.received-card__sender strong {
+  font-size: 16px;
+}
+
+.received-card__sender span {
+  color: var(--color-muted);
+  font-size: 12px;
+}
+
+.proposal-status {
+  margin-left: auto;
+  padding: 5px 8px;
+
+  color: #5d7d3e;
+  background: #f1f7e9;
+  border-radius: 6px;
+
+  font-size: 12px;
+}
+
+.received-card h2 {
+  margin: 15px 0 12px;
+  font-size: 17px;
+}
+
+.received-card__talents {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.received-card__talents span {
+  padding: 5px 8px;
+
+  color: #4f6841;
+  background: #f1f7e9;
+  border: 1px solid #d7e8c5;
+  border-radius: 6px;
+
+  font-size: 12px;
+}
+
+.received-card__talents b {
+  font-size: 15px;
+}
+
+/* 받은 제안 없음 */
+
+.received-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 590px;
+  text-align: center;
+}
+
+.received-empty h2 {
+  margin: 0 0 13px;
+  font-size: 21px;
+}
+
+.received-empty p {
+  margin: 0 0 28px;
+  color: var(--color-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.received-empty a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 210px;
+  height: 48px;
+
+  color: var(--color-white);
+  background: var(--color-primary);
+  border-radius: 8px;
+
+  font-weight: 700;
+}
+
+/* 받은 제안 상세 */
+.proposal-detail-page {
+  min-height: 100vh;
+  padding: 24px 24px 140px;
+  background: var(--color-background);
+}
+
+.proposal-detail-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-bottom: 28px;
+}
+
+.proposal-detail-header .back-button {
+  position: absolute;
+  left: 0;
+  color: var(--color-text);
+  font-size: 42px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.proposal-detail-header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.proposal-sender {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.proposal-sender__profile {
+  width: 64px;
+  height: 64px;
+  margin-right: 14px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.proposal-sender__info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.proposal-sender__info strong {
+  font-size: 20px;
+}
+
+.proposal-sender__info span {
+  color: #777;
+  font-size: 14px;
+}
+
+.proposal-detail-status {
+  padding: 7px 11px;
+  border-radius: 20px;
+  color: var(--color-primary-dark);
+  background: #eff7e8;
+  font-size: 13px;
+}
+
+.proposal-detail-card {
+  margin-bottom: 16px;
+  padding: 22px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.proposal-detail-card h2 {
+  margin: 0 0 18px;
+  font-size: 19px;
+}
+
+.proposal-detail-card p {
+  margin: 8px 0 0;
+  color: #666;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.proposal-detail-label {
+  color: #777;
+  font-size: 13px;
+}
+
+.proposal-detail-card > .proposal-detail-label + h2 {
+  margin-top: 7px;
+}
+
+.proposal-detail-divider {
+  height: 1px;
+  margin: 20px 0;
+  background: var(--color-border);
+}
+
+.proposal-talent-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.proposal-talent-row > div {
+  display: flex;
+  min-height: 76px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f3f8ed;
+  text-align: center;
+}
+
+.proposal-talent-row span {
+  margin-bottom: 6px;
+  color: #777;
+  font-size: 12px;
+}
+
+.proposal-talent-row strong {
+  color: var(--color-primary-dark);
+  font-size: 15px;
+}
+
+.proposal-exchange-icon {
+  margin: 0 !important;
+  color: var(--color-primary) !important;
+  font-size: 22px !important;
+}
+
+.proposal-condition-list {
+  margin: 0;
+}
+
+.proposal-condition-list > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.proposal-condition-list > div:last-child {
+  border-bottom: 0;
+}
+
+.proposal-condition-list dt {
+  color: #777;
+}
+
+.proposal-condition-list dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.proposal-message {
+  word-break: break-word;
+}
+
+.proposal-attachment {
+  display: block;
+  padding: 14px;
+  border-radius: 10px;
+  color: var(--color-primary-dark);
+  background: #f3f8ed;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+}
+
+.proposal-response-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.proposal-response-buttons form {
+  margin: 0;
+}
+
+.proposal-response-buttons button {
+  width: 100%;
+  min-height: 56px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.proposal-reject-button {
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary-dark);
+  background: #fff;
+}
+
+.proposal-accept-button {
+  border: 1px solid var(--color-primary);
+  color: #fff;
+  background: var(--color-primary);
+}
+
+.proposal-processed-message {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 12px;
+  color: #777;
+  background: #eeeeee;
+  text-align: center;
+}
+
+/* 알림에서 확인하는 협업 제안 */
+.received-proposal-page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 20px 20px 40px;
+  background: var(--color-background);
+}
+
+.received-proposal-header {
+  min-height: 44px;
+}
+
+.received-proposal-header a {
+  color: var(--color-text);
+  font-size: 40px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.received-proposal-sender {
+  margin: 4px 16px 34px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.received-proposal-sender > img {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.received-proposal-sender > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.received-proposal-sender strong {
+  font-size: 18px;
+}
+
+.received-proposal-sender span {
+  font-size: 14px;
+}
+
+.received-proposal-sender em {
+  padding: 4px 9px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  font-size: 12px;
+  font-style: normal;
+}
+
+.received-proposal-summary,
+.received-proposal-conditions {
+  margin-bottom: 24px;
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.received-proposal-summary h2,
+.received-proposal-exchange h2 {
+  margin: 0 0 14px;
+  font-size: 18px;
+}
+
+.received-proposal-summary > strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.received-proposal-summary p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.received-proposal-exchange {
+  margin-bottom: 24px;
+}
+
+.received-proposal-exchange__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+}
+
+.received-proposal-exchange__content article {
+  box-sizing: border-box;
+  min-height: 140px;
+  padding: 16px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #fff;
+}
+
+.received-proposal-exchange__content article h3 {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.received-proposal-exchange__talents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.received-proposal-exchange__talents span {
+  padding: 5px 8px;
+  border: 1px solid #c7e3a9;
+  border-radius: 8px;
+  color: #43583a;
+  background: #f5f9ee;
+  font-size: 13px;
+}
+
+.received-proposal-exchange__content > img {
+  width: 30px;
+  height: 30px;
+  justify-self: center;
+}
+
+.received-proposal-conditions dl {
+  margin: 0;
+}
+
+.received-proposal-conditions dl > div {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.received-proposal-conditions dl > div:first-child {
+  margin-top: 0;
+}
+
+.received-proposal-conditions dt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.received-proposal-conditions dt img {
+  width: 17px;
+  height: 17px;
+}
+
+.received-proposal-conditions dd {
+  margin: 0;
+}
+
+.received-proposal-actions {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.received-proposal-actions form {
+  margin: 0;
+}
+
+.received-proposal-actions button {
+  width: 100%;
+  min-height: 46px;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.received-proposal-accept {
+  border: 1px solid var(--color-primary);
+  color: var(--color-text);
+}
+
+.received-proposal-reject {
+  border: 1px solid #dc6e6e;
+  color: var(--color-text);
+}
+
+.received-proposal-processed {
+  margin-top: 40px;
+  color: #777;
+  text-align: center;
+}
+
+.proposal-accepted-page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 140px 32px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--color-background);
+  text-align: center;
+}
+
+.proposal-accepted-illustration {
+  display: block;
+  width: 260px;
+  height: auto;
+  margin-bottom: 42px;
+  object-fit: contain;
+}
+
+.proposal-accepted-page h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.proposal-accepted-page p {
+  margin: 20px 0 0;
+  color: #666;
+  font-size: 15px;
+}
+
+.proposal-accepted-page > a {
+  width: 220px;
+  min-height: 52px;
+  margin-top: 130px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: var(--color-primary);
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+}

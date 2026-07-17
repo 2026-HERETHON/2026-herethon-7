@@ -1,0 +1,98 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RE:Link 업무 작성</title>
+
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/project.css' %}" />
+  </head>
+
+  <body>
+    <div id="app">
+      <main class="task-form-page">
+        <header class="task-form-header">
+          <a
+            href="{% url 'project:task_list' project.id %}"
+            aria-label="일정으로 돌아가기"
+          >
+            ‹
+          </a>
+        </header>
+
+        <form
+          class="task-register-form"
+          method="post"
+          action="{% url 'project:task_create' project.id %}"
+          novalidate
+        >
+          {% csrf_token %}
+
+          <div class="task-register-field">
+            <label for="{{ form.title.id_for_label }}">
+              협업 제목 {% if form.title.errors %}<span>*</span>{% endif %}
+            </label>
+
+            <div class="{% if form.title.errors %}is-error{% endif %}">
+              {{ form.title }}
+            </div>
+
+            <div class="task-register-field__bottom">
+              {% if form.title.errors %}
+              <p>필수 항목을 입력하세요.</p>
+              {% endif %}
+
+              <span>0/50</span>
+            </div>
+          </div>
+
+          <div class="task-register-field">
+            <label for="{{ form.assignee.id_for_label }}">
+              담당자 입력 {% if form.assignee.errors %}<span>*</span>{% endif %}
+            </label>
+
+            <div class="{% if form.assignee.errors %}is-error{% endif %}">
+              {{ form.assignee }}
+            </div>
+
+            {% if form.assignee.errors %}
+            <p class="task-register-error">필수 항목을 선택하세요.</p>
+            {% endif %}
+          </div>
+
+          <div class="task-register-field">
+            <label for="{{ form.deadline.id_for_label }}">
+              마감일 {% if form.deadline.errors %}<span>*</span>{% endif %}
+            </label>
+
+            <div class="{% if form.deadline.errors %}is-error{% endif %}">
+              {{ form.deadline }}
+            </div>
+
+            {% if form.deadline.errors %}
+            <p class="task-register-error">필수 항목을 선택하세요.</p>
+            {% endif %}
+          </div>
+
+          <div class="task-register-field">
+            <label for="{{ form.description.id_for_label }}">
+              설명(선택)
+            </label>
+
+            {{ form.description }}
+
+            <div class="task-register-field__bottom">
+              <span></span>
+              <span>0/100</span>
+            </div>
+          </div>
+
+          <button class="task-register-submit" type="submit">등록하기</button>
+        </form>
+      </main>
+    </div>
+  </body>
+</html>

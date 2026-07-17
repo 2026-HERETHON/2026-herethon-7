@@ -1,0 +1,83 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{% static 'assets/images/favicon.png' %}"
+    />
+    <title>Re:Link</title>
+
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/matching.css' %}" />
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="app-shell">
+        <main class="received-page">
+          <header class="received-header">
+            <a class="back-button" href="/home/" aria-label="홈으로 돌아가기">
+              ‹
+            </a>
+
+            <h1>받은 제안</h1>
+          </header>
+
+          {% if proposals %}
+          <section class="received-list" aria-label="받은 협업 제안 목록">
+            {% for proposal in proposals %}
+            <a
+              class="received-card"
+              href="{% url 'match:proposal_detail' proposal.id %}"
+            >
+              <div class="received-card__header">
+                <img
+                  class="received-card__profile"
+                  src="{% if proposal.sender.profile.profile_image %}{{ proposal.sender.profile.profile_image.url }}{% else %}{% static 'assets/icons/profile.svg' %}{% endif %}"
+                  alt="{{ proposal.sender.name }} 프로필"
+                />
+
+                <div class="received-card__sender">
+                  <strong>{{ proposal.sender.name }}</strong>
+                  <span>{{ proposal.created_at|date:"Y.m.d" }}</span>
+                </div>
+
+                <span class="proposal-status">
+                  {{ proposal.get_status_display }}
+                </span>
+              </div>
+
+              <h2>{{ proposal.title }}</h2>
+
+              <div class="received-card__talents">
+                <span>{{ proposal.give_talent.name }}</span>
+                <b aria-hidden="true">↔</b>
+                <span>{{ proposal.need_talent.name }}</span>
+              </div>
+            </a>
+            {% endfor %}
+          </section>
+
+          {% else %}
+          <section class="received-empty">
+            <h2>아직 받은 제안이 없어요.</h2>
+            <p>
+              새로운 협업 제안이 도착하면<br />
+              이곳에서 확인할 수 있어요.
+            </p>
+
+            <a href="{% url 'match:matching_list' %}"> 매칭 둘러보기 </a>
+          </section>
+          {% endif %}
+        </main>
+
+        {% include 'components/bottom_nav.html' with active_nav='matching' %}
+      </div>
+    </div>
+  </body>
+</html>

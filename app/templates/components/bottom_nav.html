@@ -1,0 +1,36 @@
+{% load static %}
+
+<nav class="bottom-nav" aria-label="주요 메뉴">
+  {% if active_nav == 'matching' %}
+  <img
+    class="bottom-nav__image"
+    src="{% static 'assets/icons/bottom-nav-matching-active.svg' %}"
+    alt=""
+  />
+  {% elif active_nav == 'projects' %}
+  <img
+    class="bottom-nav__image"
+    src="{% static 'assets/icons/bottom-nav-project-active.svg' %}"
+    alt=""
+  />
+  {% elif active_nav == 'mypage' %}
+  <img
+    class="bottom-nav__image"
+    src="{% static 'assets/icons/bottom-nav-mypage-active.svg' %}"
+    alt=""
+  />
+  {% else %}
+  <img
+    class="bottom-nav__image"
+    src="{% static 'assets/icons/bottom-nav-home-active.svg' %}"
+    alt=""
+  />
+  {% endif %}
+
+  <div class="bottom-nav__links">
+    <a href="/home/" aria-label="홈"></a>
+    <a href="/matching/" aria-label="매칭"></a>
+    <a href="/projects/" aria-label="프로젝트"></a>
+    <a href="/mypage/" aria-label="마이페이지"></a>
+  </div>
+</nav>

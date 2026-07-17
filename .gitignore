@@ -1,4 +1,10 @@
-venv
+### Django ###
+venv/
 db.sqlite3
+__pycache__/
 *.pyc
+*.pyo
+media/
+.env
 */migrations/
+.DS_Store

@@ -1,0 +1,117 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>RE:Link 프로젝트 채팅</title>
+
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/project.css' %}" />
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="app-shell">
+        <main class="project-chat-page">
+          <header class="workspace-header">
+            <a
+              class="workspace-back-button"
+              href="{% url 'project:project_overview' project.id %}"
+              aria-label="워크스페이스로 돌아가기"
+            >
+              ‹
+            </a>
+
+            <h1>워크스페이스</h1>
+          </header>
+
+          <nav class="workspace-tabs" aria-label="워크스페이스 메뉴">
+            <a href="{% url 'project:project_overview' project.id %}"> 개요 </a>
+
+            <a href="{% url 'project:task_list' project.id %}"> 일정 </a>
+
+            <a href="{% url 'project:file_list' project.id %}"> 파일 </a>
+
+            <a
+              class="is-active"
+              href="{% url 'project:chat_room' project.id %}"
+            >
+              채팅
+            </a>
+          </nav>
+
+          <section
+            id="chat-messages"
+            class="project-chat-messages"
+            data-last-id="{% if chats %}{{ chats.last.id }}{% else %}0{% endif %}"
+            aria-live="polite"
+            aria-label="채팅 메시지"
+          >
+            {% for chat in chats %}
+              <article
+                class="chat-message {% if chat.sender == request.user %}is-mine{% else %}is-other{% endif %}"
+              >
+                {% if chat.sender != request.user %}
+                  <strong class="chat-message__sender">{{ chat.sender.name }}</strong>
+                {% endif %}
+                <div class="chat-message__row">
+                  <div class="chat-message__bubble">{{ chat.content|linebreaksbr }}</div>
+                  <time class="chat-message__time" datetime="{{ chat.sent_at|date:'c' }}">
+                    {{ chat.sent_at|date:"H:i" }}
+                  </time>
+                </div>
+              </article>
+            {% empty %}
+              <div class="project-chat-empty">
+                <img
+                  class="project-chat-empty__image"
+                  src="{% static 'assets/images/workspace/chat-empty.svg' %}"
+                  alt=""
+                />
+
+                <h2>아직 대화가 시작되지 않았어요.</h2>
+
+                <p>
+                  첫 메시지를 보내 협업을<br />
+                  시작해보세요.
+                </p>
+              </div>
+            {% endfor %}
+          </section>
+
+          <div class="project-chat-composer">
+            <button
+              class="project-chat-composer__add"
+              type="button"
+              aria-label="파일 첨부"
+            >
+              ＋
+            </button>
+
+            <input
+              id="chat-input"
+              name="content"
+              type="text"
+              placeholder="메시지를 입력하세요."
+              aria-label="메시지 입력"
+            />
+
+            <button
+              class="project-chat-composer__send"
+              type="button"
+              onclick="sendMessage()"
+              aria-label="메시지 전송"
+            >
+              <span aria-hidden="true">➤</span>
+            </button>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="{% static 'js/chat.js' %}"></script>
+  </body>
+</html>

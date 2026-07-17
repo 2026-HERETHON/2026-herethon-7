@@ -1,0 +1,44 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{% static 'assets/images/favicon.png' %}"
+    />
+    <title>Re:Link</title>
+
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/matching.css' %}" />
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="app-shell">
+        <main class="proposal-complete">
+          <img src="{% static 'assets/images/proposal_success.png' %}" alt="" />
+
+          <h1>제안이 성공적으로<br />전송되었습니다!</h1>
+
+          <p class="complete-description">
+            {{ proposal.receiver.name }}님께 협업 제안을 보냈어요.<br />
+            응답을 기다려주세요.
+          </p>
+
+          <a
+            class="green-btn other-matching-button"
+            href="{% url 'match:matching_list' %}"
+          >
+            다른 매칭 둘러보기
+          </a>
+        </main>
+
+        {% include 'components/bottom_nav.html' with active_nav='matching' %}
+      </div>
+    </div>
+  </body>
+</html>

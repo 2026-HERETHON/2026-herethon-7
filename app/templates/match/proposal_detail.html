@@ -1,0 +1,184 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{% static 'assets/images/favicon.png' %}"
+    />
+    <title>Re:Link</title>
+
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/matching.css' %}" />
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="app-shell">
+        <main class="received-proposal-page">
+          <header class="received-proposal-header">
+            <a
+              href="{% url 'match:notification_list' %}"
+              aria-label="알림 목록으로 돌아가기"
+            >
+              ‹
+            </a>
+          </header>
+
+          <section class="received-proposal-sender">
+            {% if sender_profile and sender_profile.profile_image %}
+            <img
+              src="{{ sender_profile.profile_image.url }}"
+              alt="{{ proposal.sender.name }} 프로필"
+            />
+            {% else %}
+            <img
+              src="{% static 'assets/images/profiles/profile-04.png' %}"
+              alt="{{ proposal.sender.name }} 프로필"
+            />
+            {% endif %}
+
+            <div>
+              <strong>{{ proposal.sender.name }}</strong>
+
+              <span>
+                {% if sender_profile and sender_profile.intro %}
+                
+                {% else %}
+                협업을 제안한 사용자
+                {% endif %}
+              </span>
+
+              {% if sender_profile %}
+              <em>{{ sender_profile.get_identity_display }}</em>
+              {% endif %}
+            </div>
+          </section>
+
+          <section class="received-proposal-summary">
+            <h2>프로젝트 요약</h2>
+
+            <strong>{{ proposal.title }}</strong>
+
+            <p>{{ proposal.goal }}</p>
+          </section>
+
+          <section class="received-proposal-exchange">
+            <h2>재능 교환</h2>
+
+            <div class="received-proposal-exchange__content">
+              <article>
+                <h3>제공 가능 역량</h3>
+                <div class="received-proposal-exchange__talents">
+                  {% for talent in give_talents %}
+                  <span>{{ talent }}</span>
+                  {% endfor %}
+                </div>
+              </article>
+
+              <img
+                src="{% static 'assets/icons/workspace/talent-exchange.svg' %}"
+                alt="재능 교환"
+              />
+
+              <article>
+                <h3>필요한 역량</h3>
+                <div class="received-proposal-exchange__talents">
+                  {% for talent in need_talents %}
+                  <span>{{ talent }}</span>
+                  {% endfor %}
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="received-proposal-conditions">
+            <dl>
+              <div>
+                <dt>
+                  <img
+                    src="{% static 'assets/icons/workspace/collaboration-mode.svg' %}"
+                    alt=""
+                  />
+                  협업 모드
+                </dt>
+
+                <dd>{{ proposal.get_mode_display }}</dd>
+              </div>
+
+              <div>
+                <dt>
+                  <img
+                    src="{% static 'assets/icons/workspace/project-period.svg' %}"
+                    alt=""
+                  />
+                  기간
+                </dt>
+
+                <dd>{{ proposal.period }}주</dd>
+              </div>
+
+              <div>
+                <dt>
+                  <img
+                    src="{% static 'assets/icons/workspace/weekly-time.svg' %}"
+                    alt=""
+                  />
+                  주당 시간
+                </dt>
+
+                <dd>{{ proposal.get_weekly_time_display }}</dd>
+              </div>
+
+              <div>
+                <dt>
+                  <img
+                    src="{% static 'assets/icons/workspace/communication-method.svg' %}"
+                    alt=""
+                  />
+                  진행 방식
+                </dt>
+
+                <dd>{{ proposal.get_communication_display }}</dd>
+              </div>
+            </dl>
+          </section>
+
+          {% if can_reply %}
+          <div class="received-proposal-actions">
+            <form
+              method="post"
+              action="{% url 'match:proposal_accept' proposal.id %}"
+            >
+              {% csrf_token %}
+
+              <button class="received-proposal-accept" type="submit">
+                수락
+              </button>
+            </form>
+
+            <form
+              method="post"
+              action="{% url 'match:proposal_reject' proposal.id %}"
+            >
+              {% csrf_token %}
+
+              <button class="received-proposal-reject" type="submit">
+                거절
+              </button>
+            </form>
+          </div>
+          {% else %}
+          <p class="received-proposal-processed">
+            이미 처리된 협업 제안입니다.
+          </p>
+          {% endif %}
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

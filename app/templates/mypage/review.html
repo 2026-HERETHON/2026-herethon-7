@@ -1,0 +1,181 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/mypage/review.css' %}" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{% static 'assets/images/favicon.png' %}"
+    />
+    <title>Re:Link</title>
+  </head>
+  <body>
+    <div id="app">
+      <main class="review-container">
+        <header class="review-header">
+          <button
+            class="back-button"
+            type="button"
+            aria-label="마이 페이지로 돌아가기"
+            data-back-url="{% url 'user:mypage_home' %}"
+          >
+            <img
+              src="{% static 'assets/icons/mypage/arrow-left.svg' %}"
+              alt=""
+              aria-hidden="true"
+            />
+          </button>
+          <p class="title">후기 보기</p>
+          <span class="write-button" aria-hidden="true">
+            <img src="{% static 'assets/icons/mypage/write.svg' %}" alt="" />
+          </span>
+        </header>
+
+        <div class="review-tabs" role="tablist" aria-label="후기 종류">
+          <button
+            class="review-tab active"
+            id="received-tab"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="review-content"
+            data-review-type="received"
+          >
+            받은 후기
+          </button>
+          <button
+            class="review-tab"
+            id="written-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="review-content"
+            data-review-type="written"
+          >
+            내가 쓴 후기
+          </button>
+        </div>
+
+        <section
+          class="review-content"
+          id="review-content"
+          role="tabpanel"
+          aria-labelledby="received-tab"
+        >
+          <!-- 리뷰 리스트 (무) -->
+          <div class="empty-state" {% if received_reviews %}hidden{% endif %}>
+            <img
+              class="empty-illustration"
+              src="{% static 'assets/images/review.png' %}"
+              alt=""
+              aria-hidden="true"
+            />
+            <h2>아직 받은 후기가 없어요.</h2>
+            <p>협업이 끝나면 파트너가 후기를<br />남길 수 있어요.</p>
+          </div>
+
+          <!-- 리뷰 리스트 (유) -->
+          <div class="review-list" {% if not received_reviews %}hidden{% endif %}>
+            {% for review in received_reviews %}
+            <article
+              class="review-card"
+              data-review-type="received"
+              aria-label="{{ review.writer.name }}의 후기 {{ forloop.counter }}"
+            >
+              <div class="review-profile">
+                <img
+                  class="reviewer-image"
+                  src="{% if review.writer.profile.profile_image %}{{ review.writer.profile.profile_image.url }}{% else %}{% static 'assets/icons/profile.svg' %}{% endif %}"
+                  alt="{{ review.writer.name }} 프로필"
+                />
+              </div>
+              <div class="review-summary">
+                <h2 class="reviewer-name">{{ review.writer.name }}</h2>
+                <dl>
+                  <div>
+                    <dt>
+                      <img
+                        src="{% static 'assets/icons/mypage/clock.svg' %}"
+                        alt=""
+                        aria-hidden="true"
+                      />
+                      기간
+                    </dt>
+                    <dd class="review-period">
+                      {{ review.project.start_date|date:"Y.m" }}~{{ review.project.end_date|date:"Y.m" }}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      <img
+                        src="{% static 'assets/icons/mypage/book.svg' %}"
+                        alt=""
+                        aria-hidden="true"
+                      />
+                      프로젝트
+                    </dt>
+                    <dd class="review-project">{{ review.project.title }}</dd>
+                  </div>
+                </dl>
+              </div>
+              <p class="review-body">{{ review.content }}</p>
+            </article>
+            {% endfor %}
+            {% for review in written_reviews %}
+            <article
+              class="review-card"
+              data-review-type="written"
+              aria-label="{{ review.receiver.name }}의 후기 {{ forloop.counter }}"
+              hidden
+            >
+              <div class="review-profile">
+                <img
+                  class="reviewer-image"
+                  src="{% if review.receiver.profile.profile_image %}{{ review.receiver.profile.profile_image.url }}{% else %}{% static 'assets/icons/profile.svg' %}{% endif %}"
+                  alt="{{ review.receiver.name }} 프로필"
+                />
+              </div>
+              <div class="review-summary">
+                <h2 class="reviewer-name">{{ review.receiver.name }}</h2>
+                <dl>
+                  <div>
+                    <dt>
+                      <img
+                        src="{% static 'assets/icons/mypage/clock.svg' %}"
+                        alt=""
+                        aria-hidden="true"
+                      />
+                      기간
+                    </dt>
+                    <dd class="review-period">
+                      {{ review.project.start_date|date:"Y.m" }}~{{ review.project.end_date|date:"Y.m" }}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      <img
+                        src="{% static 'assets/icons/mypage/book.svg' %}"
+                        alt=""
+                        aria-hidden="true"
+                      />
+                      프로젝트
+                    </dt>
+                    <dd class="review-project">{{ review.project.title }}</dd>
+                  </div>
+                </dl>
+              </div>
+              <p class="review-body">{{ review.content }}</p>
+            </article>
+            {% endfor %}
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="{% static 'js/mypage/review.js' %}"></script>
+  </body>
+</html>

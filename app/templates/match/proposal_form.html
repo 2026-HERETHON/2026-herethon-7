@@ -1,0 +1,448 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{% static 'assets/images/favicon.png' %}"
+    />
+    <title>Re:Link</title>
+
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/matching.css' %}" />
+  </head>
+
+  <body>
+    <div id="app">
+
+        <main class="proposal-page">
+          <header class="proposal-header">
+            <a
+              class="back-button"
+              href="{% url 'match:matching_detail' receiver.id %}"
+              aria-label="파트너 상세로 돌아가기"
+            >
+              <img src="{% static 'assets/icons/mypage/arrow-left.svg' %}" alt="" />
+            </a>
+          </header>
+
+          <form
+            class="proposal-form"
+            method="post"
+            enctype="multipart/form-data"
+            novalidate
+          >
+            {% csrf_token %} {% if form.non_field_errors %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            {% endif %}
+            {{ form.communication }} {{ form.message }}
+            {{ form.give_talent_custom }} {{ form.need_talent_custom }}
+
+            <div class="form-field">
+              <label for="{{ form.title.id_for_label }}">
+                프로젝트 제목
+                <img src="{% static 'assets/icons/required.svg' %}" class="required-icon" alt="필수" />
+              </label>
+
+              <div class="counted-input">
+                {{ form.title }}
+                <span class="character-count" data-for="{{ form.title.id_for_label }}">0/50</span>
+              </div>
+              {% for error in form.title.errors %}
+              <p class="field-error">{{ error }}</p>
+              {% endfor %}
+              <p class="field-error client-error">필수 항목을 입력하세요.</p>
+            </div>
+
+            <div class="form-field">
+              <label for="{{ form.goal.id_for_label }}">
+                프로젝트 목표
+                <img src="{% static 'assets/icons/required.svg' %}" class="required-icon" alt="필수" />
+              </label>
+
+              <div class="counted-input">
+                {{ form.goal }}
+                <span class="character-count" data-for="{{ form.goal.id_for_label }}">0/50</span>
+              </div>
+              {% for error in form.goal.errors %}
+              <p class="field-error">{{ error }}</p>
+              {% endfor %}
+              <p class="field-error client-error">필수 항목을 입력하세요.</p>
+            </div>
+
+            <div class="form-field talent-field">
+              <label>
+                재능 교환
+                <img src="{% static 'assets/icons/required.svg' %}" class="required-icon" alt="필수" />
+              </label>
+              <div class="talent-picker">
+                <button class="talent-card" type="button" data-talent="give">
+                  <strong>제공 가능 역량</strong>
+                  <img src="{% static 'assets/icons/green-give.svg' %}" alt="" />
+                  <small data-talent-label="give">내가 제공할 수 있는<br />능력을 입력하세요.</small>
+                </button>
+                <img class="talent-change-icon" src="{% static 'assets/icons/change.svg' %}" alt="교환" />
+                <button class="talent-card" type="button" data-talent="need">
+                  <strong>필요한 역량</strong>
+                  <img src="{% static 'assets/icons/green-need.svg' %}" alt="" />
+                  <small data-talent-label="need">나에게 필요한 능력을<br />입력하세요.</small>
+                </button>
+              </div>
+              <div class="native-talent-selects">
+                {{ form.give_talent }} {{ form.need_talent }}
+              </div>
+              {% for error in form.give_talent.errors %}
+              <p class="field-error">{{ error }}</p>
+              {% endfor %} {% for error in form.need_talent.errors %}
+              <p class="field-error">{{ error }}</p>
+              {% endfor %}
+              <p class="field-error client-error">필수 항목을 입력하세요.</p>
+            </div>
+
+            <div class="form-field mode-field">
+              <label>
+                협업 모드 선택
+                <img src="{% static 'assets/icons/required.svg' %}" class="required-icon" alt="필수" />
+              </label>
+
+              {{ form.mode }} {% for error in form.mode.errors %}
+              <p class="field-error">{{ error }}</p>
+              {% endfor %}
+              <p class="field-error client-error">필수 항목을 입력하세요.</p>
+            </div>
+
+            <div class="form-field">
+              <label for="{{ form.period.id_for_label }}">
+                기간 (주)
+                <img src="{% static 'assets/icons/required.svg' %}" class="required-icon" alt="필수" />
+              </label>
+
+              {{ form.period }} {% for error in form.period.errors %}
+              <p class="field-error">{{ error }}</p>
+              {% endfor %}
+              <p class="field-error client-error">필수 항목을 입력하세요.</p>
+            </div>
+
+            <div class="form-field">
+              <label for="{{ form.weekly_time.id_for_label }}">
+                주당 시간
+                <img src="{% static 'assets/icons/required.svg' %}" class="required-icon" alt="필수" />
+              </label>
+
+              {{ form.weekly_time }} {% for error in form.weekly_time.errors %}
+              <p class="field-error">{{ error }}</p>
+              {% endfor %}
+              <p class="field-error client-error">필수 항목을 입력하세요.</p>
+            </div>
+
+            <div class="form-field attachment-field">
+              <label for="{{ form.attachment.id_for_label }}">첨부파일 (선택)</label>
+              <div class="file-input-row">
+                <label class="file-input-label" for="{{ form.attachment.id_for_label }}">
+                  <img src="{% static 'assets/icons/upload.svg' %}" alt="" />
+                  <span class="file-name">파일을 첨부하세요.</span>
+                </label>
+                <label class="file-add-button" for="{{ form.attachment.id_for_label }}" aria-label="파일 추가">
+                  <img src="{% static 'assets/icons/gray-plus.svg' %}" alt="" />
+                </label>
+                {{ form.attachment }}
+              </div>
+              {% for error in form.attachment.errors %}
+              <p class="field-error">{{ error }}</p>
+              {% endfor %}
+            </div>
+
+            <button class="green-btn proposal-submit-button" type="submit">
+              <img src="{% static 'assets/icons/send.svg' %}" alt="" />
+              협업 제안 보내기
+            </button>
+          </form>
+        </main>
+
+        <div class="talent-modal" aria-hidden="true">
+          <button class="talent-modal__backdrop" type="button" aria-label="닫기"></button>
+          <section class="talent-modal__sheet" role="dialog" aria-modal="true" aria-labelledby="talent-modal-title">
+            <div class="talent-modal__handle"></div>
+            <h2 id="talent-modal-title">재능 교환 설정</h2>
+            <p>서로 주고 받을 재능을 구체적으로 입력해보아요.</p>
+
+            <div class="modal-talent-group" data-group="give">
+              <h3>내가 제공 가능한 역량</h3>
+              <div class="talent-search">
+                <img src="{% static 'assets/icons/search.svg' %}" alt="" />
+                <input
+                  type="text"
+                  maxlength="50"
+                  placeholder="직접 입력하거나 추천 항목을 선택하세요."
+                />
+              </div>
+              <div class="talent-options"></div>
+            </div>
+
+            <div class="modal-talent-group" data-group="need">
+              <h3>나에게 필요한 역량</h3>
+              <div class="talent-search">
+                <img src="{% static 'assets/icons/search.svg' %}" alt="" />
+                <input
+                  type="text"
+                  maxlength="50"
+                  placeholder="직접 입력하거나 추천 항목을 선택하세요."
+                />
+              </div>
+              <div class="talent-options"></div>
+            </div>
+
+            <div class="talent-modal__actions">
+              <button class="talent-modal__cancel" type="button">취소</button>
+              <button class="talent-modal__apply" type="button">적용하기</button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (() => {
+        const modal = document.querySelector(".talent-modal");
+        const selects = {
+          give: document.getElementById("{{ form.give_talent.id_for_label }}"),
+          need: document.getElementById("{{ form.need_talent.id_for_label }}"),
+        };
+        const customFields = {
+          give: document.getElementById("{{ form.give_talent_custom.id_for_label }}"),
+          need: document.getElementById("{{ form.need_talent_custom.id_for_label }}"),
+        };
+        const pending = { give: [], need: [] };
+
+        Object.entries(selects).forEach(([type, select]) => {
+          [...select.options].filter((option) => option.value).forEach((option) => {
+            addTalentOption(type, option.text, option.value, false);
+          });
+        });
+
+        function addTalentOption(type, label, value, custom) {
+          const optionList = modal.querySelector(`[data-group="${type}"] .talent-options`);
+          const existing = [...optionList.querySelectorAll(".talent-option")].find(
+            (option) => option.textContent.trim() === label,
+          );
+          if (existing) return existing;
+
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "talent-option";
+          button.dataset.value = value;
+          button.dataset.custom = String(custom);
+          button.textContent = label;
+          button.addEventListener("click", () => toggleTalentOption(type, button));
+          optionList.appendChild(button);
+          return button;
+        }
+
+        function toggleTalentOption(type, button) {
+          const label = button.textContent.trim();
+          const index = pending[type].indexOf(label);
+          if (index >= 0) {
+            pending[type].splice(index, 1);
+          } else {
+            pending[type].push(label);
+          }
+          button.classList.toggle("is-selected", index < 0);
+          modal.querySelectorAll(`[data-group="${type}"] .talent-option`).forEach((item) => {
+            item.hidden = false;
+          });
+          modal.querySelector(`[data-group="${type}"] input`).value = "";
+        }
+
+        function findTalentOption(type, label) {
+          return [...modal.querySelectorAll(`[data-group="${type}"] .talent-option`)].find(
+            (option) => option.textContent.trim() === label,
+          );
+        }
+
+        function addCustomTalent(type) {
+          const input = modal.querySelector(`[data-group="${type}"] input`);
+          const label = input.value.trim();
+          if (!label) return false;
+
+          const button = addTalentOption(type, label, label, true);
+          if (!pending[type].includes(label)) {
+            pending[type].push(label);
+            button.classList.add("is-selected");
+          }
+          input.value = "";
+          modal.querySelectorAll(`[data-group="${type}"] .talent-option`).forEach((option) => {
+            option.hidden = false;
+          });
+          return true;
+        }
+
+        function selectedLabels(type) {
+          const select = selects[type];
+          const selected = select.options[select.selectedIndex];
+          if (customFields[type].value) {
+            return customFields[type].value
+              .split(",")
+              .map((label) => label.trim())
+              .filter(Boolean);
+          }
+          return selected?.value ? [selected.text] : [];
+        }
+
+        function syncCards() {
+          Object.entries(selects).forEach(([type]) => {
+            const label = document.querySelector(`[data-talent-label="${type}"]`);
+            const labels = selectedLabels(type);
+            if (!labels.length) return;
+            label.textContent = labels.join(", ");
+            label.classList.add("is-selected");
+          });
+        }
+
+        function openModal(type) {
+          Object.keys(selects).forEach((key) => {
+            pending[key] = selectedLabels(key);
+            pending[key].forEach((label) => {
+              if (!findTalentOption(key, label)) addTalentOption(key, label, label, true);
+            });
+            modal.querySelectorAll(`[data-group="${key}"] .talent-option`).forEach((option) => {
+              option.classList.toggle(
+                "is-selected",
+                pending[key].includes(option.textContent.trim()),
+              );
+              option.hidden = false;
+            });
+            modal.querySelector(`[data-group="${key}"] input`).value = "";
+          });
+          modal.classList.add("is-open");
+          modal.setAttribute("aria-hidden", "false");
+          document.body.classList.add("modal-open");
+          modal.querySelector(`[data-group="${type}"] input`).focus();
+        }
+
+        function closeModal() {
+          modal.classList.remove("is-open");
+          modal.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("modal-open");
+        }
+
+        document.querySelectorAll(".talent-card").forEach((card) => {
+          card.addEventListener("click", () => openModal(card.dataset.talent));
+        });
+        modal.querySelector(".talent-modal__backdrop").addEventListener("click", closeModal);
+        modal.querySelector(".talent-modal__cancel").addEventListener("click", closeModal);
+        modal.querySelector(".talent-modal__apply").addEventListener("click", () => {
+          Object.keys(selects).forEach(addCustomTalent);
+          Object.entries(selects).forEach(([type, select]) => {
+            const labels = pending[type];
+            const single =
+              labels.length === 1 ? findTalentOption(type, labels[0]) : null;
+
+            if (single && single.dataset.custom === "false") {
+              select.value = single.dataset.value;
+              customFields[type].value = "";
+            } else {
+              select.value = "";
+              customFields[type].value = labels.join(", ");
+            }
+          });
+          syncCards();
+          validateTalentField();
+          closeModal();
+        });
+
+        modal.querySelectorAll(".talent-search input").forEach((input) => {
+          input.addEventListener("keydown", (event) => {
+            if (event.key !== "Enter" || event.isComposing) return;
+            event.preventDefault();
+            addCustomTalent(input.closest(".modal-talent-group").dataset.group);
+          });
+          input.addEventListener("input", () => {
+            const query = input.value.trim().toLowerCase();
+            input.closest(".modal-talent-group").querySelectorAll(".talent-option").forEach((option) => {
+              option.hidden = query && !option.textContent.toLowerCase().includes(query);
+            });
+          });
+        });
+
+        document.querySelectorAll(".character-count").forEach((counter) => {
+          const input = document.getElementById(counter.dataset.for);
+          const update = () => { counter.textContent = `${input.value.length}/50`; };
+          input.addEventListener("input", update);
+          update();
+        });
+
+        const fileInput = document.getElementById("{{ form.attachment.id_for_label }}");
+        fileInput.addEventListener("change", () => {
+          document.querySelector(".file-name").textContent =
+            fileInput.files[0]?.name || "파일을 첨부하세요.";
+        });
+
+        const form = document.querySelector(".proposal-form");
+
+        function setFieldError(field, invalid) {
+          field.classList.toggle("has-error", invalid);
+          return !invalid;
+        }
+
+        function validateTalentField() {
+          return setFieldError(
+            document.querySelector(".talent-field"),
+            Object.keys(selects).some(
+              (type) => !selects[type].value && !customFields[type].value.trim(),
+            ),
+          );
+        }
+
+        [
+          document.getElementById("{{ form.title.id_for_label }}"),
+          document.getElementById("{{ form.goal.id_for_label }}"),
+          document.getElementById("{{ form.period.id_for_label }}"),
+          document.getElementById("{{ form.weekly_time.id_for_label }}"),
+        ].forEach((input) => {
+          input.addEventListener("input", () => {
+            setFieldError(input.closest(".form-field"), !input.value.trim());
+          });
+          input.addEventListener("change", () => {
+            setFieldError(input.closest(".form-field"), !input.value.trim());
+          });
+        });
+
+        document.querySelectorAll('input[name="{{ form.mode.html_name }}"]').forEach((radio) => {
+          radio.addEventListener("change", () => {
+            setFieldError(document.querySelector(".mode-field"), false);
+          });
+        });
+
+        form.addEventListener("submit", (event) => {
+          let valid = true;
+          [
+            document.getElementById("{{ form.title.id_for_label }}"),
+            document.getElementById("{{ form.goal.id_for_label }}"),
+            document.getElementById("{{ form.period.id_for_label }}"),
+            document.getElementById("{{ form.weekly_time.id_for_label }}"),
+          ].forEach((input) => {
+            if (!setFieldError(input.closest(".form-field"), !input.value.trim())) valid = false;
+          });
+
+          if (!validateTalentField()) valid = false;
+          if (
+            !setFieldError(
+              document.querySelector(".mode-field"),
+              !form.querySelector('input[name="{{ form.mode.html_name }}"]:checked'),
+            )
+          ) {
+            valid = false;
+          }
+
+          if (!valid) event.preventDefault();
+        });
+
+        syncCards();
+      })();
+    </script>
+  </body>
+</html>

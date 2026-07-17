@@ -1,0 +1,129 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{% static 'assets/images/favicon.png' %}"
+    />
+    <title>Re:Link</title>
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+  </head>
+  <body>
+    <div id="app">
+      <main class="home">
+        <header class="home-header">
+          <a class="brand" href="/home/" aria-label="RE:Link 홈">
+            <img
+              class="brand__logo"
+              src="{% static 'assets/logo/relink-logo.svg' %}"
+              alt="RE:Link"
+            />
+          </a>
+          <a
+  class="notification-button"
+  href="{% url 'match:notification_list' %}"
+  aria-label="알림 페이지로 이동"
+>
+  <img
+    src="{% static 'assets/icons/notification.svg' %}"
+    alt=""
+  />
+</a>
+        </header>
+        <section class="greeting" aria-labelledby="greeting-title">
+          <h1 id="greeting-title">안녕하세요, {{ request.user.name }}님!</h1>
+          <p>함께 성장할 파트너를 찾아보세요.</p>
+        </section>
+
+        <section class="hero-banner" aria-label="서비스 소개">
+          <img
+            src="{% static 'assets/images/home-banner.png' %}"
+            alt="내가 줄 수 있는 것과 필요한 것을 연결해요. 서로의 강점을 교환하고 함께 성장하는 커리어 플랫폼"
+          />
+        </section>
+
+        <section class="talent-summary" aria-label="나의 재능 현황">
+          <article class="talent-card talent-card--provide">
+            <h2>제공 가능한 재능</h2>
+            <div class="talent-card__content">
+              <strong>{{ give_talents|length }}개</strong>
+              <img
+                class="talent-card__icon"
+                src="{% static 'assets/icons/material-symbols_book.svg' %}"
+                alt=""
+              />
+            </div>
+          </article>
+          <article class="talent-card talent-card--need">
+            <h2>필요한 재능</h2>
+            <div class="talent-card__content">
+              <strong>{{ need_talents|length }}개</strong>
+              <img
+                class="talent-card__icon"
+                src="{% static 'assets/icons/degree-hat.svg' %}"
+                alt=""
+              />
+            </div>
+          </article>
+        </section>
+
+        <a class="match-start-button" href="{% url 'match:matching_loading' %}">
+          <span aria-hidden="true">✧</span>
+          매칭 시작
+        </a>
+
+        <section class="project-section" aria-labelledby="project-title">
+          <div class="project-section__heading">
+            <h2 id="project-title">진행중인 프로젝트</h2>
+            <span>{{ ongoing_project_count }}개 진행중</span>
+          </div>
+          {% if ongoing_project %}
+          <a class="project-card" href="/projects/{{ ongoing_project.id }}/">
+            <h3>{{ ongoing_project.title }}</h3>
+            <div class="progress-row">
+              <span
+                class="progress-track"
+                aria-label="진행률 {{ ongoing_project.progress }}%"
+              >
+                <span
+                  class="progress-value"
+                  style="--progress: {{ ongoing_project.progress }}%"
+                ></span>
+              </span>
+              <strong>{{ ongoing_project.progress }}%</strong>
+            </div>
+            <div class="member-list" aria-label="참여자 4명">
+              <img
+                src="{% static 'assets/images/profiles/profile-01.png' %}"
+                alt=""
+              />
+              <img
+                src="{% static 'assets/images/profiles/profile-02.png' %}"
+                alt=""
+              />
+              <img
+                src="{% static 'assets/images/profiles/profile-03.png' %}"
+                alt=""
+              />
+              <img
+                src="{% static 'assets/images/profiles/profile-04.png' %}"
+                alt=""
+              />
+            </div>
+          </a>
+          {% else %}
+          <div class="project-empty">현재 진행 중인 프로젝트가 없습니다.</div>
+          {% endif %}
+        </section>
+      </main>
+
+      {% include 'components/bottom_nav.html' with active_nav='home' %}
+    </div>
+  </body>
+</html>
