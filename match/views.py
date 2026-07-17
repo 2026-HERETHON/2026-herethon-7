@@ -5,7 +5,7 @@ from django.db.models import Prefetch
 from user.models import User, Profile, ProfileTalent
 from match.models import Proposal
 from match.forms import ProposalForm
-from project.models import ProjectMember, Project
+from project.models import Project, ProjectMember
 from django.http import Http404
 import logging
 from .services import accept_proposal
@@ -56,20 +56,38 @@ def home(request):
         # -----------------------------
         # 진행 중 프로젝트 조회
         # -----------------------------
-        project_members = ProjectMember.objects.filter(
-            user=user
-        ).select_related("project")
+        ongoing_projects = (
+            Project.objects.filter(
+                projectmember__user=user,
+                status=Project.Status.IN_PROGRESS,
+            )
+            .prefetch_related(
+                Prefetch(
+                    "projectmember_set",
+                    queryset=ProjectMember.objects.select_related(
+                        "user__profile"
+                    ),
+                )
+            )
+            .distinct()
+            .order_by("-created_at")
+        )
 
-        projects = Project.objects.filter(
-            projectmember__user=user,
-            status=Project.Status.IN_PROGRESS,
-        ).distinct()
+        ongoing_project_count = ongoing_projects.count()
+        ongoing_project = ongoing_projects.first()
+        ongoing_members = (
+            list(ongoing_project.projectmember_set.all())
+            if ongoing_project
+            else []
+        )
 
         context = {
             "profile": profile,
             "give_talents": give_talents,
             "need_talents": need_talents,
-            "projects": projects,
+            "ongoing_project": ongoing_project,
+            "ongoing_project_count": ongoing_project_count,
+            "ongoing_members": ongoing_members,
         }
 
         # -----------------------------
@@ -96,7 +114,9 @@ def home(request):
                 "profile": None,
                 "give_talents": [],
                 "need_talents": [],
-                "projects": [],
+                "ongoing_project": None,
+                "ongoing_project_count": 0,
+                "ongoing_members": [],
             }
         )
     
