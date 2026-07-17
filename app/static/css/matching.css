@@ -1378,6 +1378,7 @@ body.modal-open {
   display: block;
   margin-bottom: 8px;
   font-size: 16px;
+  font-weight: 500;
 }
 
 .received-proposal-summary p {
@@ -1399,25 +1400,33 @@ body.modal-open {
 
 .received-proposal-exchange__content article {
   box-sizing: border-box;
-  min-height: 100px;
-  padding: 16px 10px;
+  min-height: 140px;
+  padding: 16px 12px;
   border: 1px solid var(--color-border);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
   text-align: center;
   background: #fff;
 }
 
-.received-proposal-exchange__content article span {
-  color: #666;
-  font-size: 13px;
+.received-proposal-exchange__content article h3 {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
-.received-proposal-exchange__content article strong {
+.received-proposal-exchange__talents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.received-proposal-exchange__talents span {
   padding: 5px 8px;
+  border: 1px solid #c7e3a9;
   border-radius: 8px;
   color: #43583a;
   background: #f5f9ee;

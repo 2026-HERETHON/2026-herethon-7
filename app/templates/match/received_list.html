@@ -36,31 +36,11 @@
               href="{% url 'match:proposal_detail' proposal.id %}"
             >
               <div class="received-card__header">
-                {% if proposal.sender.name == '김서연' %}
                 <img
                   class="received-card__profile"
-                  src="{% static 'assets/images/profiles/profile-01.png' %}"
-                  alt="김서연 프로필"
-                />
-                {% elif proposal.sender.name == '이지연' %}
-                <img
-                  class="received-card__profile"
-                  src="{% static 'assets/images/profiles/profile-02.png' %}"
-                  alt="이지연 프로필"
-                />
-                {% elif proposal.sender.name == '김서현' %}
-                <img
-                  class="received-card__profile"
-                  src="{% static 'assets/images/profiles/profile-03.png' %}"
-                  alt="김서현 프로필"
-                />
-                {% else %}
-                <img
-                  class="received-card__profile"
-                  src="{% static 'assets/images/profiles/profile-04.png' %}"
+                  src="{% if proposal.sender.profile.profile_image %}{{ proposal.sender.profile.profile_image.url }}{% else %}{% static 'assets/icons/profile.svg' %}{% endif %}"
                   alt="{{ proposal.sender.name }} 프로필"
                 />
-                {% endif %}
 
                 <div class="received-card__sender">
                   <strong>{{ proposal.sender.name }}</strong>
