@@ -19,17 +19,30 @@
   <body>
     <div id="app">
       <div class="app-shell">
-        <main class="tasks-page">
-          <header class="tasks-header">
+        <main class="tasks-page {% if not tasks %}is-empty{% endif %}">
+          <header class="workspace-header">
             <a
-              class="tasks-back-button"
+              class="workspace-back-button"
               href="{% url 'project:project_overview' project.id %}"
               aria-label="워크스페이스로 돌아가기"
               >‹</a
             >
 
-            <h1>업무 관리</h1>
+            <h1>워크스페이스</h1>
           </header>
+          <nav class="workspace-tabs" aria-label="워크스페이스 메뉴">
+            <a href="{% url 'project:project_overview' project.id %}"> 개요 </a>
+
+            <a
+              class="is-active"
+              href="{% url 'project:task_list' project.id %}"
+            >
+              일정
+            </a>
+
+            <a href="{% url 'project:file_list' project.id %}"> 파일 </a>
+            <a href="{% url 'project:chat_room' project.id %}"> 채팅 </a>
+          </nav>
 
           <section class="tasks-project-summary">
             <h2>{{ project.title }}</h2>
@@ -47,42 +60,13 @@
             </div>
           </section>
 
-          <details class="task-create-panel">
-            <summary>새 업무 추가하기</summary>
-
-            <form
-              class="task-create-form"
-              method="post"
-              action="{% url 'project:task_create' project.id %}"
-            >
-              {% csrf_token %}
-
-              <div class="task-field">
-                <label for="{{ form.title.id_for_label }}">업무명</label>
-                {{ form.title }} {{ form.title.errors }}
-              </div>
-
-              <div class="task-field">
-                <label for="{{ form.assignee.id_for_label }}">담당자</label>
-                {{ form.assignee }} {{ form.assignee.errors }}
-              </div>
-
-              <div class="task-field">
-                <label for="{{ form.deadline.id_for_label }}">마감일</label>
-                {{ form.deadline }} {{ form.deadline.errors }}
-              </div>
-
-              <div class="task-field">
-                <label for="{{ form.status.id_for_label }}">업무 상태</label>
-                {{ form.status }} {{ form.status.errors }}
-              </div>
-
-              <button class="task-create-button" type="submit">
-                업무 추가
-              </button>
-            </form>
-          </details>
-
+          <a
+            class="task-create-link"
+            href="{% url 'project:task_create' project.id %}"
+          >
+            <span aria-hidden="true">▶</span>
+            새 업무 추가하기
+          </a>
           <section class="task-list-section">
             <div class="tasks-section-heading">
               <h2>업무 목록</h2>
@@ -144,8 +128,15 @@
 
             {% else %}
             <div class="task-list-empty">
-              <h3>아직 등록된 업무가 없어요.</h3>
-              <p>새 업무를 추가하고 프로젝트를 시작해보세요.</p>
+              <h3>등록된 업무가 없어요.</h3>
+              <p>프로젝트의 업무를 추가해보세요.</p>
+
+              <a
+                class="task-list-empty__button"
+                href="{% url 'project:task_create' project.id %}"
+              >
+                업무 추가하기
+              </a>
             </div>
             {% endif %}
           </section>

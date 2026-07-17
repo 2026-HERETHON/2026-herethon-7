@@ -16,9 +16,20 @@
   <body>
     <div id="app">
       <main class="profile-container">
-        <p class="title" id="profile-page-title">
-          {% if is_edit %}내 프로필 관리{% else %}내 프로필 등록{% endif %}
-        </p>
+        <header class="profile-header">
+          <button
+            class="profile-header__back"
+            type="button"
+            onclick="history.back()"
+            aria-label="이전 페이지로 돌아가기"
+          >
+            ‹
+          </button>
+
+          <h1 class="title" id="profile-page-title">
+            {% if is_edit %} 내 프로필 관리 {% else %} 내 프로필 등록 {% endif%}
+          </h1>
+        </header>
 
         <form
           class="profile-form"

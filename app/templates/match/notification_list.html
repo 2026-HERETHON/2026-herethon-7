@@ -1,0 +1,70 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>RE:Link 알림</title>
+
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/notification.css' %}" />
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="app-shell">
+        <main class="notification-page">
+          <header class="notification-header">
+            <a
+              class="notification-header__back"
+              href="{% url 'match:home' %}"
+              aria-label="홈으로 돌아가기"
+            >
+              ‹
+            </a>
+
+            <h1>알림</h1>
+          </header>
+
+          <section class="notification-list" aria-label="알림 목록">
+            {% for notification in notifications %}
+            <a
+              class="notification-card notification-card--{{ notification.type }}"
+              href="{{ notification.url }}"
+            >
+              <div class="notification-card__content">
+                <strong>{{ notification.title }}</strong>
+                <p>{{ notification.description }}</p>
+              </div>
+
+              <span class="notification-card__arrow" aria-hidden="true">
+                ›
+              </span>
+            </a>
+            {% endfor %}
+
+            <a
+              class="notification-card notification-card--profile"
+              href="{% url 'user:profile_edit' %}"
+            >
+              <img
+                class="notification-card__icon"
+                src="{% static 'assets/images/notifications/profile-update.svg' %}"
+                alt=""
+              />
+
+              <div class="notification-card__content">
+                <strong>프로필을 업데이트 해보세요</strong>
+                <p>더 정확한 매칭을 위해 필요역량을 추가해보세요.</p>
+              </div>
+            </a>
+          </section>
+
+          <a class="notification-settings" href="#"> 알림 설정관리 </a>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
