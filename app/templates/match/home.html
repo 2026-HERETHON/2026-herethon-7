@@ -80,7 +80,7 @@
 
         <section class="project-section" aria-labelledby="project-title">
           <div class="project-section__heading">
-            <h2 id="project-title">진행 중인 프로젝트</h2>
+            <h2 id="project-title">진행중인 프로젝트</h2>
             <span>{{ ongoing_project_count }}개 진행중</span>
           </div>
           {% if ongoing_project %}
@@ -98,13 +98,23 @@
               </span>
               <strong>{{ ongoing_project.progress }}%</strong>
             </div>
-            <div class="member-list" aria-label="참여자 {{ ongoing_members|length }}명">
-              {% for member in ongoing_members %}
+            <div class="member-list" aria-label="참여자 4명">
               <img
-                src="{% if member.user.profile.profile_image %}{{ member.user.profile.profile_image.url }}{% else %}{% static 'assets/icons/profile.svg' %}{% endif %}"
-                alt="{{ member.user.name }}"
+                src="{% static 'assets/images/profiles/profile-01.png' %}"
+                alt=""
               />
-              {% endfor %}
+              <img
+                src="{% static 'assets/images/profiles/profile-02.png' %}"
+                alt=""
+              />
+              <img
+                src="{% static 'assets/images/profiles/profile-03.png' %}"
+                alt=""
+              />
+              <img
+                src="{% static 'assets/images/profiles/profile-04.png' %}"
+                alt=""
+              />
             </div>
           </a>
           {% else %}
