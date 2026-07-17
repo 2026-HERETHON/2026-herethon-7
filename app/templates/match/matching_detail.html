@@ -18,96 +18,106 @@
 
   <body>
     <div id="app">
-      <div class="app-shell">
-        <main class="matching-detail">
-          <header class="detail-header">
-            <a
-              class="back-button"
-              href="{% url 'match:matching_list' %}"
-              aria-label="매칭 목록으로 돌아가기"
-            >
-              ‹
-            </a>
-          </header>
-
-          <section class="partner-profile">
-            {% if partner.name == '김서연' %}
-            <img
-              class="partner-profile__image"
-              src="{% static 'assets/images/profiles/profile-01.png' %}"
-              alt="김서연 프로필"
-            />
-            {% elif partner.name == '이지연' %}
-            <img
-              class="partner-profile__image"
-              src="{% static 'assets/images/profiles/profile-02.png' %}"
-              alt="이지연 프로필"
-            />
-            {% elif partner.name == '김서현' %}
-            <img
-              class="partner-profile__image"
-              src="{% static 'assets/images/profiles/profile-03.png' %}"
-              alt="김서현 프로필"
-            />
-            {% else %}
-            <img
-              class="partner-profile__image"
-              src="{% static 'assets/images/profiles/profile-04.png' %}"
-              alt="{{ partner.name }} 프로필"
-            />
-            {% endif %}
-
-            <div class="partner-profile__info">
-              <h1>{{ partner.name }}</h1>
-              <p>{{ profile.get_identity_display }}</p>
-              <span>{{ profile.get_work_style_display }} 협업</span>
-            </div>
-          </section>
-
-          <section class="detail-section">
-            <h2>제공 가능 역량</h2>
-
-            <div class="talent-tags">
-              {% for item in give_talents %}
-              <span>{{ item.talent.name }}</span>
-              {% empty %}
-              <span>등록된 역량이 없습니다.</span>
-              {% endfor %}
-            </div>
-          </section>
-
-          <div class="talent-exchange" aria-hidden="true">↕</div>
-
-          <section class="detail-section">
-            <h2>필요한 역량</h2>
-
-            <div class="talent-tags">
-              {% for item in need_talents %}
-              <span>{{ item.talent.name }}</span>
-              {% empty %}
-              <span>등록된 역량이 없습니다.</span>
-              {% endfor %}
-            </div>
-          </section>
-
-          <section class="detail-section detail-intro">
-            <h2>간단한 소개</h2>
-
-            {% if profile.intro %}
-            <p>{{ profile.intro }}</p>
-            {% else %}
-            <p>아직 작성된 소개가 없습니다.</p>
-            {% endif %}
-          </section>
-
+      <main class="matching-detail">
+        <header class="detail-header">
           <a
-            class="proposal-create-button"
-            href="{% url 'match:proposal_create' receiver.id %}"
+            class="back-button"
+            href="{% url 'match:matching_list' %}"
+            aria-label="매칭 목록으로 돌아가기"
           >
-            협업 제안 작성하기
+            <img
+              src="{% static 'assets/icons/mypage/arrow-left.svg' %}"
+              alt=""
+              aria-hidden="true"
+            />
           </a>
-        </main>
-      </div>
+        </header>
+
+        <section class="partner-profile">
+          <img
+            class="partner-profile__image"
+            src="{% if profile.profile_image %}{{ profile.profile_image.url }}{% else %}{% static 'assets/icons/profile.svg' %}{% endif %}"
+            alt="{{ partner.name }} 프로필"
+          />
+
+          <div class="partner-profile__info">
+            <h1>{{ partner.name }}</h1>
+            <p>{{ profile.get_identity_display }}</p>
+          </div>
+        </section>
+
+        <section class="detail-section">
+          <h2>
+            <div class="icon-container">
+              <img
+                src="{% static 'assets/icons/green-give.svg' %}"
+                alt=""
+                aria-hidden="true"
+              />
+            </div>
+            제공 가능 역량
+          </h2>
+
+          <div class="talent-tags">
+            {% for item in give_talents %}
+            <span>{{ item.talent.name }}</span>
+            {% empty %}
+            <span>등록된 역량이 없습니다.</span>
+            {% endfor %}
+          </div>
+        </section>
+
+        <div class="talent-exchange" aria-hidden="true">
+          <img src="{% static 'assets/icons/change.svg' %}" alt="" />
+        </div>
+
+        <section class="detail-section">
+          <h2>
+            <div class="icon-container">
+              <img
+                src="{% static 'assets/icons/green-need.svg' %}"
+                alt=""
+                aria-hidden="true"
+              />
+            </div>
+            필요한 역량
+          </h2>
+
+          <div class="talent-tags">
+            {% for item in need_talents %}
+            <span>{{ item.talent.name }}</span>
+            {% empty %}
+            <span>등록된 역량이 없습니다.</span>
+            {% endfor %}
+          </div>
+        </section>
+
+        <section class="detail-section detail-intro">
+          <h2>
+            <div class="icon-container">
+              <img
+                src="{% static 'assets/icons/green-introduce.svg' %}"
+                alt=""
+                aria-hidden="true"
+              />
+            </div>
+            간단한 소개
+          </h2>
+
+          {% if profile.intro %}
+          <p>{{ profile.intro }}</p>
+          {% else %}
+          <p>아직 작성된 소개가 없습니다.</p>
+          {% endif %}
+        </section>
+
+        <a
+          class="green-btn proposal-create-button"
+          href="{% url 'match:proposal_create' receiver.id %}"
+        >
+          협업 제안서 작성하기
+        </a>
+      </main>
     </div>
   </body>
 </html>
