@@ -219,18 +219,74 @@ def portfolio_list(request):
     # 내가 참여한 완료 프로젝트의 포트폴리오
     portfolios = Portfolio.objects.filter(
         project__projectmember__user=request.user
-    ).select_related('project')
-    return render(request, 'user/portfolio_list.html', {'portfolios': portfolios})
+    ).select_related(
+        'project__proposal'
+    ).prefetch_related(
+        'project__projectmember_set__user'
+    ).order_by('-created_at')
+
+    for portfolio in portfolios:
+        partners = [
+            member.user.name
+            for member in portfolio.project.projectmember_set.all()
+            if member.user_id != request.user.id
+        ]
+        portfolio.partner_names = ', '.join(partners) or '-'
+
+    return render(request, 'mypage/portfolio-manage.html', {
+        'portfolios': portfolios,
+    })
 
 
 @login_required
 def portfolio_detail(request, portfolio_id):
     """포트폴리오 상세"""
-    portfolio = get_object_or_404(Portfolio, pk=portfolio_id)
-    is_owner = portfolio.project.projectmember_set.filter(user=request.user).exists()
-    return render(request, 'user/portfolio_detail.html', {
+    portfolio = get_object_or_404(
+        Portfolio.objects.select_related(
+            'project__proposal'
+        ).prefetch_related(
+            'project__projectmember_set__user__profile'
+        ),
+        pk=portfolio_id,
+        project__projectmember__user=request.user,
+    )
+
+    if request.method == 'POST':
+        learnings = request.POST.get('learnings', '').strip()
+        uploaded_file = request.FILES.get('file_path')
+        remove_file = request.POST.get('remove_file') == 'true'
+        has_result = bool(uploaded_file or (portfolio.file_path and not remove_file))
+
+        if learnings and has_result:
+            if uploaded_file:
+                if portfolio.file_path:
+                    portfolio.file_path.delete(save=False)
+                portfolio.file_path = uploaded_file
+            portfolio.role = learnings
+            portfolio.save(update_fields=['role', 'file_path'])
+            messages.success(request, '포트폴리오가 저장되었습니다.')
+            return redirect('user:portfolio_detail', portfolio_id=portfolio.pk)
+
+        messages.error(request, '성과 및 결과물과 느낀점을 모두 입력해주세요.')
+
+    members = list(portfolio.project.projectmember_set.all())
+    current_member = next(
+        (member for member in members if member.user_id == request.user.id),
+        None,
+    )
+    partners = [
+        member.user.name
+        for member in members
+        if member.user_id != request.user.id
+    ]
+
+    return render(request, 'mypage/portfolio-detail.html', {
         'portfolio': portfolio,
-        'is_owner': is_owner,
+        'members': members,
+        'current_member': current_member,
+        'partner_names': ', '.join(partners) or '-',
+        'learnings': portfolio.role.splitlines() if portfolio.role else [],
+        'has_details': bool(portfolio.file_path and portfolio.role),
     })
 
 
