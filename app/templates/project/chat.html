@@ -43,19 +43,43 @@
             </a>
           </nav>
 
-          <section class="project-chat-empty">
-            <img
-              class="project-chat-empty__image"
-              src="{% static 'assets/images/workspace/chat-empty.svg' %}"
-              alt=""
-            />
+          <section
+            id="chat-messages"
+            class="project-chat-messages"
+            data-last-id="{% if chats %}{{ chats.last.id }}{% else %}0{% endif %}"
+            aria-live="polite"
+            aria-label="채팅 메시지"
+          >
+            {% for chat in chats %}
+              <article
+                class="chat-message {% if chat.sender == request.user %}is-mine{% else %}is-other{% endif %}"
+              >
+                {% if chat.sender != request.user %}
+                  <strong class="chat-message__sender">{{ chat.sender.name }}</strong>
+                {% endif %}
+                <div class="chat-message__row">
+                  <div class="chat-message__bubble">{{ chat.content|linebreaksbr }}</div>
+                  <time class="chat-message__time" datetime="{{ chat.sent_at|date:'c' }}">
+                    {{ chat.sent_at|date:"H:i" }}
+                  </time>
+                </div>
+              </article>
+            {% empty %}
+              <div class="project-chat-empty">
+                <img
+                  class="project-chat-empty__image"
+                  src="{% static 'assets/images/workspace/chat-empty.svg' %}"
+                  alt=""
+                />
 
-            <h2>아직 대화가 시작되지 않았어요.</h2>
+                <h2>아직 대화가 시작되지 않았어요.</h2>
 
-            <p>
-              첫 메시지를 보내 협업을<br />
-              시작해보세요.
-            </p>
+                <p>
+                  첫 메시지를 보내 협업을<br />
+                  시작해보세요.
+                </p>
+              </div>
+            {% endfor %}
           </section>
 
           <div class="project-chat-composer">
@@ -68,6 +92,8 @@
             </button>
 
             <input
+              id="chat-input"
+              name="content"
               type="text"
               placeholder="메시지를 입력하세요."
               aria-label="메시지 입력"
@@ -76,13 +102,16 @@
             <button
               class="project-chat-composer__send"
               type="button"
+              onclick="sendMessage()"
               aria-label="메시지 전송"
             >
-              ➤
+              <span aria-hidden="true">➤</span>
             </button>
           </div>
         </main>
       </div>
     </div>
+
+    <script src="{% static 'js/chat.js' %}"></script>
   </body>
 </html>
