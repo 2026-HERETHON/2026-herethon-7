@@ -103,6 +103,12 @@ def home(request):
 
 
 @login_required
+def matching_loading(request):
+    """파트너 매칭 로딩 화면"""
+    return render(request, "match/matching_loading.html")
+
+
+@login_required
 def matching_list(request):
     """
     추천 매칭 리스트
@@ -243,6 +249,17 @@ def matching_list(request):
             ),
 
         )
+
+        # 매칭 퍼센트 계산
+        from .services import calculate_match_percent
+
+        for profile in profiles:
+            profile.match_percent = calculate_match_percent(
+                request.user, profile.user
+            )
+
+        # 퍼센트 높은 순 정렬
+        profiles = sorted(profiles, key=lambda p: p.match_percent, reverse=True)
 
         context = {
 
