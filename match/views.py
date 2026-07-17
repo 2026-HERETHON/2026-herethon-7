@@ -243,6 +243,17 @@ def matching_list(request):
 
         )
 
+        # 매칭 퍼센트 계산
+        from .services import calculate_match_percent
+
+        for profile in profiles:
+            profile.match_percent = calculate_match_percent(
+                request.user, profile.user
+            )
+
+        # 퍼센트 높은 순 정렬
+        profiles = sorted(profiles, key=lambda p: p.match_percent, reverse=True)
+
         context = {
 
             "matching_users": profiles,

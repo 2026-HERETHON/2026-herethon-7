@@ -67,17 +67,21 @@ urlpatterns = [
     # 채팅
     # ==========================
 
-#    path(
-#        "projects/<int:project_id>/chat/",
-#        views.chat_room,
-#        name="chat_room",
-#    ),
+    path(
+        "projects/<int:project_id>/chat/",
+        views.chat_room,
+        name="chat_room",
+    ),
 
-#    path(
-#        "projects/<int:project_id>/chat/send/",
-#        views.chat_send,
-#        name="chat_send",
-#    ),
+    path(
+        "projects/<int:project_id>/chat/send/",
+        views.chat_send,
+        name="chat_send",
+    ),
 
-
+    path(
+        "projects/<int:project_id>/chat/messages/",
+        views.chat_messages,
+        name="chat_messages",
+    ),
 ]
