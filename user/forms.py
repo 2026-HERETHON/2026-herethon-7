@@ -56,16 +56,23 @@ class ProfileForm(forms.ModelForm):
     """프로필 등록/수정 폼"""
     name = forms.CharField(max_length=50, required=True, label='이름')
     give_talents = forms.ModelMultipleChoiceField(
-        queryset=Talent.objects.all(),
-        required=True,
+        queryset=Talent.objects.filter(id__lte=7),
+        required=False,
         widget=forms.CheckboxSelectMultiple,
         label='줄 수 있는 것 (기부재능)'
     )
     need_talents = forms.ModelMultipleChoiceField(
-        queryset=Talent.objects.all(),
-        required=True,
+        queryset=Talent.objects.filter(id__lte=7),
+        required=False,
         widget=forms.CheckboxSelectMultiple,
         label='필요한 것 (희망재능)'
+    )
+    # 직접 입력한 재능 이름
+    give_talents_custom = forms.CharField(
+        required=False, widget=forms.HiddenInput
+    )
+    need_talents_custom = forms.CharField(
+        required=False, widget=forms.HiddenInput
     )
 
     class Meta:
@@ -81,14 +88,49 @@ class ProfileForm(forms.ModelForm):
 
         # 수정 시 기존 재능 선택값 채우기
         if self.instance and self.instance.pk:
-            self.fields['give_talents'].initial = Talent.objects.filter(
+            give_talents = Talent.objects.filter(
                 profiletalent__profile=self.instance,
                 profiletalent__type='GIVE'
             )
-            self.fields['need_talents'].initial = Talent.objects.filter(
+            need_talents = Talent.objects.filter(
                 profiletalent__profile=self.instance,
                 profiletalent__type='NEED'
             )
+            self.fields['give_talents'].initial = give_talents.filter(id__lte=7)
+            self.fields['need_talents'].initial = need_talents.filter(id__lte=7)
+            self.fields['give_talents_custom'].initial = ','.join(
+                give_talents.filter(id__gt=7).values_list('name', flat=True)
+            )
+            self.fields['need_talents_custom'].initial = ','.join(
+                need_talents.filter(id__gt=7).values_list('name', flat=True)
+            )
+
+    def _collect_talents(self, field):
+        """선택된 재능 + 직접 입력한 재능(없으면 생성)을 합쳐서 반환"""
+        talents = list(self.cleaned_data.get(field) or [])
+        custom_names = [
+            name.strip()
+            for name in (self.cleaned_data.get(f'{field}_custom') or '').split(',')
+            if name.strip()
+        ]
+        for name in custom_names:
+            talent = Talent.objects.filter(name=name).first()
+            if talent is None:
+                talent = Talent.objects.create(name=name)
+            if talent not in talents:
+                talents.append(talent)
+        return talents
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        for field, label in [('give_talents', '제공 가능 역량'), ('need_talents', '필요한 역량')]:
+            has_selected = bool(cleaned_data.get(field))
+            has_custom = bool((cleaned_data.get(f'{field}_custom') or '').strip())
+            if not has_selected and not has_custom:
+                self.add_error(field, f'{label}을(를) 1개 이상 입력하세요.')
+
+        return cleaned_data
 
     def save(self, commit=True):
         profile = super().save(commit=False)
@@ -103,11 +145,11 @@ class ProfileForm(forms.ModelForm):
             # 기존 재능 삭제 후 재등록
             ProfileTalent.objects.filter(profile=profile).delete()
 
-            for talent in self.cleaned_data['give_talents']:
+            for talent in self._collect_talents('give_talents'):
                 ProfileTalent.objects.create(
                     profile=profile, talent=talent, type='GIVE'
                 )
-            for talent in self.cleaned_data['need_talents']:
+            for talent in self._collect_talents('need_talents'):
                 ProfileTalent.objects.create(
                     profile=profile, talent=talent, type='NEED'
                 )
