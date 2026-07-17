@@ -6,10 +6,12 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import Http404
 from django.views.decorators.http import require_POST
-from .models import Project, Task, ProjectFile
+from .models import Project, Task, ProjectFile, ChatMessage
+from django.http import JsonResponse
 from user.models import Portfolio
 from .forms import TaskForm, ProjectFileForm
 from .services import update_task_status
+
 
 logger = logging.getLogger(__name__)
 
@@ -540,3 +542,97 @@ def file_upload(request, project_id):
         return redirect(
             "project:project_list"
         )
+
+
+@login_required
+def chat_room(request, project_id):
+    """프로젝트 채팅"""
+    try:
+        project = get_object_or_404(
+            Project,
+            pk=project_id,
+            projectmember__user=request.user,
+        )
+
+        chats = (
+            ChatMessage.objects.filter(project=project)
+            .select_related("sender")
+            .order_by("sent_at")
+        )
+
+        return render(
+            request,
+            "project/chat.html",
+            {
+                "project": project,
+                "chats": chats,
+            },
+        )
+
+    except Http404:
+        messages.error(request, "프로젝트를 찾을 수 없거나 접근 권한이 없습니다.")
+        return redirect("project:project_list")
+
+
+@require_POST
+@login_required
+def chat_send(request, project_id):
+    """메시지 전송 (AJAX)"""
+    try:
+        project = get_object_or_404(
+            Project,
+            pk=project_id,
+            projectmember__user=request.user,
+        )
+
+        content = request.POST.get("content", "").strip()
+        if content:
+            ChatMessage.objects.create(
+                project=project,
+                sender=request.user,
+                content=content,
+            )
+            return JsonResponse({"status": "ok"})
+
+        return JsonResponse({"status": "error", "message": "내용을 입력해주세요."})
+
+    except Http404:
+        return JsonResponse({"status": "error", "message": "접근 권한이 없습니다."}, status=403)
+
+
+@login_required
+def chat_messages(request, project_id):
+    """새 메시지 가져오기 (폴링용 AJAX)"""
+    try:
+        project = get_object_or_404(
+            Project,
+            pk=project_id,
+            projectmember__user=request.user,
+        )
+
+        last_id = int(request.GET.get("last_id", 0))
+
+        chats = (
+            ChatMessage.objects.filter(
+                project=project,
+                id__gt=last_id,
+            )
+            .select_related("sender")
+            .order_by("sent_at")
+        )
+
+        data = [
+            {
+                "id": chat.id,
+                "sender": chat.sender.name,
+                "content": chat.content,
+                "sent_at": chat.sent_at.strftime("%H:%M"),
+                "is_mine": chat.sender == request.user,
+            }
+            for chat in chats
+        ]
+
+        return JsonResponse({"messages": data})
+
+    except Http404:
+        return JsonResponse({"messages": []}, status=403)
