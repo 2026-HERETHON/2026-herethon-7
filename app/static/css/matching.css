@@ -140,6 +140,13 @@
   text-align: center;
 }
 
+.matching-empty img {
+  width: 253px;
+  height: 240px;
+  object-fit: contain;
+  margin-bottom: 18px;
+}
+
 .matching-empty h2 {
   margin: 0 0 14px;
   font-size: 21px;
