@@ -4,15 +4,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RE:Link 홈</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="{% static 'assets/images/favicon.png' %}"
+    />
+    <title>Re:Link</title>
     <link rel="stylesheet" href="{% static 'css/global.css' %}" />
     <link rel="stylesheet" href="{% static 'css/common.css' %}" />
     <link rel="stylesheet" href="{% static 'css/home.css' %}" />
   </head>
   <body>
-    <body>
-  <div id="app">
-    <div class="app-shell">
+    <div id="app">
       <main class="home">
         <header class="home-header">
           <a class="brand" href="/home/" aria-label="RE:Link 홈">
@@ -63,7 +66,7 @@
           </article>
         </section>
 
-        <a class="match-start-button" href="/matching/">
+        <a class="match-start-button" href="{% url 'match:matching_loading' %}">
           <span aria-hidden="true">✧</span>
           매칭 시작
         </a>
@@ -83,7 +86,7 @@
               >
                 <span
                   class="progress-value"
-                  style="width: {{ ongoing_project.progress }}%"
+                  style="--progress: {{ ongoing_project.progress }}%"
                 ></span>
               </span>
               <strong>{{ ongoing_project.progress }}%</strong>
@@ -113,8 +116,7 @@
         </section>
       </main>
 
-            {% include 'components/bottom_nav.html' with active_nav='home' %}
+      {% include 'components/bottom_nav.html' with active_nav='home' %}
     </div>
-  </div>
-</body>
+  </body>
 </html>
