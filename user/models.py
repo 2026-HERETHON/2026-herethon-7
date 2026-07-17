@@ -88,7 +88,7 @@ class Portfolio(models.Model):
     """포트폴리오"""
 
     project = models.ForeignKey('project.Project', on_delete=models.CASCADE, related_name='portfolios', verbose_name='프로젝트')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='portfolios', verbose_name='작성자')
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='portfolios', verbose_name='작성자')
     title = models.CharField(max_length=100, blank=True, null=True, verbose_name='제목')
     role = models.TextField(blank=True, null=True, verbose_name='내 역할')
     summary = models.TextField(blank=True, null=True, verbose_name='요약')
