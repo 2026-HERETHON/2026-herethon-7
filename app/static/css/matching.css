@@ -401,35 +401,20 @@
 
 .proposal-page {
   min-height: 100vh;
-  padding: 20px 18px 40px;
+  padding: 20px 24px 36px;
 }
 
 .proposal-header {
-  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 48px;
+  height: 42px;
+  margin-bottom:24px;
 }
 
 .proposal-header .back-button {
-  position: absolute;
-  left: 0;
-}
-
-.proposal-header h1 {
-  margin: 0;
-  font-size: 23px;
-}
-
-.proposal-receiver {
-  margin: 20px 2px 25px;
-  color: var(--color-muted);
-  font-size: 15px;
-}
-
-.proposal-receiver strong {
-  color: var(--color-text);
+  width: 24px;
+  height: 36px;
+  justify-content: flex-start;
 }
 
 /* 입력 폼 */
@@ -437,69 +422,266 @@
 .proposal-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
 }
 
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .form-field label {
-  font-size: 15px;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 18px;
+  font-weight: 500;
 }
 
-.form-field label span {
-  color: #d35c5c;
+.form-field .required-icon {
+  width: 8px;
+  height: 8px;
 }
 
 .form-field input:not([type="file"]),
 .form-field select,
 .form-field textarea {
   width: 100%;
-  padding: 12px;
-
+  padding: 9px 16px;
   color: var(--color-text);
   background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-
-  font-size: 14px;
+  border: 1px solid #d7d7d7;
+  border-radius: 11px;
+  font-size: 16px;
 }
 
 .form-field input:not([type="file"]),
 .form-field select {
-  min-height: 46px;
+  height: 42px;
 }
 
 .form-field textarea {
-  min-height: 105px;
-  resize: vertical;
-  line-height: 1.5;
+  min-height: 42px;
+  resize: none;
+  line-height: 1.35;
 }
 
 .form-field input:focus,
 .form-field select:focus,
 .form-field textarea:focus {
   border-color: var(--color-primary);
-  outline: 2px solid rgb(126 185 65 / 15%);
+  outline: 2px solid rgb(126 185 65 / 12%);
 }
 
-.form-field input[type="file"] {
-  width: 100%;
-  padding: 11px;
+.counted-input {
+  position: relative;
+}
 
-  background: var(--color-white);
-  border: 1px dashed #c8c8c8;
-  border-radius: 8px;
+.counted-input input,
+.counted-input textarea {
+  padding-right: 54px !important;
+}
+
+.character-count {
+  position: absolute;
+  right: 13px;
+  bottom: 10px;
+  color: #d8d8d8;
+  font-size: 11px;
+}
+
+.talent-picker {
+  display: grid;
+  grid-template-columns: 1fr 38px 1fr;
+  align-items: center;
+}
+
+.talent-card {
+  display: flex;
+  min-width: 0;
+  padding: 12px 8px;
+  align-items: center;
+  flex-direction: column;
+  gap: 9px;
+  color: var(--color-text);
+  background: #fff;
+  border: 1px solid #d5d5d5;
+  border-radius: 11px;
+  cursor: pointer;
+}
+
+.talent-card strong {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.talent-card img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.talent-card small {
+  color: #777;
+  font-size: 12px;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.talent-card small.is-selected {
+  display: inline-flex;
+  width: auto;
+  max-width: 100%;
+  padding: 4px 10px;
+  color: #4f6841;
+  background: #fbfff7;
+  border: 1px solid #cfdda9;
+  border-radius: 15px;
+  font-size: 13px;
+}
+
+.talent-change-icon {
+  width: 22px;
+  height: 22px;
+  justify-self: center;
+}
+
+.native-talent-selects {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.mode-field > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+}
+
+.mode-field > div > div label {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  color: #111;
+  background: #fff;
+  border: 1px solid #d7d7d7;
+  border-radius: 11px;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.mode-field input {
+  position: absolute;
+  width: 1px !important;
+  height: 1px !important;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.mode-field > div > div:has(input:checked) label {
+  color: var(--color-primary);
+  background: #f2f8e9;
+  border-color: var(--color-primary);
+}
+
+.mode-field > div > div:has(input:checked) label::after {
+  content: "✓";
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: var(--color-primary);
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+.file-input-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 30px;
+  gap: 10px;
+}
+
+.file-input-label {
+  display: flex;
+  height: 38px;
+  padding: 0 14px;
+  align-items: center;
+  gap: 7px;
+  overflow: hidden;
+  color: #00000099;
+  background: #fff;
+  border: 1px dashed #d5d5d5;
+  border-radius: 10px;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  cursor: pointer;
+}
+
+.file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.upload-icon {
+  color: #666 !important;
+  font-size: 18px;
+}
+
+.file-add-button {
+  display: flex;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px dashed #d5d5d5;
+  border-radius: 5px;
+  font-weight: 400 !important;
+  cursor: pointer;
+}
+
+.file-add-button img {
+  width: 22px;
+  height: 22px;
+}
+
+.file-input-row input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
 }
 
 .field-error {
   margin: 0;
   color: #d35c5c;
   font-size: 12px;
+}
+
+.client-error {
+  display: none;
+}
+
+.form-field.has-error .client-error {
+  display: block;
+}
+
+.form-field.has-error input:not([type="file"]),
+.form-field.has-error select,
+.form-field.has-error textarea,
+.talent-field.has-error .talent-card,
+.mode-field.has-error > div > div label {
+  border-color: #a8494b;
+  background: #a8494b0d;
 }
 
 .form-error {
@@ -513,22 +695,169 @@
 /* 전송 버튼 */
 
 .proposal-submit-button {
-  width: 100%;
-  height: 52px;
-  margin-top: 10px;
-
-  color: var(--color-white);
-  background: var(--color-primary);
-  border: 0;
-  border-radius: 8px;
-
-  font-size: 17px;
-  font-weight: 700;
+  display: flex;
+  width: 217px;
+  margin: 10px auto 0;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 500;
   cursor: pointer;
 }
 
+.proposal-submit-button img {
+  width: 20px;
+  height: 20px;
+}
+
 .proposal-submit-button:hover {
-  background: var(--color-primary-dark);
+  background: #7EB94133;
+}
+
+/* 재능 교환 모달 */
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.talent-modal {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.talent-modal.is-open {
+  display: flex;
+}
+
+.talent-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  border: 0;
+  background: rgb(0 0 0 / 31%);
+}
+
+.talent-modal__sheet {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 440px);
+  padding: 12px 24px 22px;
+  background: var(--color-background);
+  border-radius: 25px 25px 0 0;
+}
+
+.talent-modal__handle {
+  width: 76px;
+  height: 3px;
+  margin: 0 auto 22px;
+  background: #d7d7d7;
+  border-radius: 3px;
+}
+
+.talent-modal__sheet h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.talent-modal__sheet > p {
+  margin: 7px 0 27px;
+  color: #777;
+  font-size: 13px;
+  text-align: center;
+}
+
+.modal-talent-group + .modal-talent-group {
+  margin-top: 28px;
+}
+
+.modal-talent-group h3 {
+  margin: 0 0 12px;
+  color: var(--color-primary);
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.talent-search {
+  display: flex;
+  height: 40px;
+  padding: 0 13px;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #d7d7d7;
+  border-radius: 11px;
+}
+
+.talent-search img {
+  width: 20px;
+  height: 20px;
+}
+
+.talent-search input {
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 14px;
+}
+
+.talent-options {
+  display: flex;
+  max-height: 76px;
+  margin-top: 13px;
+  flex-wrap: wrap;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.talent-option {
+  padding: 7px 12px;
+  color: #111;
+  background: #fff;
+  border: 1px solid #d7d7d7;
+  border-radius: 11px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.talent-option.is-selected {
+  color: #4f6841;
+  background: #f4faec;
+  border-color: var(--color-primary);
+}
+
+.talent-modal__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 30px;
+}
+
+.talent-modal__actions button {
+  height: 49px;
+  border: 1px solid #bdbdbd;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.talent-modal__cancel {
+  color: #111;
+  background: #ddd;
+}
+
+.talent-modal__apply {
+  color: #fff;
+  background: var(--color-primary);
+  border-color: var(--color-primary) !important;
 }
 
 /* 제안 전송 완료 */
