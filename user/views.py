@@ -318,7 +318,7 @@ def review_list(request):
     """후기 목록"""
     written_reviews = request.user.written_reviews.all().select_related('project', 'receiver')
     received_reviews = request.user.received_reviews.all().select_related('project', 'writer')
-    return render(request, 'user/review_list.html', {
+    return render(request, 'mypage/review.html', {
         'written_reviews': written_reviews,
         'received_reviews': received_reviews,
     })
