@@ -94,7 +94,8 @@ RE:Link는 경력 보유자와 커리어 스타터(사회초년생·취업준비
 
 ## 📌 ERD
 
-### <img width="2720" height="1362" alt="ReLink" src="https://github.com/user-attachments/assets/c5337715-4049-4c15-8824-0fa434b5b89e" />
+### <img width="2520" height="1312" alt="ReLink" src="https://github.com/user-attachments/assets/8e69442b-8a18-482e-b681-b7babc62c706" />
+
 
 
 
