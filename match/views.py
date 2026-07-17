@@ -9,6 +9,7 @@ from project.models import ProjectMember, Project
 from django.http import Http404
 import logging
 from .services import accept_proposal
+from django.urls import reverse
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -99,6 +100,12 @@ def home(request):
             }
         )
     
+
+
+@login_required
+def matching_loading(request):
+    """파트너 매칭 로딩 화면"""
+    return render(request, "match/matching_loading.html")
 
 
 @login_required
@@ -242,6 +249,17 @@ def matching_list(request):
             ),
 
         )
+
+        # 매칭 퍼센트 계산
+        from .services import calculate_match_percent
+
+        for profile in profiles:
+            profile.match_percent = calculate_match_percent(
+                request.user, profile.user
+            )
+
+        # 퍼센트 높은 순 정렬
+        profiles = sorted(profiles, key=lambda p: p.match_percent, reverse=True)
 
         context = {
 
@@ -693,27 +711,32 @@ def proposal_detail(request, proposal_id):
 
         )
 
-        # 받은 제안만 조회 가능
-        if proposal.receiver != request.user:
-
+        if request.user not in [
+            proposal.sender,
+            proposal.receiver,
+        ]:
             messages.error(
                 request,
                 "접근 권한이 없습니다."
             )
 
             return redirect(
-                "match:proposal_received_list"
+                "match:home"
+            )
+
+        sender_profile = getattr(
+            proposal.sender,
+            "profile",
+            None,
             )
 
         context = {
-
             "proposal": proposal,
-
-            # 버튼 표시 여부
+            "sender_profile": sender_profile,
             "can_reply": (
                 proposal.status == Proposal.Status.WAIT
+                and proposal.status == Proposal.Status.WAIT
             ),
-
         }
 
         return render(
@@ -810,9 +833,9 @@ def proposal_accept(request, proposal_id):
         )
 
         return redirect(
-            "project:project_overview",
-            project_id=project.id,
-        )
+            "match:proposal_accept_complete",
+            proposal_id=proposal.id,
+)
 
     except Http404:
 
@@ -912,3 +935,110 @@ def proposal_reject(request, proposal_id):
             "match:proposal_received_list"
         )
 
+@login_required
+def notification_list(request):
+    notifications = []
+
+    # 내가 받은 대기 중 제안
+    received_proposals = (
+        Proposal.objects
+        .filter(
+            receiver=request.user,
+            status=Proposal.Status.WAIT,
+        )
+        .select_related("sender")
+        .order_by("-created_at")
+    )
+
+    for proposal in received_proposals:
+        notifications.append(
+            {
+                "type": "received",
+                "title": f"{proposal.sender.name}님이 협업 제안을 보냈어요.",
+                "description": "협업 제안서를 확인해보세요.",
+                "created_at": proposal.created_at,
+                "url": reverse(
+                    "match:proposal_detail",
+                    args=[proposal.pk],
+                ),
+            }
+        )
+
+    # 상대방이 수락한 내가 보낸 제안
+    accepted_proposals = (
+        Proposal.objects
+        .filter(
+            sender=request.user,
+            status=Proposal.Status.ACCEPT,
+        )
+        .select_related("receiver")
+        .order_by("-created_at")
+    )
+
+    for proposal in accepted_proposals:
+        project = Project.objects.filter(
+            proposal=proposal,
+        ).first()
+
+        notification_url = reverse(
+            "match:proposal_detail",
+            args=[proposal.pk],
+        )
+
+        notifications.append(
+            {
+                "type": "accepted",
+                "title": f"{proposal.receiver.name}님이 협업 제안을 수락했어요.",
+                "description": "프로젝트 공간으로 이동해 작업을 시작해보세요.",
+                "created_at": proposal.created_at,
+                "url": notification_url,
+            }
+        )
+
+    notifications.sort(
+        key=lambda notification: notification["created_at"],
+        reverse=True,
+    )
+
+    return render(
+        request,
+        "match/notification_list.html",
+        {
+            "notifications": notifications,
+        },
+    )
+
+@login_required
+def proposal_accept_complete(request, proposal_id):
+    proposal = get_object_or_404(
+        Proposal.objects.select_related(
+            "sender",
+            "receiver",
+        ),
+        pk=proposal_id,
+        status=Proposal.Status.ACCEPT,
+    )
+
+    if request.user not in [proposal.sender, proposal.receiver]:
+        messages.error(
+            request,
+            "접근 권한이 없습니다.",
+        )
+
+        return redirect(
+            "match:home",
+        )
+
+    project = get_object_or_404(
+        Project,
+        proposal=proposal,
+    )
+
+    return render(
+        request,
+        "match/proposal_accept_complete.html",
+        {
+            "proposal": proposal,
+            "project": project,
+        },
+    )

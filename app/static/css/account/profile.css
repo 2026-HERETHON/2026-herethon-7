@@ -8,11 +8,33 @@
   padding: 40px 20px;
 }
 
+.profile-header {
+  position: relative;
+  width: 100%;
+  min-height: 48px;
+  margin-bottom: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-header__back {
+  position: absolute;
+  left: 0;
+  padding: 0;
+  border: 0;
+  color: #111;
+  background: transparent;
+  font-size: 42px;
+  line-height: 1;
+  cursor: pointer;
+}
+
 .title {
-  text-align: center;
+  margin: 0;
   font-size: 24px;
   font-weight: 500;
-  margin-bottom: 68px;
+  text-align: center;
   cursor: default;
 }
 
@@ -355,7 +377,7 @@
   height: 34px;
   border: 1px solid #cecece;
   border-radius: 10px;
-  padding: 0 40px;
+  padding: 0 14px;
   outline: none;
   background: var(--white);
   font-size: 15px;
@@ -365,14 +387,8 @@
   color: #909090;
 }
 
-.search-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  width: 20px;
-  height: 20px;
-  transform: translateY(-50%);
-  pointer-events: none;
+.search-box input:focus {
+  border-color: var(--green);
 }
 
 .selected-tags {

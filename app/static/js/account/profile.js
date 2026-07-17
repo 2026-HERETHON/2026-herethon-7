@@ -39,9 +39,7 @@ document.querySelectorAll(".button-row").forEach((row) => {
 
 function getTalentOptions(type) {
   return [
-    ...document.querySelectorAll(
-      `#talent-fields [data-type="${type}"] input`,
-    ),
+    ...document.querySelectorAll(`#talent-fields [data-type="${type}"] input`),
   ].map((input) => ({
     id: input.value,
     name: input.closest("label")?.textContent.trim() || input.value,
@@ -54,19 +52,48 @@ const talentOptions = {
   need: getTalentOptions("need"),
 };
 
+const interestOptions = [
+  { id: "1", name: "마케팅" },
+  { id: "2", name: "기획/제작" },
+  { id: "3", name: "디자인" },
+  { id: "4", name: "경영/회계" },
+  { id: "5", name: "개발" },
+];
+
+function getCustomTalentItems(type) {
+  const field = document.querySelector(
+    type === "provide" ? "#id_give_talents_custom" : "#id_need_talents_custom",
+  );
+
+  return (field?.value || "")
+    .split(",")
+    .map((name) => name.trim())
+    .filter(Boolean)
+    .map((name) => ({ id: name, name, custom: true }));
+}
+
 const selectedData = {
-  provide: talentOptions.provide.filter((item) => item.input.checked),
-  need: talentOptions.need.filter((item) => item.input.checked),
+  provide: [
+    ...talentOptions.provide.filter((item) => item.input.checked),
+    ...getCustomTalentItems("provide"),
+  ],
+  need: [
+    ...talentOptions.need.filter((item) => item.input.checked),
+    ...getCustomTalentItems("need"),
+  ],
   interest: (form.dataset.savedSkills || "")
     .split(",")
     .map((name) => name.trim())
     .filter(Boolean)
-    .map((name) => ({ id: name, name })),
+    .map(
+      (name) =>
+        interestOptions.find((item) => item.name === name) || {
+          id: name,
+          name,
+          custom: true,
+        },
+    ),
 };
-
-const interestOptions = ["마케팅", "기획/제작", "디자인", "경영/회계", "개발"].map(
-  (name) => ({ id: name, name }),
-);
 
 function fillSelectedBox(type) {
   const box = document.querySelector(`#${type}-group .select-box`);
@@ -118,7 +145,23 @@ let currentType = "";
 let selectedItems = [];
 
 function itemExists(items, target) {
-  return items.some((item) => item.id === target.id);
+  return items.some(
+    (item) => item.id === target.id || item.name === target.name,
+  );
+}
+
+function addCustomItem(name) {
+  const trimmed = name.trim();
+  if (!trimmed) return false;
+
+  // 이미 추천 항목에 있으면 해당 항목을 선택
+  const option = optionsFor(currentType).find((item) => item.name === trimmed);
+  const target = option || { id: trimmed, name: trimmed, custom: true };
+
+  if (itemExists(selectedItems, target)) return false;
+
+  selectedItems.push(target);
+  return true;
 }
 
 function optionsFor(type) {
@@ -142,9 +185,7 @@ function createSelectedTag(item) {
   tag.appendChild(remove);
 
   remove.addEventListener("click", () => {
-    selectedItems = selectedItems.filter(
-      (selected) => selected.id !== item.id,
-    );
+    selectedItems = selectedItems.filter((selected) => selected.id !== item.id);
     renderSheet();
   });
 
@@ -154,9 +195,7 @@ function createSelectedTag(item) {
 function createRecommendTag(item) {
   const tag = document.createElement("button");
   tag.type = "button";
-  tag.className = itemExists(selectedItems, item)
-    ? "tag active"
-    : "tag normal";
+  tag.className = itemExists(selectedItems, item) ? "tag active" : "tag normal";
   tag.textContent = item.name;
 
   tag.addEventListener("click", () => {
@@ -174,7 +213,6 @@ function renderSheet() {
   recommendTags.innerHTML = "";
   selectedItems.forEach(createSelectedTag);
   optionsFor(currentType).forEach(createRecommendTag);
-  searchInput.dispatchEvent(new Event("input"));
 }
 
 function openSheet(type) {
@@ -206,34 +244,26 @@ document
   .addEventListener("click", () => openSheet("interest"));
 
 document.querySelector(".add-btn").addEventListener("click", () => {
-  const customInterest = searchInput.value.trim();
-
-  if (
-    currentType === "interest" &&
-    customInterest &&
-    !itemExists(selectedItems, { id: customInterest })
-  ) {
-    selectedItems.push({ id: customInterest, name: customInterest });
-  }
+  addCustomItem(searchInput.value);
 
   if (selectedItems.length === 0) return;
 
   selectedData[currentType] = [...selectedItems];
   fillSelectedBox(currentType);
-  document
-    .querySelector(`#${currentType}-group`)
-    .classList.remove("error");
+  document.querySelector(`#${currentType}-group`).classList.remove("error");
   closeSheet();
 });
 
-searchInput.addEventListener("input", () => {
-  const keyword = searchInput.value.toLowerCase();
+searchInput.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter") return;
+  if (event.isComposing) return; // 한글 조합 중 중복 입력 방지
 
-  recommendTags.querySelectorAll(".tag").forEach((tag) => {
-    tag.style.display = tag.textContent.toLowerCase().includes(keyword)
-      ? ""
-      : "none";
-  });
+  event.preventDefault();
+
+  if (addCustomItem(searchInput.value)) {
+    searchInput.value = "";
+    renderSheet();
+  }
 });
 
 form.addEventListener("submit", (event) => {
@@ -269,10 +299,23 @@ form.addEventListener("submit", (event) => {
     .join(",");
 
   ["provide", "need"].forEach((type) => {
-    const selectedIds = new Set(selectedData[type].map((item) => item.id));
+    const items = selectedData[type];
+    const selectedIds = new Set(
+      items.filter((item) => !item.custom).map((item) => item.id),
+    );
     talentOptions[type].forEach((item) => {
       item.input.checked = selectedIds.has(item.id);
     });
+
+    const customField = document.querySelector(
+      type === "provide"
+        ? "#id_give_talents_custom"
+        : "#id_need_talents_custom",
+    );
+    customField.value = items
+      .filter((item) => item.custom)
+      .map((item) => item.name)
+      .join(",");
   });
 
   form.querySelector(".save-btn").disabled = true;

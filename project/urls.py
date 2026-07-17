@@ -19,11 +19,19 @@ urlpatterns = [
     # 워크스페이스
     # ==========================
 
-    path(
-        "projects/<int:project_id>/",
-        views.project_overview,
-        name="project_overview",
-    ),
+   # 워크스페이스 개요 화면
+path(
+    "projects/<int:project_id>/",
+    views.project_overview,
+    name="project_overview",
+),
+
+# 워크스페이스 개요 입력·수정 화면
+path(
+    "projects/<int:project_id>/edit/",
+    views.project_overview_edit,
+    name="project_overview_edit",
+),
 
     # ==========================
     # 업무(Task)
@@ -67,17 +75,22 @@ urlpatterns = [
     # 채팅
     # ==========================
 
-#    path(
-#        "projects/<int:project_id>/chat/",
-#        views.chat_room,
-#        name="chat_room",
-#    ),
+    path(
+        "projects/<int:project_id>/chat/",
+        views.chat_room,
+        name="chat_room",
+    ),
 
-#    path(
-#        "projects/<int:project_id>/chat/send/",
-#        views.chat_send,
-#        name="chat_send",
-#    ),
+    path(
+        "projects/<int:project_id>/chat/send/",
+        views.chat_send,
+        name="chat_send",
+    ),
 
+    path(
+        "projects/<int:project_id>/chat/messages/",
+        views.chat_messages,
+        name="chat_messages",
+    ),
 
 ]

@@ -607,3 +607,1063 @@
   margin: 0;
   font-size: 14px;
 }
+
+.workspace-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.workspace-tabs a,
+.workspace-tabs span {
+  padding: 14px 4px;
+  color: #777;
+  text-align: center;
+  text-decoration: none;
+}
+
+.workspace-tabs .is-active {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  border-bottom: 3px solid var(--color-primary);
+}
+
+.workspace-overview-empty {
+  min-height: 520px;
+  padding: 180px 24px 40px;
+  text-align: center;
+}
+
+.workspace-overview-empty h2 {
+  margin: 0 0 12px;
+  font-size: 22px;
+}
+
+.workspace-overview-empty p {
+  margin: 0 0 28px;
+  color: #777;
+}
+
+.workspace-overview-empty__button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  min-height: 52px;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+/* 프로젝트 개요 입력 */
+
+.overview-form-page {
+  min-height: 100vh;
+  padding: 0 20px 40px;
+  background: var(--color-background);
+}
+
+.overview-form-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72px;
+}
+
+.overview-form-header a {
+  position: absolute;
+  left: 0;
+  color: var(--color-text);
+  font-size: 38px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.overview-form-header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.overview-form {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding-top: 16px;
+}
+
+.overview-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.overview-form-field label,
+.overview-talent-fieldset legend,
+.overview-mode-fieldset legend {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.overview-form-field label span,
+.overview-talent-fieldset legend span,
+.overview-mode-fieldset legend span {
+  color: #d95c5c;
+}
+
+.overview-form input,
+.overview-form textarea,
+.overview-form select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--color-text);
+  font: inherit;
+}
+
+.overview-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.overview-form input:focus,
+.overview-form textarea:focus,
+.overview-form select:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.overview-form .is-error input,
+.overview-form .is-error textarea,
+.overview-form .is-error select {
+  border-color: #d95c5c;
+  background: #fffafa;
+}
+
+.overview-form-field__bottom {
+  display: flex;
+  justify-content: space-between;
+  min-height: 18px;
+}
+
+.overview-character-count {
+  margin-left: auto;
+  color: #aaa;
+  font-size: 12px;
+}
+
+.overview-form-error {
+  margin: 0;
+  color: #d95c5c;
+  font-size: 12px;
+}
+
+.overview-form__general-error {
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff0f0;
+  color: #d95c5c;
+  font-size: 14px;
+}
+
+.overview-talent-fieldset,
+.overview-mode-fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.overview-talent-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.overview-mode-fieldset > div > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.overview-mode-fieldset label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.overview-mode-fieldset input {
+  width: auto;
+  margin-right: 7px;
+}
+
+.overview-form-submit {
+  width: 100%;
+  min-height: 54px;
+  margin-top: 16px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.overview-form-submit:hover {
+  background: var(--color-primary-dark);
+}
+
+.overview-form-page {
+  padding: 0 20px 32px;
+}
+
+.overview-form-header {
+  justify-content: flex-start;
+  min-height: 58px;
+}
+
+.overview-form-header a {
+  position: static;
+  font-size: 30px;
+}
+
+.overview-form {
+  gap: 20px;
+  padding-top: 4px;
+}
+
+.overview-form-field {
+  gap: 7px;
+}
+
+.overview-form-field label,
+.overview-talent-fieldset legend,
+.overview-mode-fieldset legend {
+  font-size: 15px;
+}
+
+.overview-form input,
+.overview-form textarea,
+.overview-form select {
+  min-height: 42px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.overview-form textarea {
+  min-height: 100px;
+}
+
+.overview-talent-grid {
+  gap: 8px;
+  margin-top: 9px;
+}
+
+.overview-talent-grid select {
+  font-size: 12px;
+}
+
+.overview-mode-fieldset > div > div {
+  gap: 8px;
+  margin-top: 9px;
+}
+
+.overview-mode-fieldset label {
+  min-height: 42px;
+  font-size: 14px;
+}
+
+.overview-form-submit {
+  min-height: 48px;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.overview-talent-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.overview-talent-label img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.overview-talent-grid select {
+  width: 100%;
+  padding: 11px 32px 11px 12px;
+  overflow: hidden;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* p.41 등록 업무 없음 */
+
+.tasks-page.is-empty .tasks-project-summary,
+.tasks-page.is-empty .task-create-panel,
+.tasks-page.is-empty .tasks-section-heading {
+  display: none;
+}
+
+.tasks-page.is-empty .task-list-section {
+  margin: 0;
+}
+
+.tasks-page.is-empty .task-list-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 520px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.tasks-page.is-empty .task-list-empty h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+.tasks-page.is-empty .task-list-empty p {
+  margin: 0 0 30px;
+  color: #777;
+  font-size: 15px;
+}
+
+.task-list-empty__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 210px;
+  min-height: 50px;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* p.42~44 업무 작성 */
+
+.task-form-page {
+  min-height: 100vh;
+  padding: 0 20px 30px;
+  background: var(--color-background);
+}
+
+.task-form-header {
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+}
+
+.task-form-header a {
+  color: var(--color-text);
+  font-size: 30px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.task-register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-height: calc(100vh - 88px);
+}
+
+.task-register-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.task-register-field label {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.task-register-field label span {
+  color: #d95c5c;
+}
+
+.task-register-field input,
+.task-register-field select,
+.task-register-field textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+}
+
+.task-register-field input,
+.task-register-field select {
+  min-height: 44px;
+}
+
+.task-register-field textarea {
+  min-height: 150px;
+  resize: none;
+}
+
+.task-register-field .is-error input,
+.task-register-field .is-error select {
+  border-color: #d95c5c;
+  background: #fffafa;
+}
+
+.task-register-field__bottom {
+  display: flex;
+  justify-content: space-between;
+  min-height: 16px;
+}
+
+.task-register-field__bottom span {
+  margin-left: auto;
+  color: #aaa;
+  font-size: 12px;
+}
+
+.task-register-field__bottom p,
+.task-register-error {
+  margin: 0;
+  color: #d95c5c;
+  font-size: 12px;
+}
+
+.task-register-submit {
+  width: 100%;
+  min-height: 50px;
+  margin-top: auto;
+  border: 0;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* p.46~48 프로젝트 파일 */
+
+.project-files-page {
+  min-height: 100vh;
+  background: var(--color-background);
+}
+
+.project-file-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 520px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.project-file-empty h2 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+.project-file-empty p {
+  margin: 0 0 30px;
+  color: #777;
+  font-size: 15px;
+}
+
+.project-file-empty__button,
+.project-file-upload__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 210px;
+  min-height: 50px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.project-file-upload {
+  padding: 36px 20px;
+}
+
+.project-file-upload form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.project-file-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.project-file-field label {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.project-file-field input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.project-file-field p {
+  margin: 0;
+  color: #888;
+  font-size: 12px;
+}
+
+.project-file-upload__button {
+  width: 100%;
+  margin-top: 24px;
+}
+
+.project-file-list {
+  padding: 28px 20px 100px;
+}
+
+.project-file-list__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.project-file-list__heading h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.project-file-list__heading a {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.project-folder {
+  margin-bottom: 24px;
+}
+
+.project-folder h3 {
+  margin: 0 0 12px;
+  font-size: 17px;
+}
+
+.project-folder ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project-folder li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.project-folder li div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.project-folder li strong {
+  overflow: hidden;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-folder li span {
+  color: #888;
+  font-size: 12px;
+}
+
+.project-folder li > a {
+  flex-shrink: 0;
+  margin-left: 12px;
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* 파일이 없는 상태 */
+.project-file-empty {
+  min-height: calc(100vh - 190px);
+  padding: 150px 32px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.project-file-empty__image {
+  display: block;
+  width: 210px;
+  height: auto;
+  margin-bottom: 38px;
+}
+
+.project-file-empty h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.project-file-empty p {
+  margin: 24px 0 0;
+  color: #777;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.project-file-empty__button {
+  width: 100%;
+  max-width: 300px;
+  min-height: 58px;
+  margin-top: 90px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: var(--color-primary);
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+}
+/* 워크스페이스 전체 페이지 규격 통일 */
+.workspace-page,
+.tasks-page,
+.project-files-page {
+  min-height: 100vh;
+  padding: 0 0 140px;
+  background: var(--color-background);
+}
+
+/* 공통 헤더 좌우 여백 */
+.workspace-header {
+  min-height: 72px;
+  margin-bottom: 26px;
+  padding: 0 24px;
+}
+
+/* 뒤로가기 버튼 위치 통일 */
+.workspace-back-button {
+  left: 24px;
+}
+
+/* 탭 너비와 규격 통일 */
+.workspace-tabs {
+  width: 100%;
+  margin: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* 탭 글자 크기와 높이 통일 */
+.workspace-tabs a,
+.workspace-tabs span {
+  box-sizing: border-box;
+  padding: 18px 4px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* 워크스페이스 빈 상태 위치 통일 */
+.workspace-overview-empty,
+.tasks-page.is-empty .task-list-empty,
+.project-file-empty {
+  box-sizing: border-box;
+  min-height: 0;
+  height: auto;
+  justify-content: flex-start;
+  padding-top: 100px;
+}
+
+/* 워크스페이스 상단 탭을 위로 이동 */
+.workspace-header {
+  min-height: 60px;
+  margin-bottom: 0;
+}
+
+/* 탭 자체의 위아래 높이도 조금 축소 */
+.workspace-tabs a,
+.workspace-tabs span {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+/* 프로젝트 채팅 */
+.project-chat-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 0 0 100px;
+  background: var(--color-background);
+}
+
+.project-chat-empty {
+  box-sizing: border-box;
+  min-height: calc(100vh - 260px);
+  padding: 110px 32px 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.project-chat-empty__image {
+  display: block;
+  width: 230px;
+  height: auto;
+  margin-bottom: 48px;
+}
+
+.project-chat-empty h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.project-chat-empty p {
+  margin: 22px 0 0;
+  color: #777;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* 하단 메시지 입력창 */
+.project-chat-composer {
+  position: absolute;
+  right: 20px;
+  bottom: 24px;
+  left: 20px;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 48px;
+  gap: 8px;
+  align-items: center;
+}
+
+.project-chat-composer__add,
+.project-chat-composer__send {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.project-chat-composer__add {
+  border: 1px solid var(--color-border);
+  color: #777;
+  background: #fff;
+  font-size: 28px;
+  font-weight: 300;
+}
+
+.project-chat-composer input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid #d7d7d7;
+  border-radius: 12px;
+  outline: none;
+  background: #fff;
+  color: var(--color-text);
+  font: inherit;
+  font-size: 16px;
+}
+
+.project-chat-composer input::placeholder {
+  color: #777;
+}
+
+.project-chat-composer input:focus {
+  border-color: var(--color-primary);
+}
+
+.project-chat-composer__send {
+  border: 0;
+  color: #fff;
+  background: var(--color-primary);
+  font-size: 25px;
+  transform: rotate(-25deg);
+}
+
+/* 새 워크스페이스 개요 */
+.overview-info-card {
+  margin: 32px 24px 36px;
+  padding: 22px 20px;
+  border-radius: 12px;
+  background: #eff7df;
+  box-shadow: 0 5px 8px rgb(0 0 0 / 18%);
+}
+
+.overview-info-card h2 {
+  margin: 0 0 24px;
+  color: var(--color-text);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.overview-info-list {
+  margin: 0;
+}
+
+.overview-info-list > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.overview-info-list dt,
+.overview-info-list dd {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.overview-info-list dt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.overview-info-list dd {
+  flex-shrink: 0;
+  color: var(--color-text);
+}
+
+/* 개요 공통 섹션 */
+.overview-content-section {
+  margin: 0 28px 34px;
+}
+
+.overview-section-title {
+  position: relative;
+  margin: 0 0 18px;
+  padding-left: 10px;
+  color: var(--color-text);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.overview-section-title::before {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 0;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--color-primary);
+  content: "";
+}
+
+.overview-project-description {
+  margin: 0;
+  padding-left: 10px;
+  color: var(--color-text);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* 참여자 */
+.overview-participant-list {
+  display: grid;
+  gap: 10px;
+}
+
+.overview-participant {
+  box-sizing: border-box;
+  min-height: 90px;
+  padding: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+}
+
+.overview-participant > img {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.overview-participant__content {
+  min-width: 0;
+  flex: 1;
+}
+
+.overview-participant__heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.overview-participant__heading strong {
+  color: var(--color-text);
+  font-size: 16px;
+}
+
+.overview-participant__type {
+  padding: 4px 8px;
+  border-radius: 12px;
+  color: #555;
+  background: #f5f9ee;
+  font-size: 12px;
+}
+
+.overview-participant__content p {
+  margin: 10px 0 0;
+  color: var(--color-text);
+  font-size: 14px;
+}
+
+.overview-participant-empty {
+  color: #777;
+  text-align: center;
+}
+
+/* 교환 내용 */
+.overview-exchange-section {
+  padding-bottom: 40px;
+}
+
+.overview-exchange {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+}
+
+.overview-talent-card {
+  box-sizing: border-box;
+  min-height: 130px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-start;
+  background: #fff;
+}
+
+.overview-talent-card span {
+  padding: 6px 9px;
+  border-radius: 8px;
+  color: #43583a;
+  background: #f5f9ee;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.overview-exchange__icon {
+  color: #666;
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* 개요 협업 정보 아이콘 */
+.overview-info-list dt img {
+  display: block;
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  object-fit: contain;
+}
+/* 재능 교환 화살표 */
+.overview-exchange__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overview-exchange__icon img {
+  display: block;
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+/* 별도 업무 등록 페이지 이동 버튼 */
+.task-create-link {
+  box-sizing: border-box;
+  width: calc(100% - 48px);
+  min-height: 60px;
+  margin: 20px 24px 28px;
+  padding: 16px 20px;
+  border: 1px solid var(--color-primary);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-primary-dark);
+  background: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.task-create-link span {
+  color: var(--color-primary-dark);
+  font-size: 14px;
+}
+
+/* 일정 탭과 프로젝트 요약 카드 사이 간격 */
+.tasks-project-summary {
+  margin-top: 20px;
+}

@@ -1,0 +1,36 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>RE:Link 제안 수락 완료</title>
+
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/matching.css' %}" />
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="app-shell">
+        <main class="proposal-accepted-page">
+          <img
+            class="proposal-accepted-illustration"
+            src="{% static 'assets/images/notifications/proposal-accepted.svg' %}"
+            alt="협업 제안 수락을 축하하는 일러스트"
+          />
+
+          <h1>좋은 소식이에요!</h1>
+
+          <p>{{ proposal.sender.name }}님이 회원님의 제안을 수락했어요</p>
+
+          <a href="{% url 'project:project_overview' project.id %}">
+            프로젝트로 이동
+          </a>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

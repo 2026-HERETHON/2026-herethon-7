@@ -1,0 +1,189 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RE:Link 프로젝트 개요 입력</title>
+
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/project.css' %}" />
+  </head>
+
+  <body>
+    <div id="app">
+      <main class="overview-form-page">
+        <header class="overview-form-header">
+          <a
+            href="{% url 'project:project_overview' project.id %}"
+            aria-label="워크스페이스로 돌아가기"
+          >
+            ‹
+          </a>
+        </header>
+
+        <form
+          class="overview-form"
+          method="post"
+          action="{% url 'project:project_overview_edit' project.id %}"
+          novalidate
+        >
+          {% csrf_token %} {% if form.non_field_errors %}
+          <div class="overview-form__general-error">
+            입력 내용을 다시 확인해주세요.
+          </div>
+          {% endif %}
+
+          <div class="overview-form-field">
+            <label for="{{ form.title.id_for_label }}">
+              프로젝트 제목 {% if form.title.errors %}<span>*</span>{% endif %}
+            </label>
+
+            <div class="{% if form.title.errors %}is-error{% endif %}">
+              {{ form.title }}
+            </div>
+
+            <div class="overview-form-field__bottom">
+              {% if form.title.errors %}
+              <p class="overview-form-error">필수 항목을 입력하세요.</p>
+              {% else %}
+              <span></span>
+              {% endif %}
+
+              <span class="overview-character-count">0/50</span>
+            </div>
+          </div>
+
+          <div class="overview-form-field">
+            <label for="{{ form.summary.id_for_label }}">
+              프로젝트 요약 {% if form.summary.errors %}
+              <span>*</span>
+              {% endif %}
+            </label>
+
+            <div class="{% if form.summary.errors %}is-error{% endif %}">
+              {{ form.summary }}
+            </div>
+
+            <div class="overview-form-field__bottom">
+              {% if form.summary.errors %}
+              <p class="overview-form-error">필수 항목을 입력하세요.</p>
+              {% else %}
+              <span></span>
+              {% endif %}
+
+              <span class="overview-character-count">0/50</span>
+            </div>
+          </div>
+
+          <fieldset class="overview-talent-fieldset">
+            <legend>
+              재능 교환 {% if form.give_talent.errors %}
+              <span>*</span>
+              {% elif form.need_talent.errors %}
+              <span>*</span>
+              {% endif %}
+            </legend>
+
+            {% if form.give_talent.errors %}
+            <p class="overview-form-error">필수 항목을 선택하세요.</p>
+            {% elif form.need_talent.errors %}
+            <p class="overview-form-error">필수 항목을 선택하세요.</p>
+            {% endif %}
+
+            <div class="overview-talent-grid">
+              <div class="overview-form-field">
+                <label
+                  class="overview-talent-label"
+                  for="{{ form.give_talent.id_for_label }}"
+                >
+                  <span>제공 가능 역량</span>
+
+                  <img
+                    src="{% static 'assets/icons/material-symbols_book.svg' %}"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </label>
+
+                <div
+                  class="{% if form.give_talent.errors %}is-error{% endif %}"
+                >
+                  {{ form.give_talent }}
+                </div>
+              </div>
+
+              <div class="overview-form-field">
+                <label
+                  class="overview-talent-label"
+                  for="{{ form.need_talent.id_for_label }}"
+                >
+                  <span>필요한 역량</span>
+
+                  <img
+                    src="{% static 'assets/icons/degree-hat.svg' %}"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </label>
+
+                <div
+                  class="{% if form.need_talent.errors %}is-error{% endif %}"
+                >
+                  {{ form.need_talent }}
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="overview-mode-fieldset">
+            <legend>
+              협업 모드 선택 {% if form.mode.errors %}<span>*</span>{% endif %}
+            </legend>
+
+            {% if form.mode.errors %}
+            <p class="overview-form-error">필수 항목을 선택하세요.</p>
+            {% endif %}
+
+            <div class="{% if form.mode.errors %}is-error{% endif %}">
+              {{ form.mode }}
+            </div>
+          </fieldset>
+
+          <div class="overview-form-field">
+            <label for="{{ form.period.id_for_label }}">
+              기간 {% if form.period.errors %}<span>*</span>{% endif %}
+            </label>
+
+            <div class="{% if form.period.errors %}is-error{% endif %}">
+              {{ form.period }}
+            </div>
+
+            {% if form.period.errors %}
+            <p class="overview-form-error">1주 이상의 기간을 입력하세요.</p>
+            {% endif %}
+          </div>
+
+          <div class="overview-form-field">
+            <label for="{{ form.weekly_time.id_for_label }}">
+              주당 시간 {% if form.weekly_time.errors %}
+              <span>*</span>
+              {% endif %}
+            </label>
+
+            <div class="{% if form.weekly_time.errors %}is-error{% endif %}">
+              {{ form.weekly_time }}
+            </div>
+
+            {% if form.weekly_time.errors %}
+            <p class="overview-form-error">필수 항목을 선택하세요.</p>
+            {% endif %}
+          </div>
+
+          <button class="overview-form-submit" type="submit">저장하기</button>
+        </form>
+      </main>
+    </div>
+  </body>
+</html>

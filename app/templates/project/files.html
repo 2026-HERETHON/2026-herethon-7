@@ -1,0 +1,151 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RE:Link 프로젝트 파일</title>
+
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/project.css' %}" />
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="app-shell">
+        <main class="project-files-page">
+          <header class="workspace-header">
+            <a
+              class="workspace-back-button"
+              href="{% url 'project:project_overview' project.id %}"
+              aria-label="워크스페이스로 돌아가기"
+            >
+              ‹
+            </a>
+
+            <h1>워크스페이스</h1>
+          </header>
+
+          <nav class="workspace-tabs" aria-label="워크스페이스 메뉴">
+            <a href="{% url 'project:project_overview' project.id %}"> 개요 </a>
+
+            <a href="{% url 'project:task_list' project.id %}"> 일정 </a>
+
+            <a
+              class="is-active"
+              href="{% url 'project:file_list' project.id %}"
+            >
+              파일
+            </a>
+
+            <a href="{% url 'project:chat_room' project.id %}"> 채팅 </a>
+          </nav>
+
+          {% if request.GET.upload == "1" %}
+
+          <!-- p.47 파일 업로드 상태 -->
+          <section class="project-file-upload">
+            <form
+              method="post"
+              enctype="multipart/form-data"
+              action="{% url 'project:file_upload' project.id %}"
+            >
+              {% csrf_token %}
+
+              <div class="project-file-field">
+                <label for="{{ form.folder_name.id_for_label }}">
+                  업로드 위치
+                </label>
+
+                {{ form.folder_name }}
+
+                <p>파일을 분류할 폴더 이름을 입력해주세요.</p>
+              </div>
+
+              <div class="project-file-field">
+                <label for="{{ form.file_path.id_for_label }}">
+                  업로드할 파일
+                </label>
+
+                {{ form.file_path }} {{ form.file_path.errors }}
+              </div>
+
+              <button class="project-file-upload__button" type="submit">
+                업로드 하기
+              </button>
+            </form>
+          </section>
+
+          {% elif grouped_files %}
+
+          <!-- p.48 업로드된 파일 목록 -->
+          <section class="project-file-list">
+            <div class="project-file-list__heading">
+              <h2>파일 목록</h2>
+
+              <a href="{% url 'project:file_list' project.id %}?upload=1">
+                파일 추가
+              </a>
+            </div>
+
+            {% for folder, files in grouped_files.items %}
+            <section class="project-folder">
+              <h3>📁 {{ folder }}</h3>
+
+              <ul>
+                {% for file in files %}
+                <li>
+                  <div>
+                    <strong>{{ file.file_path.name }}</strong>
+
+                    <span>
+                      {{ file.uploader.name }} {{ file.uploaded_at|date:"m.d
+                      H:i" }}
+                    </span>
+                  </div>
+
+                  <a
+                    href="{{ file.file_path.url }}"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    열기
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </section>
+            {% endfor %}
+          </section>
+
+          {% else %}
+
+          <!-- p.46 업로드된 파일 없음 -->
+          <!-- p.46 업로드된 파일 없음 -->
+          <section class="project-file-empty">
+            <img
+              class="project-file-empty__image"
+              src="{% static 'assets/images/workspace/file-empty.svg' %}"
+              alt=""
+            />
+
+            <h2>업로드된 파일이 없어요.</h2>
+            <p>관련 파일을 업로드 해보세요.</p>
+
+            <a
+              class="project-file-empty__button"
+              href="{% url 'project:file_list' project.id %}?upload=1"
+            >
+              업로드 하기
+            </a>
+          </section>
+
+          {% endif %}
+        </main>
+
+        {% include 'components/bottom_nav.html' with active_nav='projects' %}
+      </div>
+    </div>
+  </body>
+</html>
