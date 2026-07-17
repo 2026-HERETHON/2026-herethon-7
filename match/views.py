@@ -102,6 +102,12 @@ def home(request):
 
 
 @login_required
+def matching_loading(request):
+    """파트너 매칭 로딩 화면"""
+    return render(request, "match/matching_loading.html")
+
+
+@login_required
 def matching_list(request):
     """
     추천 매칭 리스트

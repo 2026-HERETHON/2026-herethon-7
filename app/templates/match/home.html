@@ -61,7 +61,7 @@
           </article>
         </section>
 
-        <a class="match-start-button" href="/matching/">
+        <a class="match-start-button" href="{% url 'match:matching_loading' %}">
           <span aria-hidden="true">✧</span>
           매칭 시작
         </a>
@@ -81,7 +81,7 @@
               >
                 <span
                   class="progress-value"
-                  style="width: {{ ongoing_project.progress }}%"
+                  style="--progress: {{ ongoing_project.progress }}%"
                 ></span>
               </span>
               <strong>{{ ongoing_project.progress }}%</strong>

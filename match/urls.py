@@ -17,6 +17,12 @@ urlpatterns = [
     # ==========================
 
     path(
+        "matching/loading/",
+        views.matching_loading,
+        name="matching_loading",
+    ),
+
+    path(
         "matching/",
         views.matching_list,
         name="matching_list",
