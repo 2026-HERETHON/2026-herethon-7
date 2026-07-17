@@ -730,9 +730,22 @@ def proposal_detail(request, proposal_id):
             None,
             )
 
+        give_talents = [
+            talent.strip()
+            for talent in proposal.give_talent.name.split(",")
+            if talent.strip()
+        ]
+        need_talents = [
+            talent.strip()
+            for talent in proposal.need_talent.name.split(",")
+            if talent.strip()
+        ]
+
         context = {
             "proposal": proposal,
             "sender_profile": sender_profile,
+            "give_talents": give_talents,
+            "need_talents": need_talents,
             "can_reply": (
                 proposal.status == Proposal.Status.WAIT
                 and proposal.status == Proposal.Status.WAIT

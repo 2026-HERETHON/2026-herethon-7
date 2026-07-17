@@ -4,13 +4,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <link
       rel="icon"
       type="image/png"
       href="{% static 'assets/images/favicon.png' %}"
     />
-    <title>RE:Link 받은 협업 제안</title>
+    <title>Re:Link</title>
+
     <link rel="stylesheet" href="{% static 'css/global.css' %}" />
     <link rel="stylesheet" href="{% static 'css/common.css' %}" />
     <link rel="stylesheet" href="{% static 'css/matching.css' %}" />
@@ -46,9 +46,11 @@
               <strong>{{ proposal.sender.name }}</strong>
 
               <span>
-                {% if sender_profile and sender_profile.intro %} {{
-                sender_profile.intro }} {% else %} 협업을 제안한 사용자 {% endif
-                %}
+                {% if sender_profile and sender_profile.intro %}
+                
+                {% else %}
+                협업을 제안한 사용자
+                {% endif %}
               </span>
 
               {% if sender_profile %}
@@ -70,8 +72,12 @@
 
             <div class="received-proposal-exchange__content">
               <article>
-                <span>제공 가능 역량</span>
-                <strong>{{ proposal.give_talent.name }}</strong>
+                <h3>제공 가능 역량</h3>
+                <div class="received-proposal-exchange__talents">
+                  {% for talent in give_talents %}
+                  <span>{{ talent }}</span>
+                  {% endfor %}
+                </div>
               </article>
 
               <img
@@ -80,8 +86,12 @@
               />
 
               <article>
-                <span>필요한 역량</span>
-                <strong>{{ proposal.need_talent.name }}</strong>
+                <h3>필요한 역량</h3>
+                <div class="received-proposal-exchange__talents">
+                  {% for talent in need_talents %}
+                  <span>{{ talent }}</span>
+                  {% endfor %}
+                </div>
               </article>
             </div>
           </section>
