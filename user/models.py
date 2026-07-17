@@ -86,11 +86,11 @@ class ProfileTalent(models.Model):
 
 class Portfolio(models.Model):
     """포트폴리오"""
-    project = models.OneToOneField(
-        'project.Project', on_delete=models.CASCADE, verbose_name='프로젝트'
-    )
+
+    project = models.ForeignKey('project.Project', on_delete=models.CASCADE, related_name='portfolios', verbose_name='프로젝트')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='portfolios', verbose_name='작성자')
     title = models.CharField(max_length=100, blank=True, null=True, verbose_name='제목')
-    role = models.TextField(blank=True, null=True, verbose_name='내역할')
+    role = models.TextField(blank=True, null=True, verbose_name='내 역할')
     summary = models.TextField(blank=True, null=True, verbose_name='요약')
     file_path = models.FileField(upload_to='portfolios/', blank=True, null=True, verbose_name='파일')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일시')
@@ -98,9 +98,15 @@ class Portfolio(models.Model):
     class Meta:
         db_table = 'portfolio'
         verbose_name = '포트폴리오'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['project', 'user'],
+                name='unique_project_portfolio'
+            )
+        ]
 
     def __str__(self):
-        return self.title or f'포트폴리오 #{self.pk}'
+        return f'{self.user.name} - {self.project.title}'
 
 
 class Review(models.Model):

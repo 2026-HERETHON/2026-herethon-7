@@ -39,10 +39,12 @@ def accept_proposal(proposal):
         ProjectMember(
             project=project,
             user=proposal.sender,
+            role=proposal.give_talent.name,
         ),
         ProjectMember(
             project=project,
             user=proposal.receiver,
+            role=proposal.need_talent.name,
         ),
     ])
 

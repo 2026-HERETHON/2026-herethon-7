@@ -1,7 +1,7 @@
 from django.db import transaction
 
 from user.models import Portfolio
-from .models import Project, Task
+from .models import Project, ProjectMember, Task
 
 
 @transaction.atomic
@@ -39,14 +39,18 @@ def update_task_status(task, status):
 
         project.status = Project.Status.COMPLETED
 
-        Portfolio.objects.get_or_create(
-            project=project,
-            defaults={
-                "title": project.title,
-                "summary": project.proposal.goal,
-            },
-        )
+        members = ProjectMember.objects.filter(project=project)
 
+        for member in members:
+            Portfolio.objects.get_or_create(
+                project=project,
+                user=member.user,
+                defaults={
+                    "title": project.title,
+                    "role": member.role,
+                    "summary": project.proposal.goal,
+                },
+            )
     else:
 
         project.status = Project.Status.IN_PROGRESS
